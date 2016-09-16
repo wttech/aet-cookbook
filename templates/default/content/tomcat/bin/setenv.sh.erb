@@ -1,0 +1,54 @@
+# This is base config file controlled by Chef
+
+# For now there are only base attributes, but it can be extended in the future
+
+TC_MIN_HEAP=<%= node['aet']['tomcat']['min_heap'] %>
+TC_MAX_HEAP=<%= node['aet']['tomcat']['max_heap'] %>
+TC_MAX_PERMSIZE=<%= node['aet']['tomcat']['max_permsize'] %>
+TC_CODE_CACHE=<%= node['aet']['tomcat']['code_cache'] %>
+TC_JMX_IP=<%= node['aet']['tomcat']['jmx_ip'] %>
+TC_JMX_PORT=<%= node['aet']['tomcat']['jmx_port'] %>
+TC_DEBUG_PORT=<%= node['aet']['tomcat']['debug_port'] %>
+TC_EXTRA_OPTS=<%= node['aet']['tomcat']['extra_opts'] %>
+
+TC_GENERAL_OPTS="<%= node['aet']['tomcat']['general_opts'] %>"
+
+TC_GC_OPTS="
+  -Xloggc:<%= node['aet']['tomcat']['log_dir'] %>/gc.log
+  -XX:+PrintGCApplicationStoppedTime
+  -XX:+PrintGCApplicationConcurrentTime
+  -XX:+PrintGC
+  -XX:+PrintGCTimeStamps
+  -XX:+PrintGCDetails
+  -XX:+UseGCLogFileRotation
+  -XX:NumberOfGCLogFiles=10
+  -XX:GCLogFileSize=5M"
+
+<%- if node['aet']['tomcat']['jmx_enabled'] == true -%>
+TC_JMX_OPTS="
+  -Dcom.sun.management.jmxremote
+  -Dcom.sun.management.jmxremote.port=${TC_JMX_PORT}
+  -Dcom.sun.management.jmxremote.rmi.port=${TC_JMX_PORT}
+  -Djava.rmi.server.hostname=${TC_JMX_IP}
+  -Dcom.sun.management.jmxremote.ssl=false
+  -Dcom.sun.management.jmxremote.authenticate=false"
+<%- end -%>
+
+<%- if node['aet']['tomcat']['debug_enabled'] == true -%>
+TC_DEBUG_OPTS="
+  -Xdebug
+  -Xrunjdwp:transport=dt_socket,address=${TC_DEBUG_PORT},server=y,suspend=n"
+<%- end -%>
+
+JAVA_OPTS="
+  ${TC_GENERAL_OPTS}
+  -Xms${TC_MIN_HEAP}m
+  -Xmx${TC_MAX_HEAP}m
+  -XX:MaxPermSize=${TC_MAX_PERMSIZE}m
+  -XX:ReservedCodeCacheSize=${TC_CODE_CACHE}m
+  ${TC_GC_OPTS}
+  ${TC_EXTRA_OPTS}"
+
+CATALINA_OPTS="
+  ${TC_JMX_OPTS}
+  ${TC_DEBUG_OPTS}"

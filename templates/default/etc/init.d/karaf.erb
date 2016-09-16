@@ -1,0 +1,109 @@
+#!/bin/sh
+
+#
+# chkconfig: - 80 20
+# processname: karaf
+# description: Karaf
+#
+
+### BEGIN INIT INFO
+# Provides: karaf
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+# Short-Description: start and stop browsermob
+### END INIT INFO
+
+. /etc/rc.d/init.d/functions
+
+<%- if node['aet']['karaf']['enable_debug'] -%>
+# Enable debug mode
+DEBUG=debug
+<%- end -%>
+
+DAEMON="<%= node['aet']['karaf']['root_dir'] %>/current/bin/karaf"
+LOCK_FILE="/var/lock/subsys/karaf"
+USER="<%= node['aet']['karaf']['user'] %>"
+
+karaf_pid()
+{
+  echo `ps -aefw | grep karaf.jar | grep -v grep | awk '{print $2}'`
+}
+
+stop_osgi()
+{
+  <%= node['aet']['karaf']['root_dir'] %>/current/bin/stop > /dev/null &
+  STATUSVAL=0
+  CHECKS=0
+  while [[ $STATUSVAL == 0 && CHECKS -lt 5 ]]
+  do
+    <%= node['aet']['karaf']['root_dir'] %>/current/bin/status > /dev/null
+    STATUSVAL=$?
+    CHECKS=$((CHECKS+1))
+    sleep 1
+  done
+}
+
+do_start()
+{
+  if [ ! -f "$LOCK_FILE" ] ; then
+    echo -n "Starting karaf: "
+    runuser -l "$USER" -c "$DAEMON server $DEBUG >> <%= node['aet']['karaf']['log_dir'] %>/startup.log 2>&1 &" && echo_success || echo_failure
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ] ; then
+      touch $LOCK_FILE
+    else
+      echo "Error while starting $DAEMON. Error code from karaf: [$RETVAL]"
+    fi
+  else
+    echo "$DAEMON is locked. Lock file [$LOCK_FILE] is present therefore instance is probably running."
+    RETVAL=0
+  fi
+}
+do_stop()
+{
+  echo -n "Stopping karaf: "
+  stop_osgi
+  pid=$(karaf_pid)
+  kill $pid > /dev/null 2>&1
+  rm -f $LOCK_FILE
+  echo_success
+  echo
+  RETVAL=0
+}
+do_status()
+{
+  pid=$(karaf_pid)
+  if [ -n "$pid" ]
+  then
+     echo "Karaf is running with pid: $pid"
+     RETVAL=0
+  else
+     echo "Karaf is not running"
+     RETVAL=3
+  fi
+}
+
+case "$1" in
+  start)
+    do_start
+  ;;
+  stop)
+    do_stop
+  ;;
+  restart)
+    do_stop
+    sleep 5
+    do_start
+  ;;
+  status)
+    do_status
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    RETVAL=1
+esac
+
+exit $RETVAL

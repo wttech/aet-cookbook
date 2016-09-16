@@ -1,0 +1,18 @@
+# This file is managed by Chef
+# DO NOT CHANGE ANYTHING
+
+#
+# All the values specified here will override the default values given
+# in config.properties.
+#
+
+karaf.systemBundlesStartLevel=50
+
+org.osgi.framework.system.packages.extra = \
+    org.apache.karaf.branding; \
+    com.sun.org.apache.xalan.internal.xsltc.trax; \
+    com.sun.org.apache.xerces.internal.dom; \
+    com.sun.org.apache.xerces.internal.jaxp; \
+    com.sun.org.apache.xerces.internal.xni
+
+felix.fileinstall.dir = ${karaf.base}/etc,${karaf.base}/etc/aet

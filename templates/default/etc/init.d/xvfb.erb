@@ -1,0 +1,88 @@
+#!/bin/sh
+
+#
+# chkconfig: - 80 20
+# processname: xvfb
+# description: Xvfb
+#
+
+### BEGIN INIT INFO
+# Provides: xvfb
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+# Short-Description: start and stop xvfb
+### END INIT INFO
+
+. /etc/rc.d/init.d/functions
+
+DAEMON="/usr/bin/Xvfb"
+PARAM=":99 -ac -screen 0 <%= node['aet']['xvfb']['resolution'] %>"
+LOCK_FILE="/var/lock/subsys/xvfb"
+USER="<%= node['aet']['xvfb']['user'] %>"
+
+xvfb_pid()
+{
+  echo `ps -aefw | grep "Xvfb :99" | grep -v grep | awk '{print $2}'`
+}
+
+do_start()
+{
+  if [ ! -f "$LOCK_FILE" ] ; then
+    echo -n "Starting Xvfb: "
+    runuser -l "$USER" -c "$DAEMON $PARAM >> <%= node['aet']['xvfb']['log_dir'] %>/xvfb.log 2>&1 &" && echo_success || echo_failure
+    RETVAL=$?
+    echo
+    if [ $RETVAL -eq 0 ] ; then
+      touch $LOCK_FILE
+    else
+      echo "Error while starting $DAEMON. Error code from Xvfb: [$RETVAL]"
+    fi
+  else
+    echo "$DAEMON is locked. Lock file [$LOCK_FILE] is present therefore instance is probably running."
+    RETVAL=0
+  fi
+}
+do_stop()
+{
+  echo -n "Stopping Xvfb: "
+  pid=$(xvfb_pid)
+  kill $pid > /dev/null 2>&1 && echo_success || echo_failure
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ] && rm -f $LOCK_FILE
+}
+do_status()
+{
+  pid=$(xvfb_pid)
+  if [ -n "$pid" ]
+  then
+     echo "Xvfb is running with pid: $pid"
+     RETVAL=0
+  else
+     echo "Xvfb is not running"
+     RETVAL=3
+  fi
+}
+
+case "$1" in
+  start)
+    do_start
+  ;;
+  stop)
+    do_stop
+  ;;
+  restart)
+    do_stop
+    do_start
+  ;;
+  status)
+    do_status
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    RETVAL=1
+esac
+
+exit $RETVAL

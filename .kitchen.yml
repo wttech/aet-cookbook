@@ -1,0 +1,33 @@
+---
+driver:
+  name: vagrant
+  network:
+    - ["private_network", {ip: "192.168.123.111"}]
+  customize:
+    cpus: 2
+    memory: 3072
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-6.7
+
+suites:
+  - name: default
+    run_list:
+      - recipe[aet::default]
+    attributes:
+      aet:
+        activemq:
+          jmx_ip: '192.168.123.111'
+  - name: develop
+    run_list:
+      - recipe[aet::_develop]
+      - recipe[aet::default]
+    attributes:
+      aet:
+        activemq:
+          jmx_ip: '192.168.123.111'
+        develop:
+          is_develop_instance: true

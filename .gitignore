@@ -1,9 +1,11 @@
+
+# Berkshelf
 .vagrant
 /cookbooks
+Berksfile.lock
 
-# Bundler
-bin/*
-.bundle/*
+# Kitchen
+/.kitchen/
 
-.kitchen/
-.kitchen.local.yml
+# IntelliJ IDEA
+/.idea

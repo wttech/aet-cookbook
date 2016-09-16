@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    DocumentRoot "<%= node['aet']['apache']['report_base_dir'] %>/aet_reports/current"
+    ServerName aet
+
+    ErrorLog "<%= node['aet']['apache']['log_dir'] %>/aet-error.log"
+    CustomLog "<%= node['aet']['apache']['log_dir'] %>/aet-access.log" common
+
+    <Location "/api">
+      Header set Access-Control-Allow-Origin "*"
+      ProxyPass http://localhost:<%= node['aet']['karaf']['web_port'] %>/api
+    </Location>
+
+</VirtualHost>
