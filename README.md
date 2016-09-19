@@ -264,6 +264,11 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 [vagrant@aet-vagrant ~]$
 ```
 
+## New cookbook version
+
+Deployment of new versions of this cookbook is managed with [Stove][stove].
+Chef Supermarket login and [key][chef-keys] is required for new version deployment.
+
 ## License and Authors
 
 Authors:
@@ -311,3 +316,6 @@ License: [Apache License, Version 2.0][apache-license]
 [java-jdk-7]: http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
 
 [mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/mongodb3
+
+[stove]: http://sethvargo.github.io/stove/
+[chef-keys]: https://supermarket.chef.io/profile/edit#keys
