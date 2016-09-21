@@ -63,7 +63,7 @@ log 'reports-version-changed' do
   not_if do
     ::File.exist?("#{work_dir}/#{ver}") &&
       ::File.identical?(
-        "#{base_dir}/current/etc/aet",
+        reports_deploy_dir,
         "#{work_dir}/#{ver}"
       )
   end
