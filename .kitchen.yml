@@ -29,5 +29,3 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
-        develop:
-          is_develop_instance: true

@@ -1,3 +1,8 @@
+# 1.4.12
+
+* Fix for deploy_reports recipe
+* Spare attribute removed from `.kitchen.yml` file
+
 # 1.4.11
 
 * Fixes and improvements before going open source
