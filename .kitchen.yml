@@ -12,6 +12,11 @@ provisioner:
 
 platforms:
   - name: centos-6.7
+  - name: mwrock/Windows2012R2
+    transport:
+      name: winrm
+      password: vagrant
+      username: vagrant
 
 suites:
   - name: default
@@ -21,6 +26,8 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+    includes:
+      - centos-6.7
   - name: develop
     run_list:
       - recipe[aet::_develop]
@@ -29,3 +36,12 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+    includes:
+      - centos-6.7
+  - name: absurd
+    run_list:
+      - recipe[aet::win_firefox]
+      - recipe[aet::win_karaf]
+    attributes:
+    includes:
+      - mwrock/Windows2012R2

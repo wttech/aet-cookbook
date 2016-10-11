@@ -8,6 +8,7 @@ version           '1.4.12-SNAPSHOT'
 
 depends           'apache2', '~> 3.2.2'
 depends           'java', '~> 1.13'
+#depends           'windows'
 depends           'mongodb3', '~> 5.2.0'
 
 %w(
