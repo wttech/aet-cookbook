@@ -24,9 +24,7 @@
 # PREREQUISITES
 ###############################################################################
 
-package 'unzip' do
-  action :install
-end
+package 'unzip' unless windows?
 
 # CONFIG DEPLOYMENT
 ###############################################################################
@@ -65,16 +63,25 @@ remote_file config_local_path do
 end
 
 # see `helpers.rb` file
+# This method verifies if deployment is required and notifies appropriate
+# deployment resoruce
 check_if_new('configs',
              config_deploy_dir,
-             "#{work_dir}/#{ver}",
-             'execute[extract-configs]')
+             "#{work_dir}/#{ver}")
 
 # Extract config zip (skipped by default, run only when notified)
+
 execute 'extract-configs' do
   command "unzip -o #{config_local_path} -d #{ver}"
   cwd work_dir
   user node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  action :nothing
+end
+
+windows_zipfile 'extract-configs' do
+  path "#{work_dir}/#{ver}"
+  source config_local_path
+  overwrite true
   action :nothing
 end

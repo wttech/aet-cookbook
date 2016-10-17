@@ -19,6 +19,9 @@
 # limitations under the License.
 #
 
+# Instal all required prerequisites
+include_recipe 'aet::prerequisites'
+
 # Base packages and X Windows System
 include_recipe 'aet::display'
 

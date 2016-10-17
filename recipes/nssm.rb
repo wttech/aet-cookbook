@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Recipe:: win_nssm
+# Recipe:: nssm
 #
 # AET Cookbook
 #
@@ -21,9 +21,6 @@
 
 node.default['aet']['nssm']['root_dir'] = 'c:/content/nssm'
 node.default['aet']['nssm']['source'] = 'https://nssm.cc/release/nssm-2.24.zip'
-
-# Install Chef Windows toolset
-include_recipe 'windows::default'
 
 # Install service wrapper
 directory node['aet']['nssm']['root_dir'] do

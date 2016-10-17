@@ -24,9 +24,7 @@
 # PREREQUISITES
 ###############################################################################
 
-package 'unzip' do
-  action :install
-end
+package 'unzip' unless windows?
 
 # APP DEPLOYMENT
 ###############################################################################
@@ -68,8 +66,7 @@ end
 # see `helpers.rb` file
 check_if_new('bundles',
              bundles_deploy_dir,
-             "#{work_dir}/#{ver}",
-             'execute[extract-bundles]')
+             "#{work_dir}/#{ver}")
 
 # Extract zip with bundles (skipped by default, run only when notified)
 execute 'extract-bundles' do
@@ -77,5 +74,12 @@ execute 'extract-bundles' do
   cwd work_dir
   user node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  action :nothing
+end
+
+windows_zipfile 'extract-bundles' do
+  path "#{work_dir}/#{ver}"
+  source bundles_local_path
+  overwrite true
   action :nothing
 end

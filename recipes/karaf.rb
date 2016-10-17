@@ -26,17 +26,19 @@ include_recipe 'java::default'
 # INSTALLATION
 ###############################################################################
 
-# Create dedicated group
-group node['aet']['karaf']['group'] do
-  action :create
-end
+unless windows?
+  # Create dedicated group
+  group node['aet']['karaf']['group'] do
+    action :create
+  end
 
-# Create dedicated user
-user node['aet']['karaf']['user'] do
-  group node['aet']['karaf']['group']
-  home "/home/#{node['aet']['karaf']['user']}"
-  shell '/bin/bash'
-  action :create
+  # Create dedicated user
+  user node['aet']['karaf']['user'] do
+    group node['aet']['karaf']['group']
+    home "/home/#{node['aet']['karaf']['user']}"
+    shell '/bin/bash'
+    action :create
+  end
 end
 
 # Create base dir
@@ -70,16 +72,32 @@ end
 
 # Get Karaf file name without extension
 # This is basically the name of the directory that Karaf extracted itself to
-basename = ::File.basename(filename, '.tar.gz')
+if windows?
+  basename = ::File.basename(filename, '.zip')
 
-# Extract Karaf binaries
-execute 'extract karaf' do
-  command "tar xvf #{filename}"
-  cwd node['aet']['karaf']['root_dir']
-  user node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  not_if do
-    ::File.exist?("#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf")
+  # Extract Karaf binaries
+  windows_zipfile node['aet']['karaf']['root_dir'] do
+    source "#{node['aet']['karaf']['root_dir']}/#{filename}"
+    action :unzip
+
+    not_if do
+      ::File.exist?(
+        "#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf.bat"
+      )
+    end
+  end
+else
+  basename = ::File.basename(filename, '.tar.gz')
+
+  # Extract Karaf binaries
+  execute 'extract karaf' do
+    command "tar xvf #{filename}"
+    cwd node['aet']['karaf']['root_dir']
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    not_if do
+      ::File.exist?("#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf")
+    end
   end
 end
 
@@ -121,25 +139,49 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/config.properties" do
 end
 
 ##############################################################################
+if windows?
+  # Overwrite JVM properties for Karaf
+  template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv.bat" do
+    source 'content/karaf/current/bin/setenv.bat.erb'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
 
-# Overwrite JVM properties for Karaf
-template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
-  source 'content/karaf/current/bin/setenv.erb'
-  owner node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  mode '0644'
+    notifies :restart, 'service[karaf]', :delayed
+  end
 
-  notifies :restart, 'service[karaf]', :delayed
-end
+  srv_install_cmd =
+    "nssm install karaf #{node['aet']['karaf']['root_dir']}"\
+    '/current/bin/karaf.bat'
 
-# Create Karaf init file
-template '/etc/init.d/karaf' do
-  source 'etc/init.d/karaf.erb'
-  owner 'root'
-  group 'root'
-  mode '0755'
+  execute 'config-karaf-service' do
+    # NSSM creates service in Automatic state,
+    # so enable action is not requried in service
+    command srv_install_cmd
+    action :run
 
-  notifies :restart, 'service[karaf]', :delayed
+    not_if { ::Win32::Service.exists?('karaf') }
+  end
+else
+  # Overwrite JVM properties for Karaf
+  template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
+    source 'content/karaf/current/bin/setenv.erb'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
+
+    notifies :restart, 'service[karaf]', :delayed
+  end
+
+  # Create Karaf init file
+  template '/etc/init.d/karaf' do
+    source 'etc/init.d/karaf.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+
+    notifies :restart, 'service[karaf]', :delayed
+  end
 end
 
 # Configure user credentials

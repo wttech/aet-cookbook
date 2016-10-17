@@ -40,8 +40,13 @@ suites:
       - centos-6.7
   - name: absurd
     run_list:
-      - recipe[aet::win_firefox]
-      - recipe[aet::win_karaf]
+      - recipe[aet::prerequisites]
+      - recipe[aet::firefox]
+      - recipe[aet::karaf]
+      - recipe[aet::deploy_configs]
+      - recipe[aet::deploy_features]
+      - recipe[aet::deploy_bundles]
+      - recipe[aet::postdeploy_restart]
     attributes:
     includes:
       - mwrock/Windows2012R2

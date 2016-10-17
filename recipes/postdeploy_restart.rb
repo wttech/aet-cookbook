@@ -31,14 +31,14 @@ tmp_dir = "#{node['aet']['karaf']['root_dir']}/current/data/tmp"
 generated_bundles_dir =
   "#{node['aet']['karaf']['root_dir']}/current/data/generated_bundles"
 
-execute 'schedule-karaf-restart' do
-  command 'touch /tmp/karaf-restart'
+file 'schedule-karaf-restart' do
+  path "#{Chef::Config[:file_cache_path]}/karaf-restart"
   action :nothing
 end
 
-execute 'execute-scheduled-karaf-restart' do
-  command 'rm -f /tmp/karaf-restart'
-  action :run
+file 'execute-scheduled-karaf-restart' do
+  path "#{Chef::Config[:file_cache_path]}/karaf-restart"
+  action :delete
 
   notifies :stop, 'service[karaf-deploy-stop]', :immediately
   notifies :delete, "directory[#{cache_dir}]", :immediately
@@ -47,7 +47,7 @@ execute 'execute-scheduled-karaf-restart' do
   notifies :start, 'service[karaf]', :immediately
 
   only_if do
-    ::File.exist?('/tmp/karaf-restart')
+    ::File.exist?("#{Chef::Config[:file_cache_path]}/karaf-restart")
   end
 end
 

@@ -7,9 +7,11 @@ long_description  'Installs/Configures aet'
 version           '1.4.12-SNAPSHOT'
 
 depends           'apache2', '~> 3.2.2'
+depends           'firewall', '~> 2.5.2'
 depends           'java', '~> 1.13'
-#depends           'windows'
 depends           'mongodb3', '~> 5.2.0'
+depends           'notepadpp', '~> 1.0.0'
+depends           'chef-sugar'
 
 %w(
   centos-6.7
