@@ -47,6 +47,7 @@ suites:
       - recipe[aet::deploy_features]
       - recipe[aet::deploy_bundles]
       - recipe[aet::postdeploy_restart]
+      - recipe[aet::browsermob]
     attributes:
     includes:
       - mwrock/Windows2012R2

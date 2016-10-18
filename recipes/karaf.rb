@@ -155,8 +155,6 @@ if windows?
     '/current/bin/karaf.bat'
 
   execute 'config-karaf-service' do
-    # NSSM creates service in Automatic state,
-    # so enable action is not requried in service
     command srv_install_cmd
     action :run
 

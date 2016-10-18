@@ -26,22 +26,26 @@ include_recipe 'java::default'
 
 package 'unzip' do
   action :install
+
+  not_if { windows? }
 end
 
 # INSTALLATION
 ###############################################################################
 
-# Create deducated group
-group node['aet']['browsermob']['group'] do
-  action :create
-end
+unless windows?
+  # Create deducated group
+  group node['aet']['browsermob']['group'] do
+    action :create
+  end
 
-# Create dedicated user
-user node['aet']['browsermob']['user'] do
-  group node['aet']['browsermob']['group']
-  home "/home/#{node['aet']['browsermob']['user']}"
-  shell '/bin/bash'
-  action :create
+  # Create dedicated user
+  user node['aet']['browsermob']['user'] do
+    group node['aet']['browsermob']['group']
+    home "/home/#{node['aet']['browsermob']['user']}"
+    shell '/bin/bash'
+    action :create
+  end
 end
 
 # Create dedicated root directory
@@ -75,19 +79,35 @@ end
 # Get file name without extension
 basename = ::File.basename(filename, '-bin.zip')
 
-# Extract browsermob
-execute 'extract browsermob' do
-  command "unzip -o #{filename}"
-  cwd node['aet']['browsermob']['root_dir']
+# This is basically the name of the directory that Karaf extracted itself to
+if windows?
+  # Extract browsermob
+  windows_zipfile node['aet']['browsermob']['root_dir'] do
+    source "#{node['aet']['browsermob']['root_dir']}/#{filename}"
+    action :unzip
 
-  user node['aet']['browsermob']['user']
-  group node['aet']['browsermob']['group']
-
-  not_if do
-    ::File.exist?(
-      "#{node['aet']['browsermob']['root_dir']}/"\
+    not_if do
+      ::File.exist?(
+        "#{node['aet']['browsermob']['root_dir']}/"\
         "#{basename}/bin/browsermob-proxy"
-    )
+      )
+    end
+  end
+else
+  # Extract browsermob
+  execute 'extract browsermob' do
+    command "unzip -o #{filename}"
+    cwd node['aet']['browsermob']['root_dir']
+
+    user node['aet']['browsermob']['user']
+    group node['aet']['browsermob']['group']
+
+    not_if do
+      ::File.exist?(
+        "#{node['aet']['browsermob']['root_dir']}/"\
+          "#{basename}/bin/browsermob-proxy"
+      )
+    end
   end
 end
 
@@ -98,16 +118,28 @@ link "#{node['aet']['browsermob']['root_dir']}/current" do
   notifies :restart, 'service[browsermob]', :delayed
 end
 
-# Create init script for browsermob
-template '/etc/init.d/browsermob' do
-  source 'etc/init.d/browsermob.erb'
-  owner 'root'
-  group 'root'
-  mode '0755'
+if windows?
+  srv_install_cmd =
+    "nssm install browsermob #{node['aet']['browsermob']['root_dir']}"\
+    '/current/bin/browsermob-proxy.bat'
 
-  notifies :restart, 'service[browsermob]', :delayed
+  execute 'config-browsermob-service' do
+    command srv_install_cmd
+    action :run
+
+    not_if { ::Win32::Service.exists?('browsermob') }
+  end
+else
+  # Create init script for browsermob
+  template '/etc/init.d/browsermob' do
+    source 'etc/init.d/browsermob.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+
+    notifies :restart, 'service[browsermob]', :delayed
+  end
 end
-
 # Enable and start browsermob service
 service 'browsermob' do
   action [:start, :enable]

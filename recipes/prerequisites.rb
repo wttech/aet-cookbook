@@ -25,11 +25,17 @@ if windows?
   node.default['aet']['karaf']['user'] = 'Administrator'
   node.default['aet']['karaf']['group'] = 'Administrators'
 
+  node.default['aet']['browsermob']['user'] = 'Administrator'
+  node.default['aet']['browsermob']['group'] = 'Administrators'
+
   node.default['java']['install_flavor'] = 'windows'
   node.default['aet']['karaf']['root_dir'] = 'c:/content/karaf'
   node.default['aet']['karaf']['log_dir'] = 'c:/content/logs/karaf'
   node.default['aet']['karaf']['source'] =
     'https://archive.apache.org/dist/karaf/2.3.9/apache-karaf-2.3.9.zip'
+
+  node.default['aet']['browsermob']['root_dir'] = 'c:/content/browsermob'
+  node.default['aet']['browsermob']['log_dir'] = 'c:/content/logs/browsermob'
 
   include_recipe 'windows::default'
   include_recipe 'notepadpp::default'
@@ -44,5 +50,4 @@ if windows?
     port 1..65_535
     command :allow
   end
-
 end
