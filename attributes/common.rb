@@ -24,7 +24,10 @@ default['java']['oracle']['accept_oracle_download_terms'] = 'true'
 default['java']['jdk_version'] = '7'
 default['java']['install_flavor'] = 'oracle'
 
-node.default['java']['windows']['url'] = 'http://download.oracle.com/'\
+default['java']['windows']['url'] = 'http://download.oracle.com/'\
   'otn-pub/java/jdk/7u79-b15/jdk-7u79-windows-x64.exe'
-node.default['java']['windows']['package_name'] =
+default['java']['windows']['package_name'] =
   'Java 7 Update 79 (64-bit)'
+
+default['aet']['common']['java_home'] =
+  'C:/Program Files/Java/jdk1.7.0_79'

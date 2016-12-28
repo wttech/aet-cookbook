@@ -39,6 +39,7 @@ if windows?
 
   include_recipe 'windows::default'
   include_recipe 'notepadpp::default'
+  include_recipe 'aet::prunsrv'
   include_recipe 'aet::nssm'
 
   firewall 'default' do

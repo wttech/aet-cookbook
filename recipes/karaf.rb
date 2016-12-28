@@ -150,9 +150,52 @@ if windows?
     notifies :restart, 'service[karaf]', :delayed
   end
 
+  # srv_install_cmd =
+  #   "nssm install karaf #{node['aet']['karaf']['root_dir']}"\
+  #   '/current/bin/karaf.bat'
+
+  karaf_home = "#{node['aet']['karaf']['root_dir']}/current"
+  java_home = node['aet']['common']['java_home']
+
   srv_install_cmd =
-    "nssm install karaf #{node['aet']['karaf']['root_dir']}"\
-    '/current/bin/karaf.bat'
+    'prunsrv //IS//karaf '\
+    '--DisplayName="Apache Karaf" '\
+    '--Description="Apache Karaf 2.3.9 for AET" '\
+    '--Startup=auto '\
+    "--LogPath=\"#{karaf_home}\\data\\log\" "\
+    '--LogLevel=INFO '\
+    '--LogPrefix=karaf-deamon '\
+    '--StdOutput=auto '\
+    '--StdError=auto '\
+    "--StartPath=\"#{karaf_home}\" "\
+    '--StartClass=org.apache.karaf.main.Main '\
+    '--StartMethod=main '\
+    '--StartParams=start '\
+    '--StartMode=jvm '\
+    "--StopPath=\"#{karaf_home}\" "\
+    '--StopClass=org.apache.karaf.main.Stop '\
+    '--StopMethod=main '\
+    '--StopParams=stop '\
+    '--StopMode=jvm '\
+    '--StopTimeout=1 '\
+    "--JavaHome=\"#{java_home}\" "\
+    "--Jvm=\"#{java_home}\\jre\\bin\\server\\jvm.dll\" "\
+    "--Classpath=\"#{karaf_home}\\lib\\karaf-jaas-boot.jar;#{karaf_home}\\lib\\karaf.jar;#{karaf_home}\\lib\\org.apache.servicemix.specs.locator-2.4.0.jar;#{karaf_home}\\lib\\org.apache.servicemix.specs.activator-2.4.0.jar\" "\
+    "--JvmOptions=-Xms#{node['aet']['karaf']['java_min_mem']} "\
+    "--JvmOptions=-Xmx#{node['aet']['karaf']['java_max_mem']} "\
+    "--JvmOptions=-XX:PermSize=#{node['aet']['karaf']['java_min_perm_mem']} "\
+    "--JvmOptions=-XX:MaxPermSize=#{node['aet']['karaf']['java_max_perm_mem']} "\
+    "--JvmOptions=-Djava.ext.dirs=\"#{java_home}\\jre\\lib\\ext\" "\
+    "--JvmOptions=-Dkaraf.data=\"#{karaf_home}\\data\" "\
+    "--JvmOptions=-Dkaraf.base=\"#{karaf_home}\" "\
+    "--JvmOptions=-Dkaraf.home=\"#{karaf_home}\" "\
+    "--JvmOptions=-Dkaraf.instances=\"#{karaf_home}\\instances\" "\
+    '--JvmOptions=-Dkaraf.startLocalConsole=true '\
+    '--JvmOptions=-Dkaraf.startRemoteShell=true '\
+    "--JvmOptions=-Djava.endorsed.dirs=\"#{karaf_home}\\lib\\endorsed\" "\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.port=9004 '\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.authenticate=false '\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.ssl=false'
 
   execute 'config-karaf-service' do
     command srv_install_cmd
