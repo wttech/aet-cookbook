@@ -21,7 +21,7 @@
 
 default['aet']['browsermob']['source'] = 'https://github.com/lightbody/'\
   'browsermob-proxy/releases/download/'\
-  'browsermob-proxy-2.0.0/browsermob-proxy-2.0.0-bin.zip'
+  'browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip'
 
 default['aet']['browsermob']['root_dir'] = '/opt/aet/browsermob'
 default['aet']['browsermob']['log_dir'] = '/var/log/browsermob'
