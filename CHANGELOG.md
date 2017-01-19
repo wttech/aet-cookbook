@@ -1,3 +1,7 @@
+# 1.4.13
+
+* Update Browsermob version to 2.1.4 
+
 # 1.4.12
 
 * Fix for deploy_reports recipe

@@ -47,7 +47,7 @@ The cookbook installs following components required by AET:
 * [Active MQ][active-mq] (ver. [5.13.1][active-mq-5.13.1]) - for communication between AET components
 * [Mongo DB][mongo-db] - for storing tests results
 * [Apache HTTP server][apache] - for AET reports Web Application
-* [Browsermob][browsermob] (ver. [2.0.0][browsermob-2.0.0]) - proxy for collecting additional browsing data
+* [Browsermob][browsermob] (ver. [2.1.4][browsermob-2.1.4]) - proxy for collecting additional browsing data
 * [XVFB][xvfb] - for running firefox in virtual screen
 * [Firefox][firefox] (ver. [38.6.0esr][firefox-38.6.0esr]) - for collecting screenshots of pages and other data
 * [Tomcat][tomcat] (ver. [8.0.36][tomcat-8.0.36]) - for serving sample site that is used by maintenance tests
@@ -291,7 +291,7 @@ License: [Apache License, Version 2.0][apache-license]
 [active-mq-webconsole]: http://activemq.apache.org/web-console.html
 
 [browsermob]: https://bmp.lightbody.net/
-[browsermob-2.0.0]: https://github.com/lightbody/browsermob-proxy/releases/tag/browsermob-proxy-2.0.0
+[browsermob-2.1.4]: https://github.com/lightbody/browsermob-proxy/releases/tag/browsermob-proxy-2.1.4
 
 [mongo-db]: https://docs.mongodb.com/
 
