@@ -269,6 +269,20 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 Deployment of new versions of this cookbook is managed with [Stove][stove].
 Chef Supermarket login and [key][chef-keys] is required for new version deployment.
 
+Inside the `aet-cookbook` install [bundler][bundler]:
+
+```
+gem install bundle
+```
+
+Then install gems required by stove (which is already added to `Gemfile`):
+
+```
+bundle install
+```
+
+Follow the instructions from the [Stove homepage][stove].
+
 ## License and Authors
 
 Authors:
@@ -319,3 +333,5 @@ License: [Apache License, Version 2.0][apache-license]
 
 [stove]: http://sethvargo.github.io/stove/
 [chef-keys]: https://supermarket.chef.io/profile/edit#keys
+
+[bundler]: https://github.com/bundler/bundler
