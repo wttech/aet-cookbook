@@ -51,6 +51,7 @@ template "#{base_dir}/current/etc/custom.properties" do
   source 'content/karaf/current/etc/custom.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['source']['custom_prop']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed

@@ -62,6 +62,7 @@ template '/etc/init.d/xvfb' do
   source 'etc/init.d/xvfb.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['xvfb']['source']['init_script']
   mode '0755'
 
   notifies :restart, 'service[xvfb]', :immediately

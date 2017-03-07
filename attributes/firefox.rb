@@ -26,3 +26,5 @@ default['aet']['firefox']['root_dir'] = '/opt/aet/firefox'
 
 default['aet']['firefox']['source'] = 'https://ftp.mozilla.org/pub/firefox/'\
   'releases/38.6.0esr/linux-x86_64/en-US/firefox-38.6.0esr.tar.bz2'
+
+default['aet']['firefox']['source']['bin'] = 'aet'

@@ -103,6 +103,7 @@ template '/etc/init.d/browsermob' do
   source 'etc/init.d/browsermob.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['browsermob']['source']['init_script']
   mode '0755'
 
   notifies :restart, 'service[browsermob]', :delayed

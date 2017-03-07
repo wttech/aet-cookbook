@@ -45,3 +45,13 @@ default['aet']['karaf']['java_max_perm_mem'] = '128M'
 default['aet']['karaf']['felix_jar'] = 'https://repo1.maven.org/maven2/org/'\
   'apache/felix/org.apache.felix.framework'\
   '/4.2.1/org.apache.felix.framework-4.2.1.jar'
+
+default['aet']['karaf']['source']['setenv'] = 'aet'
+default['aet']['karaf']['source']['config_prop'] = 'aet'
+default['aet']['karaf']['source']['custom_prop'] = 'aet'
+default['aet']['karaf']['source']['users_prop'] = 'aet'
+default['aet']['karaf']['source']['bundles_cfg'] = 'aet'
+default['aet']['karaf']['source']['features_cfg'] = 'aet'
+default['aet']['karaf']['source']['shell_cfg'] = 'aet'
+default['aet']['karaf']['source']['ops4j_cfg'] = 'aet'
+default['aet']['karaf']['source']['init_script'] = 'aet'

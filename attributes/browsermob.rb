@@ -30,3 +30,5 @@ default['aet']['browsermob']['user'] = 'browsermob'
 default['aet']['browsermob']['group'] = 'browsermob'
 
 default['aet']['browsermob']['port'] = '8080'
+
+default['aet']['browsermob']['source']['init_script'] = 'aet'

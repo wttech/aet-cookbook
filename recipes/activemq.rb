@@ -116,6 +116,7 @@ template "#{node['aet']['activemq']['root_dir']}/current/bin/env" do
   source 'content/activemq/current/bin/env.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
+  cookbook node['aet']['activemq']['source']['env']
   mode '0755'
 
   notifies :restart, 'service[activemq]', :delayed
@@ -136,6 +137,7 @@ template "#{node['aet']['activemq']['root_dir']}/current/conf/activemq.xml" do
   source 'content/activemq/current/conf/activemq.xml.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
+  cookbook node['aet']['activemq']['source']['activemq_xml']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end
@@ -146,6 +148,7 @@ template "#{node['aet']['activemq']['root_dir']}/current"\
   source 'content/activemq/current/conf/log4j.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
+  cookbook node['aet']['activemq']['source']['log4j_prop']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end
@@ -156,6 +159,7 @@ template "#{node['aet']['activemq']['root_dir']}/current"\
   source 'content/activemq/current/conf/jetty-realm.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
+  cookbook node['aet']['activemq']['source']['jetty_prop']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end

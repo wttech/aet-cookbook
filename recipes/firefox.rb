@@ -86,5 +86,6 @@ template '/usr/bin/firefox' do
   source 'usr/bin/firefox.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['firefox']['source']['bin']
   mode '0755'
 end

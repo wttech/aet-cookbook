@@ -94,6 +94,7 @@ template '/etc/httpd/sites-available/aet.conf' do
   source 'etc/httpd/sites-available/aet.conf.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['apache']['source']['reports_conf']
   mode 0644
   notifies :restart, 'service[apache2]', :delayed
 end

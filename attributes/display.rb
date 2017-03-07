@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Attributes:: xvfb
+# Attributes:: display
 #
 # AET Cookbook
 #
@@ -19,12 +19,4 @@
 # limitations under the License.
 #
 
-default['aet']['xvfb']['user'] = 'xvfb'
-default['aet']['xvfb']['group'] = 'xvfb'
-
-default['aet']['xvfb']['log_dir'] = '/var/log/xvfb'
-
-default['aet']['xvfb']['resolution'] = '1280x1024x24'
-
-default['aet']['xvfb']['source']['init_script'] = 'aet'
-
+default['aet']['display']['source']['inittab'] = 'aet'

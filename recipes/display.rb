@@ -45,5 +45,6 @@ template '/etc/inittab' do
   source 'etc/inittab.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['display']['source']['inittab']
   mode '0644'
 end
