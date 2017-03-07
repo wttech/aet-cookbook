@@ -11,7 +11,7 @@ depends           'java', '~> 1.13'
 depends           'mongodb3', '~> 5.2.0'
 
 %w(
-  centos-6.7
+  centos-6.8
 ).each do |os|
   supports os
 end
