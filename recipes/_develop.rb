@@ -27,6 +27,7 @@ end
 # Create dedicated user
 user node['aet']['develop']['user'] do
   group node['aet']['develop']['group']
+  manage_home true
   home "/home/#{node['aet']['develop']['user']}"
   shell '/bin/bash'
   password node['aet']['develop']['ssh_password']

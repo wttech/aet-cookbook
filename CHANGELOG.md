@@ -1,6 +1,8 @@
 # 1.4.13
 
-* Update Browsermob version to 2.1.4 
+* Update Browsermob version to 2.1.4
+* Fix for developer user homedir creation
+* Default AET deployment version changed to 2.0.2
 
 # 1.4.12
 
