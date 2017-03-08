@@ -39,7 +39,9 @@ end
 # Create dedicated user
 user node['aet']['browsermob']['user'] do
   group node['aet']['browsermob']['group']
-  home "/home/#{node['aet']['browsermob']['user']}"
+  manage_home true
+  home node['aet']['browsermob']['root_dir']
+  system true
   shell '/bin/bash'
   action :create
 end
@@ -103,6 +105,7 @@ template '/etc/init.d/browsermob' do
   source 'etc/init.d/browsermob.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['browsermob']['src_cookbook']['init_script']
   mode '0755'
 
   notifies :restart, 'service[browsermob]', :delayed

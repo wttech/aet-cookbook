@@ -18,7 +18,7 @@
 . /etc/rc.d/init.d/functions
 
 DAEMON="/usr/bin/Xvfb"
-PARAM=":99 -ac -screen 0 <%= node['aet']['xvfb']['resolution'] %>"
+PARAM=":99 -ac"
 LOCK_FILE="/var/lock/subsys/xvfb"
 USER="<%= node['aet']['xvfb']['user'] %>"
 

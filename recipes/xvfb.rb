@@ -43,7 +43,9 @@ end
 # Create dedicated user
 user node['aet']['xvfb']['user'] do
   group node['aet']['xvfb']['group']
-  home "/home/#{node['aet']['xvfb']['user']}"
+  manage_home true
+  home "/var/lib/#{node['aet']['xvfb']['user']}"
+  system true
   shell '/bin/bash'
   action :create
 end
@@ -62,6 +64,7 @@ template '/etc/init.d/xvfb' do
   source 'etc/init.d/xvfb.erb'
   owner 'root'
   group 'root'
+  cookbook node['aet']['xvfb']['src_cookbook']['init_script']
   mode '0755'
 
   notifies :restart, 'service[xvfb]', :immediately

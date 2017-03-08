@@ -49,11 +49,6 @@ default['aet']['tomcat']['max_permsize'] = '256'
 default['aet']['tomcat']['code_cache'] = '64'
 default['aet']['tomcat']['extra_opts'] = ''
 
-default['aet']['tomcat']['init']['source_cookbook'] = 'aet'
-default['aet']['tomcat']['setenv.sh']['source_cookbook'] = 'aet'
-default['aet']['tomcat']['server.xml']['source_cookbook'] = 'aet'
-default['aet']['tomcat']['tomcat-users.xml']['source_cookbook'] = 'aet'
-
 ###############################################################################
 # PROPERTIES
 
@@ -66,4 +61,7 @@ default['aet']['tomcat']['connector']['maxswallowsize'] = '2097152'
 default['aet']['tomcat']['login'] = 'admin'
 default['aet']['tomcat']['password'] = 'admin'
 
-default['aet']['tomcat']['context']['source_cookbook'] = 'aet'
+default['aet']['tomcat']['src_cookbook']['setenv'] = 'aet'
+default['aet']['tomcat']['src_cookbook']['server_xml'] = 'aet'
+default['aet']['tomcat']['src_cookbook']['users_xml'] = 'aet'
+default['aet']['tomcat']['src_cookbook']['init_script'] = 'aet'
