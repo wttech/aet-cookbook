@@ -22,4 +22,4 @@
 default['aet']['apache']['report_base_dir'] = '/opt/aet/apache'
 default['aet']['apache']['log_dir'] = '/var/log/apache'
 
-default['aet']['apache']['source']['reports_conf'] = 'aet'
+default['aet']['apache']['src_cookbook']['reports_conf'] = 'aet'

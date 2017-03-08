@@ -32,6 +32,13 @@ user node['aet']['develop']['user'] do
   shell '/bin/bash'
   password node['aet']['develop']['ssh_password']
   action :create
+
+  notifies :reload, 'ohai[reload]', :immediately
+end
+
+# Update Ohai after user is created so that we can use that info later
+ohai 'reload' do
+  action :nothing
 end
 
 # Overwrites service users and groups for developer instance

@@ -19,4 +19,4 @@
 # limitations under the License.
 #
 
-default['aet']['display']['source']['inittab'] = 'aet'
+default['aet']['display']['src_cookbook']['inittab'] = 'aet'

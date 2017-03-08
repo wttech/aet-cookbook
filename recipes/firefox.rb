@@ -27,7 +27,9 @@ end
 # Create dedicated user
 user node['aet']['firefox']['user'] do
   group node['aet']['firefox']['group']
-  home "/home/#{node['aet']['firefox']['user']}"
+  manage_home true
+  home node['aet']['firefox']['root_dir']
+  system true
   shell '/bin/bash'
   action :create
 end
@@ -86,6 +88,6 @@ template '/usr/bin/firefox' do
   source 'usr/bin/firefox.erb'
   owner 'root'
   group 'root'
-  cookbook node['aet']['firefox']['source']['bin']
+  cookbook node['aet']['firefox']['src_cookbook']['bin']
   mode '0755'
 end

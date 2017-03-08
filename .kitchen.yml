@@ -6,12 +6,13 @@ driver:
   customize:
     cpus: 2
     memory: 3072
+  linked_clone: true
 
 provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-6.7
+  - name: centos-6.8
 
 suites:
   - name: default

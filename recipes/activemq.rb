@@ -38,7 +38,9 @@ end
 # Create dedicated user
 user node['aet']['activemq']['user'] do
   group node['aet']['activemq']['group']
-  home "/home/#{node['aet']['activemq']['user']}"
+  manage_home true
+  home node['aet']['activemq']['root_dir']
+  system true
   shell '/bin/bash'
   action :create
 end
@@ -47,6 +49,7 @@ end
 directory node['aet']['activemq']['root_dir'] do
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
+  mode '0755'
   recursive true
 end
 
@@ -116,7 +119,7 @@ template "#{node['aet']['activemq']['root_dir']}/current/bin/env" do
   source 'content/activemq/current/bin/env.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
-  cookbook node['aet']['activemq']['source']['env']
+  cookbook node['aet']['activemq']['src_cookbook']['env']
   mode '0755'
 
   notifies :restart, 'service[activemq]', :delayed
@@ -127,17 +130,12 @@ link '/etc/init.d/activemq' do
   to "#{node['aet']['activemq']['root_dir']}/current/bin/activemq"
 end
 
-# Create link the wrapper's pidfile location into /var/run
-link '/var/run/activemq.pid' do
-  to "#{node['aet']['activemq']['root_dir']}/current/bin/linux/ActiveMQ.pid"
-end
-
 # Overwrite ActiveMQ core settings
 template "#{node['aet']['activemq']['root_dir']}/current/conf/activemq.xml" do
   source 'content/activemq/current/conf/activemq.xml.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
-  cookbook node['aet']['activemq']['source']['activemq_xml']
+  cookbook node['aet']['activemq']['src_cookbook']['activemq_xml']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end
@@ -148,7 +146,7 @@ template "#{node['aet']['activemq']['root_dir']}/current"\
   source 'content/activemq/current/conf/log4j.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
-  cookbook node['aet']['activemq']['source']['log4j_prop']
+  cookbook node['aet']['activemq']['src_cookbook']['log4j_prop']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end
@@ -159,7 +157,7 @@ template "#{node['aet']['activemq']['root_dir']}/current"\
   source 'content/activemq/current/conf/jetty-realm.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
-  cookbook node['aet']['activemq']['source']['jetty_prop']
+  cookbook node['aet']['activemq']['src_cookbook']['jetty_prop']
   mode '0644'
   notifies :restart, 'service[activemq]', :delayed
 end

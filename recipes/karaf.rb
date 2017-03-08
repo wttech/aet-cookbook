@@ -31,12 +31,17 @@ group node['aet']['karaf']['group'] do
   action :create
 end
 
-# Create dedicated user
-user node['aet']['karaf']['user'] do
+# Create dedicated user if 'developer' user doesn't exist
+user 'karaf user' do
+  username node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  home "/home/#{node['aet']['karaf']['user']}"
+  manage_home true
+  home node['aet']['karaf']['root_dir']
+  system true
   shell '/bin/bash'
   action :create
+
+  not_if { node['etc']['passwd'].key?(node['aet']['develop']['user']) }
 end
 
 # Create base dir
@@ -115,7 +120,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/config.properties" do
   source 'content/karaf/current/etc/config.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['source']['config_prop']
+  cookbook node['aet']['karaf']['src_cookbook']['config_prop']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -128,7 +133,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
   source 'content/karaf/current/bin/setenv.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['source']['setenv']
+  cookbook node['aet']['karaf']['src_cookbook']['setenv']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -139,7 +144,7 @@ template '/etc/init.d/karaf' do
   source 'etc/init.d/karaf.erb'
   owner 'root'
   group 'root'
-  cookbook node['aet']['karaf']['source']['init_script']
+  cookbook node['aet']['karaf']['src_cookbook']['init_script']
   mode '0755'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -150,7 +155,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/users.properties" do
   source 'content/karaf/current/etc/users.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['source']['users_prop']
+  cookbook node['aet']['karaf']['src_cookbook']['users_prop']
   mode '0644'
 end
 
@@ -160,7 +165,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   source 'content/karaf/current/etc/org.ops4j.pax.web.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['source']['ops4j_cfg']
+  cookbook node['aet']['karaf']['src_cookbook']['ops4j_cfg']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -172,7 +177,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   source 'content/karaf/current/etc/org.apache.karaf.shell.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['source']['shell_cfg']
+  cookbook node['aet']['karaf']['src_cookbook']['shell_cfg']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
