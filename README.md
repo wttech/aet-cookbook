@@ -215,6 +215,7 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['activemq']['src_cookbook']['log4j_prop']` - source cookbook for file template of jetty-realm.properties (default: `'aet'`)
 * `node['aet']['apache']['report_base_dir']` - folder for AET reports web application (default: `'/opt/aet/apache'`)
 * `node['aet']['apache']['log_dir']` - apache logs folder (will be linked from `/var/log/httpd`) (default: `'/var/log/apache'`)
+* `node['aet']['apache']['karaf_ip']` - Karaf IP that the requests will be proxied to (default: `'localhost'`)
 * `node['aet']['apache']['src_cookbook']['reports_conf']` - source cookbook for file template of reports vhost (default: `'aet'`)
 * `node['aet']['browsermob']['root_dir']` - parent folder for [Browsermob][browsermob] installation (default: `'aet'`)
 * `node['aet']['browsermob']['log_dir']` - Browsermob logs folder (default: `'/var/log/browsermob'`)

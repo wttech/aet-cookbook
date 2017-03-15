@@ -1,3 +1,7 @@
+# 1.4.14
+
+* Karaf IP configurable in vhost template
+
 # 1.4.13
 
 * Update Browsermob version to 2.1.4
