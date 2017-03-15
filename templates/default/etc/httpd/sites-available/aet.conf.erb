@@ -7,7 +7,7 @@
 
     <Location "/api">
       Header set Access-Control-Allow-Origin "*"
-      ProxyPass http://localhost:<%= node['aet']['karaf']['web_port'] %>/api
+      ProxyPass http://<%= node['aet']['apache']['karaf_ip'] %>:<%= node['aet']['karaf']['web_port'] %>/api
     </Location>
 
 </VirtualHost>
