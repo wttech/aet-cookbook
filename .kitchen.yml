@@ -22,8 +22,6 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
-        apache:
-          karaf_ip: '127.0.0.1'
   - name: develop
     run_list:
       - recipe[aet::_develop]
