@@ -51,6 +51,7 @@ template "#{base_dir}/current/etc/#{felix_config}" do
   source "content/karaf/current/etc/#{felix_config}.erb"
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['src_cookbook']['features_cfg']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed

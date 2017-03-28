@@ -6,13 +6,15 @@ driver:
   customize:
     cpus: 2
     memory: 3072
-  linked_clones: true
+  linked_clone: true
+
 
 provisioner:
   name: chef_zero
 
 platforms:
   - name: centos-6.8
+
   - name: mwrock/Windows2012R2
     transport:
       name: winrm
@@ -54,6 +56,9 @@ suites:
       - recipe[aet::apache]
       - recipe[aet::deploy_reports]
     attributes:
+      aet:
+        activemq:
+          jmx_ip: '192.168.123.112'
     includes:
       - centos-6.8
   - name: full-stack-windows
@@ -64,7 +69,7 @@ suites:
         memory: 3072
         cpus: 2
     run_list:
-      - recipe[aet::windows]
+      - recipe[aet::prerequisites]
       - recipe[aet::firefox]
       - recipe[aet::karaf]
       - recipe[aet::deploy_configs]

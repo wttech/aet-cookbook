@@ -32,12 +32,22 @@ unless windows?
     action :create
   end
 
-  # Create dedicated user
-  user node['aet']['karaf']['user'] do
+  # Create root dir
+  directory parent(node['aet']['karaf']['root_dir']) do
+    recursive true
+  end
+
+  # Create dedicated user if 'developer' user doesn't exist
+  user 'karaf user' do
+    username node['aet']['karaf']['user']
     group node['aet']['karaf']['group']
-    home "/home/#{node['aet']['karaf']['user']}"
+    manage_home true
+    home node['aet']['karaf']['root_dir']
+    system true
     shell '/bin/bash'
     action :create
+
+    not_if { node['etc']['passwd'].key?(node['aet']['develop']['user']) }
   end
 end
 
@@ -133,6 +143,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/config.properties" do
   source 'content/karaf/current/etc/config.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['src_cookbook']['config_prop']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -149,10 +160,6 @@ if windows?
 
     notifies :restart, 'service[karaf]', :delayed
   end
-
-  # srv_install_cmd =
-  #   "nssm install karaf #{node['aet']['karaf']['root_dir']}"\
-  #   '/current/bin/karaf.bat'
 
   karaf_home = "#{node['aet']['karaf']['root_dir']}/current"
   java_home = node['aet']['common']['java_home']
@@ -230,6 +237,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/users.properties" do
   source 'content/karaf/current/etc/users.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['src_cookbook']['users_prop']
   mode '0644'
 end
 
@@ -239,6 +247,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   source 'content/karaf/current/etc/org.ops4j.pax.web.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['src_cookbook']['ops4j_cfg']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed
@@ -250,6 +259,7 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   source 'content/karaf/current/etc/org.apache.karaf.shell.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  cookbook node['aet']['karaf']['src_cookbook']['shell_cfg']
   mode '0644'
 
   notifies :restart, 'service[karaf]', :delayed

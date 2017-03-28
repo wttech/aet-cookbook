@@ -37,14 +37,16 @@ group node['aet']['tomcat']['group'] do
   action :create
 end
 
-# Create user
-user node['aet']['tomcat']['user'] do
-  supports manage_home: false
+# Create dedicated user if 'developer' user doesn't exist
+user 'tomcat user' do
+  username node['aet']['tomcat']['user']
   system true
   comment 'Tomcat'
   group node['aet']['tomcat']['group']
   shell '/bin/bash'
   action :create
+
+  not_if { node['etc']['passwd'].key?(node['aet']['develop']['user']) }
 end
 
 # Preparing root directory
@@ -90,7 +92,7 @@ end
 
 # Init script handling
 template '/etc/init.d/tomcat' do
-  cookbook node['aet']['tomcat']['init']['source_cookbook']
+  cookbook node['aet']['tomcat']['src_cookbook']['init_script']
   source 'etc/init.d/tomcat.erb'
   owner 'root'
   group 'root'
@@ -115,7 +117,7 @@ end
 
 # Creating settings override file to easily handle all required variables
 template "#{node['aet']['tomcat']['base_dir']}/bin/setenv.sh" do
-  cookbook node['aet']['tomcat']['setenv.sh']['source_cookbook']
+  cookbook node['aet']['tomcat']['src_cookbook']['setenv']
   source 'content/tomcat/bin/setenv.sh.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']
@@ -126,7 +128,7 @@ end
 
 # Base settings management template
 template "#{node['aet']['tomcat']['base_dir']}/conf/server.xml" do
-  cookbook node['aet']['tomcat']['server.xml']['source_cookbook']
+  cookbook node['aet']['tomcat']['src_cookbook']['server_xml']
   source 'content/tomcat/conf/server.xml.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']
@@ -137,7 +139,7 @@ end
 
 # User management template
 template "#{node['aet']['tomcat']['base_dir']}/conf/tomcat-users.xml" do
-  cookbook node['aet']['tomcat']['tomcat-users.xml']['source_cookbook']
+  cookbook node['aet']['tomcat']['src_cookbook']['users_xml']
   source 'content/tomcat/conf/tomcat-users.xml.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']

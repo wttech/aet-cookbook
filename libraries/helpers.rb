@@ -24,6 +24,10 @@ def get_filename(uri)
   Pathname.new(URI.parse(uri).path).basename.to_s
 end
 
+def parent(path)
+  Pathname.new(path).parent.to_s
+end
+
 def similar?(file_a, file_b)
   ::File.exist?(file_a) && ::File.exist?(file_b) &&
     ::File.identical?(

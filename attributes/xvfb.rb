@@ -24,4 +24,4 @@ default['aet']['xvfb']['group'] = 'xvfb'
 
 default['aet']['xvfb']['log_dir'] = '/var/log/xvfb'
 
-default['aet']['xvfb']['resolution'] = '1280x1024x24'
+default['aet']['xvfb']['src_cookbook']['init_script'] = 'aet'

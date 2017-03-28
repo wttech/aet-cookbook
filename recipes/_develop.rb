@@ -27,10 +27,18 @@ end
 # Create dedicated user
 user node['aet']['develop']['user'] do
   group node['aet']['develop']['group']
+  manage_home true
   home "/home/#{node['aet']['develop']['user']}"
   shell '/bin/bash'
   password node['aet']['develop']['ssh_password']
   action :create
+
+  notifies :reload, 'ohai[reload]', :immediately
+end
+
+# Update Ohai after user is created so that we can use that info later
+ohai 'reload' do
+  action :nothing
 end
 
 # Overwrites service users and groups for developer instance

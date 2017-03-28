@@ -34,8 +34,7 @@ if windows?
 
   ruby_block 'disable-ff-update' do
     block do
-
-      puts 'awesome'
+      puts 'placeholder'
     end
   end
 
@@ -107,6 +106,7 @@ else
     source 'usr/bin/firefox.erb'
     owner 'root'
     group 'root'
+    cookbook node['aet']['firefox']['src_cookbook']['bin']
     mode '0755'
   end
 end

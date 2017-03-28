@@ -47,7 +47,7 @@ The cookbook installs following components required by AET:
 * [Active MQ][active-mq] (ver. [5.13.1][active-mq-5.13.1]) - for communication between AET components
 * [Mongo DB][mongo-db] - for storing tests results
 * [Apache HTTP server][apache] - for AET reports Web Application
-* [Browsermob][browsermob] (ver. [2.0.0][browsermob-2.0.0]) - proxy for collecting additional browsing data
+* [Browsermob][browsermob] (ver. [2.1.4][browsermob-2.1.4]) - proxy for collecting additional browsing data
 * [XVFB][xvfb] - for running firefox in virtual screen
 * [Firefox][firefox] (ver. [38.6.0esr][firefox-38.6.0esr]) - for collecting screenshots of pages and other data
 * [Tomcat][tomcat] (ver. [8.0.36][tomcat-8.0.36]) - for serving sample site that is used by maintenance tests
@@ -194,7 +194,7 @@ This cookbook schedules reboot of virtual machine. The reboot is done only once.
 
 See [attributes/][aet-cookbook-github-attributes] folder for default values.
 
-* `node['aet']['version']` - version of AET to set-up. Used by _deploy_ recipes. (default: `'1.3.2-test'`)
+* `node['aet']['version']` - version of AET to set-up. Used by _deploy_ recipes. (default: `'2.0.2'`)
 * `node['aet']['base_link']` - base link for AET release artifacts. (default: `'https://github.com/Cognifide/AET/releases/download'`)
 * `node['aet']['activemq']['root_dir']` - parent folder for [Active MQ][active-mq] installation (default: `'/opt/aet/activemq'`)
 * `node['aet']['activemq']['log_dir']` - log dir for Active MQ (default: `'/var/log/activemq'`)
@@ -209,14 +209,22 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['activemq']['jmx_port']` - port to use by Active MQ (default: `'11199'`)
 * `node['aet']['activemq']['jmx_ip']` - IP for Active MQ JMX (default: `node['ipaddress']`)
 * `node['aet']['activemq']['enable_debug']` - enables JAVA debug agent on port 5006 (default: `false`)
+* `node['aet']['activemq']['src_cookbook']['env']` - source cookbook for file template of env (default: `'aet'`)
+* `node['aet']['activemq']['src_cookbook']['activemq_xml']` - source cookbook for file template of activemq.xml (default: `'aet'`)
+* `node['aet']['activemq']['src_cookbook']['jetty_prop']` - source cookbook for file template of log4j.properties (default: `'aet'`)
+* `node['aet']['activemq']['src_cookbook']['log4j_prop']` - source cookbook for file template of jetty-realm.properties (default: `'aet'`)
 * `node['aet']['apache']['report_base_dir']` - folder for AET reports web application (default: `'/opt/aet/apache'`)
 * `node['aet']['apache']['log_dir']` - apache logs folder (will be linked from `/var/log/httpd`) (default: `'/var/log/apache'`)
-* `node['aet']['browsermob']['root_dir']` - parent folder for [Browsermob][browsermob] installation (default: `'/opt/aet/browsermob'`)
+* `node['aet']['apache']['karaf_ip']` - Karaf IP that the requests will be proxied to (default: `'localhost'`)
+* `node['aet']['apache']['src_cookbook']['reports_conf']` - source cookbook for file template of reports vhost (default: `'aet'`)
+* `node['aet']['browsermob']['root_dir']` - parent folder for [Browsermob][browsermob] installation (default: `'aet'`)
 * `node['aet']['browsermob']['log_dir']` - Browsermob logs folder (default: `'/var/log/browsermob'`)
 * `node['aet']['browsermob']['user']` - system user for Browsermob service (default: `'browsermob'`)
 * `node['aet']['browsermob']['group']` - system group for Browsermob service (default: `'browsermob'`)
 * `node['aet']['browsermob']['port']` - port for Browsermob proxy (default: `'8080'`)
+* `node['aet']['browsermob']['src_cookbook']['init_script']` - source cookbook for file template of browsermob init script (default: `'aet'`)
 * `node['aet']['firefox']['root_dir']` - parent folder for Firefox browser installation (default: `'/opt/aet/firefox'`)
+* `node['aet']['firefox']['src_cookbook']['bin']` - source cookbook for file template of firefox start script (default: `'aet'`)
 * `node['aet']['karaf']['user']` - system user for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['group']` - system group for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['ssh_password']` - [hashed password][#hashed-passwords] for develop user
@@ -231,6 +239,15 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['karaf']['java_max_mem']` - max heap for Karaf (default: `'1024M'`)
 * `node['aet']['karaf']['java_min_perm_mem']` - min permanent space for Karaf (default: `'64M'`)
 * `node['aet']['karaf']['java_max_perm_mem']` - max permanent space for Karaf (default: `'128M'`)
+* `node['aet']['karaf']['src_cookbook']['setenv']` - source cookbook for file template of setenv.sh (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['config_prop']` - source cookbook for file template of config.properties (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['custom_prop']` - source cookbook for file template of custom.properties (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['users_prop']` - source cookbook for file template of users.properties (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['bundles_cfg']` - source cookbook for file template of org.apache.felix.fileinstall-deploy-bundles.cfg (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['features_cfg']` - source cookbook for file template of org.apache.felix.fileinstall-deploy-features.cfg (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['shell_cfg']` - source cookbook for file template of org.apache.karaf.shell.cfg (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['ops4j_cfg']` - source cookbook for file template of org.ops4j.pax.web.cfg (default: `'aet'`)
+* `node['aet']['karaf']['src_cookbook']['init_script']` - source cookbook for file template of karaf init script (default: `'aet'`)
 * `node['aet']['tomcat']['base_dir']` - parent folder for Tomcat installation (default: `'/opt/aet/tomcat'`)
 * `node['aet']['tomcat']['log_dir']` - log dir for Tomcat (default: `'/var/log/tomcat'`)
 * `node['aet']['tomcat']['user']` - system user for Tomcat service (default: `'tomcat'`)
@@ -246,10 +263,14 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['tomcat']['connector']['maxswallowsize']` - for Tomcat [maxSwallowSize][tomcat-max-swallow] (default: `'2097152'`)
 * `node['aet']['tomcat']['login']` - login for Tomcat instance (i.e. Manager app) (default: `'admin'`)
 * `node['aet']['tomcat']['password']` - password for Tomcat instance (i.e. Manager app) (default: `'admin'`)
+* `node['aet']['tomcat']['src_cookbook']['setenv']` - source cookbook for file template of setenv.sh (default: `'aet'`)
+* `node['aet']['tomcat']['src_cookbook']['server_xml']` - source cookbook for file template of server.xml (default: `'aet'`)
+* `node['aet']['tomcat']['src_cookbook']['users_xml']` - source cookbook for file template of tomcat-users.xml (default: `'aet'`)
+* `node['aet']['tomcat']['src_cookbook']['init_script']` - source cookbook for file template of tomcat init script (default: `'aet'`)
 * `node['aet']['xvfb']['user']` - system user for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['group']` - system group for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['log_dir']` - log dir for XVFB (default: `'/var/log/xvfb'`)
-* `node['aet']['xvfb']['resolution']` - resolution for XVFB (default: `'1280x1024x24'`)
+* `node['aet']['xvfb']['src_cookbook']['init_script']` - source cookbook for file template of xvfb init script (default: `'aet'`)
 * `node['aet']['develop']['user']` - user for develop instance
 * `node['aet']['develop']['group']` - group for develop instance
 * `node['aet']['develop']['ssh_password']` - hashed password for develop user (generated with `openssl passwd -1 "password"`)
@@ -268,6 +289,20 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
 Chef Supermarket login and [key][chef-keys] is required for new version deployment.
+
+Inside the `aet-cookbook` install [bundler][bundler]:
+
+```
+gem install bundle
+```
+
+Then install gems required by stove (which is already added to `Gemfile`):
+
+```
+bundle install
+```
+
+Follow the instructions from the [Stove homepage][stove].
 
 ## License and Authors
 
@@ -291,7 +326,7 @@ License: [Apache License, Version 2.0][apache-license]
 [active-mq-webconsole]: http://activemq.apache.org/web-console.html
 
 [browsermob]: https://bmp.lightbody.net/
-[browsermob-2.0.0]: https://github.com/lightbody/browsermob-proxy/releases/tag/browsermob-proxy-2.0.0
+[browsermob-2.1.4]: https://github.com/lightbody/browsermob-proxy/releases/tag/browsermob-proxy-2.1.4
 
 [mongo-db]: https://docs.mongodb.com/
 
@@ -319,3 +354,5 @@ License: [Apache License, Version 2.0][apache-license]
 
 [stove]: http://sethvargo.github.io/stove/
 [chef-keys]: https://supermarket.chef.io/profile/edit#keys
+
+[bundler]: https://github.com/bundler/bundler

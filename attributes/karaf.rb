@@ -45,3 +45,13 @@ default['aet']['karaf']['java_max_perm_mem'] = '128M'
 default['aet']['karaf']['felix_jar'] = 'https://repo1.maven.org/maven2/org/'\
   'apache/felix/org.apache.felix.framework'\
   '/4.2.1/org.apache.felix.framework-4.2.1.jar'
+
+default['aet']['karaf']['src_cookbook']['setenv'] = 'aet'
+default['aet']['karaf']['src_cookbook']['config_prop'] = 'aet'
+default['aet']['karaf']['src_cookbook']['custom_prop'] = 'aet'
+default['aet']['karaf']['src_cookbook']['users_prop'] = 'aet'
+default['aet']['karaf']['src_cookbook']['bundles_cfg'] = 'aet'
+default['aet']['karaf']['src_cookbook']['features_cfg'] = 'aet'
+default['aet']['karaf']['src_cookbook']['shell_cfg'] = 'aet'
+default['aet']['karaf']['src_cookbook']['ops4j_cfg'] = 'aet'
+default['aet']['karaf']['src_cookbook']['init_script'] = 'aet'

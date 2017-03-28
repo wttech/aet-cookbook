@@ -1,3 +1,15 @@
+# 1.4.14
+
+* Karaf IP configurable in vhost template
+
+# 1.4.13
+
+* Update Browsermob version to 2.1.4
+* Fix for developer user homedir creation
+* Default AET deployment version changed to 2.0.2
+* Adding source cookbooks for all templates
+* Fixing missing homedirs for services
+
 # 1.4.12
 
 * Fix for deploy_reports recipe

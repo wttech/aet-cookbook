@@ -41,3 +41,8 @@ default['aet']['activemq']['jmx_port'] = '11199'
 default['aet']['activemq']['jmx_ip'] = node['ipaddress']
 
 default['aet']['activemq']['enable_debug'] = false
+
+default['aet']['activemq']['src_cookbook']['env'] = 'aet'
+default['aet']['activemq']['src_cookbook']['activemq_xml'] = 'aet'
+default['aet']['activemq']['src_cookbook']['jetty_prop'] = 'aet'
+default['aet']['activemq']['src_cookbook']['log4j_prop'] = 'aet'
