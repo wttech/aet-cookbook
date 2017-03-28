@@ -20,6 +20,19 @@
 #
 
 # AET
-default['aet']['version'] = '2.0.0'
+default['aet']['version'] = '2.0.2'
 default['aet']['base_link'] =
   'https://github.com/Cognifide/AET/releases/download'
+
+# CONFIG
+default['aet']['config']['mongodb_uri'] = 'mongodb://192.168.123.112'
+default['aet']['config']['mongodb_autocreate'] = 'false'
+
+default['aet']['config']['activemq_uri'] =
+  'failover:tcp://192.168.123.112:61616'
+default['aet']['config']['activemq_user'] = 'karaf'
+default['aet']['config']['activemq_pass'] = 'karaf'
+default['aet']['config']['activemq_jmxuri'] =
+  'service:jmx:rmi:///jndi/rmi://192.168.123.112:11199/jmxrmi'
+
+default['aet']['config']['report_uri'] = 'http://aet-vagrant'

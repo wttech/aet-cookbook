@@ -69,17 +69,19 @@ check_if_new('bundles',
              "#{work_dir}/#{ver}")
 
 # Extract zip with bundles (skipped by default, run only when notified)
-execute 'extract-bundles' do
-  command "unzip -o #{bundles_local_path} -d #{ver}"
-  cwd work_dir
-  user node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  action :nothing
-end
-
-windows_zipfile 'extract-bundles' do
-  path "#{work_dir}/#{ver}"
-  source bundles_local_path
-  overwrite true
-  action :nothing
+if windows?
+  windows_zipfile 'extract-bundles' do
+    path "#{work_dir}/#{ver}"
+    source bundles_local_path
+    overwrite true
+    action :nothing
+  end
+else
+  execute 'extract-bundles' do
+    command "unzip -o #{bundles_local_path} -d #{ver}"
+    cwd work_dir
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    action :nothing
+  end
 end

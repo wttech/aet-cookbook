@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Recipe:: prerequisites
+# Recipe:: windows
 #
 # AET Cookbook
 #

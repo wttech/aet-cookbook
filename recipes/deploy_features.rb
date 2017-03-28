@@ -69,17 +69,19 @@ check_if_new('features',
              "#{work_dir}/#{ver}")
 
 # Extract features zip (skipped by default, run only when notified)
-execute 'extract-features' do
-  command "unzip -o #{features_local_path} -d #{ver}"
-  cwd work_dir
-  user node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  action :nothing
-end
-
-windows_zipfile 'extract-features' do
-  path "#{work_dir}/#{ver}"
-  source features_local_path
-  overwrite true
-  action :nothing
+if windows?
+  windows_zipfile 'extract-features' do
+    path "#{work_dir}/#{ver}"
+    source features_local_path
+    overwrite true
+    action :nothing
+  end
+else
+  execute 'extract-features' do
+    command "unzip -o #{features_local_path} -d #{ver}"
+    cwd work_dir
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    action :nothing
+  end
 end

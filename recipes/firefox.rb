@@ -27,6 +27,18 @@ if windows?
     installer_type :custom
     action :install
   end
+
+  disable_update = '
+    user_pref("app.update.enabled", false);
+    user_pref("app.update.service.enabled", false);'
+
+  ruby_block 'disable-ff-update' do
+    block do
+
+      puts 'awesome'
+    end
+  end
+
 else
   # Create deducated group
   group node['aet']['firefox']['group'] do

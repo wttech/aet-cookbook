@@ -6,6 +6,7 @@ driver:
   customize:
     cpus: 2
     memory: 3072
+  linked_clones: true
 
 provisioner:
   name: chef_zero
@@ -40,7 +41,22 @@ suites:
           jmx_ip: '192.168.123.111'
     includes:
       - centos-6.8
-  - name: windows
+  - name: full-stack-linux
+    driver:
+      network:
+      - ["private_network", {ip: "192.168.123.112"}]
+      customize:
+        memory: 1024
+        cpus: 2
+    run_list:
+      - recipe[aet::activemq]
+      - recipe[aet::mongo]
+      - recipe[aet::apache]
+      - recipe[aet::deploy_reports]
+    attributes:
+    includes:
+      - centos-6.8
+  - name: full-stack-windows
     driver:
       network:
       - ["private_network", {ip: "192.168.123.111"}]
@@ -48,7 +64,7 @@ suites:
         memory: 3072
         cpus: 2
     run_list:
-      - recipe[aet::prerequisites]
+      - recipe[aet::windows]
       - recipe[aet::firefox]
       - recipe[aet::karaf]
       - recipe[aet::deploy_configs]
@@ -59,16 +75,3 @@ suites:
     attributes:
     includes:
       - mwrock/Windows2012R2
-  - name: linux
-    driver:
-      network:
-      - ["private_network", {ip: "192.168.123.112"}]
-      customize:
-        memory: 512
-        cpus: 2
-    run_list:
-      - recipe[aet::activemq]
-      - recipe[aet::mongo]
-    attributes:
-    includes:
-      - centos-6.8

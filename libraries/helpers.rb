@@ -24,6 +24,14 @@ def get_filename(uri)
   Pathname.new(URI.parse(uri).path).basename.to_s
 end
 
+def similar?(file_a, file_b)
+  ::File.exist?(file_a) && ::File.exist?(file_b) &&
+    ::File.identical?(
+      file_a,
+      file_b
+    )
+end
+
 def check_if_new(artifacts_name, deploy_dir, version_dir)
   log "#{artifacts_name}-version-changed" do
     message "version of #{artifacts_name} has changed."\
@@ -45,17 +53,20 @@ def check_if_new(artifacts_name, deploy_dir, version_dir)
   create_link(deploy_dir, version_dir)
 end
 
-def similar?(file_a, file_b)
-  ::File.exist?(file_a) && ::File.exist?(file_b) &&
-    ::File.identical?(
-      file_a,
-      file_b
-    )
-end
-
 def create_link(link, folder)
-  link link do
-    to folder
+  if windows?
+    # We have to use junctions for Windows because links do not work properly
+    batch "Link #{link} to #{folder}" do
+      code <<-EOH
+        rmdir /S /Q "#{link}"
+        mklink /J "#{link}" "#{folder}"
+      EOH
+      not_if { similar?(link, folder) }
+    end
+  else
+    link link do
+      to folder
+    end
   end
 end
 

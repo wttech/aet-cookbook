@@ -70,18 +70,65 @@ check_if_new('configs',
              "#{work_dir}/#{ver}")
 
 # Extract config zip (skipped by default, run only when notified)
-
-execute 'extract-configs' do
-  command "unzip -o #{config_local_path} -d #{ver}"
-  cwd work_dir
-  user node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  action :nothing
+if windows?
+  windows_zipfile 'extract-configs' do
+    path "#{work_dir}/#{ver}"
+    source config_local_path
+    overwrite true
+    action :nothing
+  end
+else
+  execute 'extract-configs' do
+    command "unzip -o #{config_local_path} -d #{ver}"
+    cwd work_dir
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    action :nothing
+  end
 end
 
-windows_zipfile 'extract-configs' do
-  path "#{work_dir}/#{ver}"
-  source config_local_path
-  overwrite true
-  action :nothing
+# Temporarily overwriting mongo config in subdrictory. Best case it shoudl be
+# placed directly inside /etc after mongo config is removed from /etc/aet
+template "#{base_dir}/current/etc/aet/com.cognifide.aet.vs.mongodb.MongoDBClient.cfg" do
+  source 'content/karaf/current/etc/com.cognifide.aet.vs.mongodb.MongoDBClient.cfg.erb'
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0644'
+
+  notifies :restart, 'service[karaf]', :delayed
+
+  only_if { windows? }
+end
+
+template "#{base_dir}/current/etc/com.cognifide.aet.queues.DefaultJmsConnection.cfg" do
+  source 'content/karaf/current/etc/com.cognifide.aet.queues.DefaultJmsConnection.cfg.erb'
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0644'
+
+  notifies :restart, 'service[karaf]', :delayed
+
+  only_if { windows? }
+end
+
+template "#{base_dir}/current/etc/com.cognifide.aet.runner.util.MessagesManager.cfg" do
+  source 'content/karaf/current/etc/com.cognifide.aet.runner.util.MessagesManager.cfg.erb'
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0644'
+
+  notifies :restart, 'service[karaf]', :delayed
+
+  only_if { windows? }
+end
+
+template "#{base_dir}/current/etc/com.cognifide.aet.rest.helpers.ReportConfigurationManager.cfg" do
+  source 'content/karaf/current/etc/com.cognifide.aet.rest.helpers.ReportConfigurationManager.cfg.erb'
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0644'
+
+  notifies :restart, 'service[karaf]', :delayed
+
+  only_if { windows? }
 end

@@ -14,7 +14,7 @@ depends           'notepadpp', '~> 1.0.0'
 depends           'chef-sugar'
 
 %w(
-  centos-6.7
+  centos-6.8
 ).each do |os|
   supports os
 end
