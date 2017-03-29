@@ -12,7 +12,7 @@ from [AET GitHub releases page][aet-releases].
 
 Because this cookbook is used for demo instances or development platforms
 we are not supporting a wide range of platforms.
-CentOS release 6.7 (Final) is supported currently.
+CentOS release 6.8 (Final) is supported currently.
 
 ## Usage
 
@@ -20,7 +20,7 @@ For demo instance *default* recipe should be used.
 For development purpose use `aet::_develop` and `aet::default` recipes.
 The `aet::_develop` recipe provides additional user used by Maven to upload AET artifacts.
 
-### Preparing virtual machine
+### Preparing developer virtual machine
 
 Include `aet` in your node's `run_list`:
 
@@ -28,7 +28,44 @@ Include `aet` in your node's `run_list`:
 {
   "run_list": [
     "recipe[aet::_develop]",
+    "recipe[aet::prerequisites]",
     "recipe[aet::default]"
+  ]
+}
+```
+
+### Preparing production virtual machines
+
+Provision first!
+Include `aet` in your Linux node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[aet::prerequisites]",
+    "recipe[aet::activemq]",
+    "recipe[aet::mongodb]",
+    "recipe[aet::apache]",
+    "recipe[aet::deploy_reports]",
+  ]
+}
+```
+
+Provision only after Linux node is up!
+Include `aet` in your Windows node's `run_list`:
+
+```json
+{
+  "run_list": [
+    "recipe[aet::prerequisites]",
+    "recipe[aet::tools]",
+    "recipe[aet::firefox]",
+    "recipe[aet::karaf]",
+    "recipe[aet::deploy_configs]",
+    "recipe[aet::deploy_features]",
+    "recipe[aet::deploy_bundles]",
+    "recipe[aet::postdeploy_restart]",
+    "recipe[aet::browsermob]"
   ]
 }
 ```
@@ -176,6 +213,22 @@ If `aet::_develop` recipe is used this is done with *develop* user.
 If included it will override system users for Tomcat, Karaf and Apache
 with develop user. This has been done in order to enable uploads of AET artifacts to these services.
 
+### Prerequisites recipe
+
+* `aet::prerequisites` - Contains all required recipes and overrides for this cookbook
+to work correctly on both windows and linux.
+
+### Helper recipes
+
+* `aet::nssm` - Install NSSM tool to manage Browsermob service in windows.
+It is included in prerequisites.
+* `aet::prunsrv` - Install NSSM tool to manage Karaf service in windows.
+It is included in prerequisites.
+
+### Tools recipe
+
+* `aet::tools` - Installs useful tools.
+
 ### Mongo DB
 
 Recipes:
@@ -196,6 +249,15 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 
 * `node['aet']['version']` - version of AET to set-up. Used by _deploy_ recipes. (default: `'2.0.2'`)
 * `node['aet']['base_link']` - base link for AET release artifacts. (default: `'https://github.com/Cognifide/AET/releases/download'`)
+
+* `node['aet']['config']['mongodb_uri']` - Address of MongoDB instance. Windows specific. (default: `'mongodb://192.168.123.112'`)
+* `node['aet']['config']['mongodb_autocreate']` - Enablement of mongodb database autocreation. Windows specific. (default: `'true'`)
+* `node['aet']['config']['activemq_uri']` - Address of ActiveMQ. Windows specific. (default: `'failover:tcp://192.168.123.112:61616'`)
+* `node['aet']['config']['activemq_user']` - User used to access ActiveMQ. Windows specific. (default: `'admin'`)
+* `node['aet']['config']['activemq_pass']` - Password used to access ActiveMQ. Windows specific. (default: `'admin'`)
+* `node['aet']['config']['activemq_jmxuri']` - ActiveMQ JMX address (default: `'service:jmx:rmi:///jndi/rmi://192.168.123.112:11199/jmxrmi'`)
+* `node['aet']['config']['report_uri']` - URI under which reports will be generated (default: `'http://aet-vagrant'`)
+
 * `node['aet']['activemq']['root_dir']` - parent folder for [Active MQ][active-mq] installation (default: `'/opt/aet/activemq'`)
 * `node['aet']['activemq']['log_dir']` - log dir for Active MQ (default: `'/var/log/activemq'`)
 * `node['aet']['activemq']['user']` - system user for Active MQ service (default: `'activemq'`)

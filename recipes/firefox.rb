@@ -19,6 +19,7 @@
 # limitations under the License.
 #
 
+
 if windows?
   # Install Firefox on Windows
   windows_package node['aet']['firefox']['win_package_name'] do
@@ -28,14 +29,25 @@ if windows?
     action :install
   end
 
-  disable_update = '
-    user_pref("app.update.enabled", false);
-    user_pref("app.update.service.enabled", false);'
+  ff_config_loader = 'C:/Program Files (x86)/Mozilla Firefox/'\
+    'defaults/pref/autoconfig.js'
 
-  ruby_block 'disable-ff-update' do
-    block do
-      puts 'placeholder'
-    end
+  cookbook_file ff_config_loader do
+    source 'autoconfig.js'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
+    action :create
+  end
+
+  ff_config = 'C:/Program Files (x86)/Mozilla Firefox/mozilla.cfg'
+
+  cookbook_file ff_config do
+    source 'mozilla.cfg'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
+    action :create
   end
 
 else

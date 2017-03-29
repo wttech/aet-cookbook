@@ -42,13 +42,13 @@ ohai 'reload' do
 end
 
 # Overwrites service users and groups for developer instance
-node.normal['aet']['karaf']['user']         = node['aet']['develop']['user']
-node.normal['aet']['karaf']['group']        = node['aet']['develop']['group']
+node.normal['aet']['karaf']['user'] = node['aet']['develop']['user']
+node.normal['aet']['karaf']['group'] = node['aet']['develop']['group']
 node.normal['aet']['karaf']['ssh_password'] =
   node['aet']['develop']['ssh_password']
 
-node.normal['aet']['tomcat']['user']        = node['aet']['develop']['user']
-node.normal['aet']['tomcat']['group']       = node['aet']['develop']['group']
+node.normal['aet']['tomcat']['user'] = node['aet']['develop']['user']
+node.normal['aet']['tomcat']['group'] = node['aet']['develop']['group']
 
-node.normal['apache']['user']               = node['aet']['develop']['user']
-node.normal['apache']['group']              = node['aet']['develop']['group']
+node.normal['apache']['user'] = node['aet']['develop']['user']
+node.normal['apache']['group'] = node['aet']['develop']['group']

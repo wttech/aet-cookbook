@@ -51,6 +51,7 @@ suites:
         memory: 1024
         cpus: 2
     run_list:
+      - recipe[aet::prerequisites]
       - recipe[aet::activemq]
       - recipe[aet::mongo]
       - recipe[aet::apache]
@@ -70,6 +71,7 @@ suites:
         cpus: 2
     run_list:
       - recipe[aet::prerequisites]
+      - recipe[aet::tools]
       - recipe[aet::firefox]
       - recipe[aet::karaf]
       - recipe[aet::deploy_configs]

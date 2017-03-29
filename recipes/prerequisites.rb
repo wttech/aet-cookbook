@@ -38,7 +38,6 @@ if windows?
   node.default['aet']['browsermob']['log_dir'] = 'c:/content/logs/browsermob'
 
   include_recipe 'windows::default'
-  include_recipe 'notepadpp::default'
   include_recipe 'aet::prunsrv'
   include_recipe 'aet::nssm'
 
