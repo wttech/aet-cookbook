@@ -1,3 +1,7 @@
+# v2.0.0
+
+* Windows deployment implementation
+
 # 1.4.14
 
 * Karaf IP configurable in vhost template

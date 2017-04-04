@@ -50,6 +50,14 @@ user node['aet']['activemq']['user'] do
   action :create
 end
 
+# Preparing root directory
+directory node['aet']['activemq']['root_dir'] do
+  owner node['aet']['activemq']['user']
+  group node['aet']['activemq']['group']
+  mode '0755'
+  action :create
+end
+
 # Create log dir for ActiveMQ
 directory node['aet']['activemq']['log_dir'] do
   owner node['aet']['activemq']['user']
