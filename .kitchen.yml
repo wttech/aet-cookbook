@@ -8,25 +8,77 @@ driver:
     memory: 3072
   linked_clone: true
 
+
 provisioner:
   name: chef_zero
 
 platforms:
   - name: centos-6.8
 
+  - name: mwrock/Windows2012R2
+    transport:
+      name: winrm
+      password: vagrant
+      username: vagrant
+
 suites:
   - name: default
     run_list:
+      - recipe[aet::prerequisites]
       - recipe[aet::default]
     attributes:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+    includes:
+      - centos-6.8
   - name: develop
     run_list:
+      - recipe[aet::prerequisites]
       - recipe[aet::_develop]
       - recipe[aet::default]
     attributes:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+    includes:
+      - centos-6.8
+  - name: full-stack-linux
+    driver:
+      network:
+      - ["private_network", {ip: "192.168.123.112"}]
+      customize:
+        memory: 1024
+        cpus: 2
+    run_list:
+      - recipe[aet::prerequisites]
+      - recipe[aet::activemq]
+      - recipe[aet::mongo]
+      - recipe[aet::apache]
+      - recipe[aet::deploy_reports]
+    attributes:
+      aet:
+        activemq:
+          jmx_ip: '192.168.123.112'
+    includes:
+      - centos-6.8
+  - name: full-stack-windows
+    driver:
+      network:
+      - ["private_network", {ip: "192.168.123.111"}]
+      customize:
+        memory: 3072
+        cpus: 2
+    run_list:
+      - recipe[aet::prerequisites]
+      - recipe[aet::tools]
+      - recipe[aet::firefox]
+      - recipe[aet::karaf]
+      - recipe[aet::deploy_configs]
+      - recipe[aet::deploy_features]
+      - recipe[aet::deploy_bundles]
+      - recipe[aet::postdeploy_restart]
+      - recipe[aet::browsermob]
+    attributes:
+    includes:
+      - mwrock/Windows2012R2

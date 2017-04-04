@@ -26,22 +26,29 @@ include_recipe 'java::default'
 # INSTALLATION
 ###############################################################################
 
-# Create dedicated group
-group node['aet']['karaf']['group'] do
-  action :create
-end
+unless windows?
+  # Create dedicated group
+  group node['aet']['karaf']['group'] do
+    action :create
+  end
 
-# Create dedicated user if 'developer' user doesn't exist
-user 'karaf user' do
-  username node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  manage_home true
-  home node['aet']['karaf']['root_dir']
-  system true
-  shell '/bin/bash'
-  action :create
+  # Create root dir
+  directory parent(node['aet']['karaf']['root_dir']) do
+    recursive true
+  end
 
-  not_if { node['etc']['passwd'].key?(node['aet']['develop']['user']) }
+  # Create dedicated user if 'developer' user doesn't exist
+  user 'karaf user' do
+    username node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    manage_home true
+    home node['aet']['karaf']['root_dir']
+    system true
+    shell '/bin/bash'
+    action :create
+
+    not_if { node['etc']['passwd'].key?(node['aet']['develop']['user']) }
+  end
 end
 
 # Create base dir
@@ -75,16 +82,32 @@ end
 
 # Get Karaf file name without extension
 # This is basically the name of the directory that Karaf extracted itself to
-basename = ::File.basename(filename, '.tar.gz')
+if windows?
+  basename = ::File.basename(filename, '.zip')
 
-# Extract Karaf binaries
-execute 'extract karaf' do
-  command "tar xvf #{filename}"
-  cwd node['aet']['karaf']['root_dir']
-  user node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  not_if do
-    ::File.exist?("#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf")
+  # Extract Karaf binaries
+  windows_zipfile node['aet']['karaf']['root_dir'] do
+    source "#{node['aet']['karaf']['root_dir']}/#{filename}"
+    action :unzip
+
+    not_if do
+      ::File.exist?(
+        "#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf.bat"
+      )
+    end
+  end
+else
+  basename = ::File.basename(filename, '.tar.gz')
+
+  # Extract Karaf binaries
+  execute 'extract karaf' do
+    command "tar xvf #{filename}"
+    cwd node['aet']['karaf']['root_dir']
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    not_if do
+      ::File.exist?("#{node['aet']['karaf']['root_dir']}/#{basename}/bin/karaf")
+    end
   end
 end
 
@@ -127,27 +150,86 @@ template "#{node['aet']['karaf']['root_dir']}/current/etc/config.properties" do
 end
 
 ##############################################################################
+if windows?
+  # Overwrite JVM properties for Karaf
+  template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv.bat" do
+    source 'content/karaf/current/bin/setenv.bat.erb'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
 
-# Overwrite JVM properties for Karaf
-template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
-  source 'content/karaf/current/bin/setenv.erb'
-  owner node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['src_cookbook']['setenv']
-  mode '0644'
+    notifies :restart, 'service[karaf]', :delayed
+  end
 
-  notifies :restart, 'service[karaf]', :delayed
-end
+  karaf_home = "#{node['aet']['karaf']['root_dir']}/current"
+  java_home = node['aet']['common']['java_home']
 
-# Create Karaf init file
-template '/etc/init.d/karaf' do
-  source 'etc/init.d/karaf.erb'
-  owner 'root'
-  group 'root'
-  cookbook node['aet']['karaf']['src_cookbook']['init_script']
-  mode '0755'
+  srv_install_cmd =
+    'prunsrv //IS//karaf '\
+    '--DisplayName="Apache Karaf" '\
+    '--Description="Apache Karaf 2.3.9 for AET" '\
+    '--Startup=auto '\
+    "--LogPath=\"#{karaf_home}\\data\\log\" "\
+    '--LogLevel=INFO '\
+    '--LogPrefix=karaf-deamon '\
+    '--StdOutput=auto '\
+    '--StdError=auto '\
+    "--StartPath=\"#{karaf_home}\" "\
+    '--StartClass=org.apache.karaf.main.Main '\
+    '--StartMethod=main '\
+    '--StartParams=start '\
+    '--StartMode=jvm '\
+    "--StopPath=\"#{karaf_home}\" "\
+    '--StopClass=org.apache.karaf.main.Stop '\
+    '--StopMethod=main '\
+    '--StopParams=stop '\
+    '--StopMode=jvm '\
+    '--StopTimeout=1 '\
+    "--JavaHome=\"#{java_home}\" "\
+    "--Jvm=\"#{java_home}\\jre\\bin\\server\\jvm.dll\" "\
+    "--Classpath=\"#{karaf_home}\\lib\\karaf-jaas-boot.jar;#{karaf_home}\\lib\\karaf.jar;#{karaf_home}\\lib\\org.apache.servicemix.specs.locator-2.4.0.jar;#{karaf_home}\\lib\\org.apache.servicemix.specs.activator-2.4.0.jar\" "\
+    "--JvmOptions=-Xms#{node['aet']['karaf']['java_min_mem']} "\
+    "--JvmOptions=-Xmx#{node['aet']['karaf']['java_max_mem']} "\
+    "--JvmOptions=-XX:PermSize=#{node['aet']['karaf']['java_min_perm_mem']} "\
+    "--JvmOptions=-XX:MaxPermSize=#{node['aet']['karaf']['java_max_perm_mem']} "\
+    "--JvmOptions=-Djava.ext.dirs=\"#{java_home}\\jre\\lib\\ext\" "\
+    "--JvmOptions=-Dkaraf.data=\"#{karaf_home}\\data\" "\
+    "--JvmOptions=-Dkaraf.base=\"#{karaf_home}\" "\
+    "--JvmOptions=-Dkaraf.home=\"#{karaf_home}\" "\
+    "--JvmOptions=-Dkaraf.instances=\"#{karaf_home}\\instances\" "\
+    '--JvmOptions=-Dkaraf.startLocalConsole=true '\
+    '--JvmOptions=-Dkaraf.startRemoteShell=true '\
+    "--JvmOptions=-Djava.endorsed.dirs=\"#{karaf_home}\\lib\\endorsed\" "\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.port=9004 '\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.authenticate=false '\
+    '--JvmOptions=-Dcom.sun.management.jmxremote.ssl=false'
 
-  notifies :restart, 'service[karaf]', :delayed
+  execute 'config-karaf-service' do
+    command srv_install_cmd
+    action :run
+
+    not_if { ::Win32::Service.exists?('karaf') }
+  end
+else
+  # Overwrite JVM properties for Karaf
+  template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
+    source 'content/karaf/current/bin/setenv.erb'
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    mode '0644'
+
+    notifies :restart, 'service[karaf]', :delayed
+  end
+
+  # Create Karaf init file
+  template '/etc/init.d/karaf' do
+    source 'etc/init.d/karaf.erb'
+    owner 'root'
+    group 'root'
+    mode '0755'
+
+    notifies :restart, 'service[karaf]', :delayed
+  end
 end
 
 # Configure user credentials

@@ -24,19 +24,8 @@ def get_filename(uri)
   Pathname.new(URI.parse(uri).path).basename.to_s
 end
 
-def check_if_new(artifacts_name, deploy_dir, version_dir, extract_step)
-  log "#{artifacts_name}-version-changed" do
-    message "version of #{artifacts_name} has changed."\
-            'notifying dependant resources...'
-
-    not_if { similar?(deploy_dir, version_dir) }
-
-    notifies :stop, 'service[karaf-deploy-stop]', :immediately
-    notifies :run, extract_step, :immediately
-    notifies :run, 'execute[schedule-karaf-restart]', :immediately
-  end
-
-  create_link(deploy_dir, version_dir)
+def parent(path)
+  Pathname.new(path).parent.to_s
 end
 
 def similar?(file_a, file_b)
@@ -47,9 +36,41 @@ def similar?(file_a, file_b)
     )
 end
 
+def check_if_new(artifacts_name, deploy_dir, version_dir)
+  log "#{artifacts_name}-version-changed" do
+    message "version of #{artifacts_name} has changed."\
+            'notifying dependant resources...'
+
+    not_if { similar?(deploy_dir, version_dir) }
+
+    notifies :stop, 'service[karaf-deploy-stop]', :immediately
+    if windows?
+      notifies :unzip,
+               "windows_zipfile[extract-#{artifacts_name}]",
+               :immediately
+    else
+      notifies :run, "execute[extract-#{artifacts_name}]", :immediately
+    end
+    notifies :create, 'file[schedule-karaf-restart]', :immediately
+  end
+
+  create_link(deploy_dir, version_dir)
+end
+
 def create_link(link, folder)
-  link link do
-    to folder
+  if windows?
+    # We have to use junctions for Windows because links do not work properly
+    batch "Link #{link} to #{folder}" do
+      code <<-EOH
+        rmdir /S /Q "#{link}"
+        mklink /J "#{link}" "#{folder}"
+      EOH
+      not_if { similar?(link, folder) }
+    end
+  else
+    link link do
+      to folder
+    end
   end
 end
 

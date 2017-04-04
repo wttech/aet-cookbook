@@ -35,6 +35,11 @@ group node['aet']['activemq']['group'] do
   action :create
 end
 
+# Create root dir
+directory parent(node['aet']['activemq']['root_dir']) do
+  recursive true
+end
+
 # Create dedicated user
 user node['aet']['activemq']['user'] do
   group node['aet']['activemq']['group']
@@ -45,15 +50,15 @@ user node['aet']['activemq']['user'] do
   action :create
 end
 
-# Create root dir for ActiveMQ
+# Preparing root directory
 directory node['aet']['activemq']['root_dir'] do
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
   mode '0755'
-  recursive true
+  action :create
 end
 
-# Create root dir for ActiveMQ
+# Create log dir for ActiveMQ
 directory node['aet']['activemq']['log_dir'] do
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']

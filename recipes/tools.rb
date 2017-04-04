@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Attributes:: common
+# Recipe:: tools
 #
 # AET Cookbook
 #
@@ -19,15 +19,18 @@
 # limitations under the License.
 #
 
-# JAVA
-default['java']['oracle']['accept_oracle_download_terms'] = 'true'
-default['java']['jdk_version'] = '7'
-default['java']['install_flavor'] = 'oracle'
+# Tools that we find useful to have on Windows
 
-default['java']['windows']['url'] = 'http://download.oracle.com/'\
-  'otn-pub/java/jdk/7u79-b15/jdk-7u79-windows-x64.exe'
-default['java']['windows']['package_name'] =
-  'Java 7 Update 79 (64-bit)'
+if windows?
+  include_recipe 'notepadpp::default'
 
-default['aet']['common']['java_home'] =
-  'C:/Program Files/Java/jdk1.7.0_79'
+  tools_dir = 'c:/content/tools'
+
+  directory tools_dir do
+    recursive true
+  end
+
+  remote_file "#{tools_dir}/baretail.exe" do
+    source 'https://www.baremetalsoft.com/baretail/download.php?p=m'
+  end
+end
