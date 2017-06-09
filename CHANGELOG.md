@@ -1,10 +1,11 @@
-# 1.4.14
-
-* Karaf IP configurable in vhost template
 
 # 1.4.15
 
 * Switch to OpenJDK, as JAVA 7 is unable to be automatically downloaded by Java Cookbook. 
+
+# 1.4.14
+
+* Karaf IP configurable in vhost template
 
 # 1.4.13
 
