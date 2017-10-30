@@ -98,33 +98,7 @@ end
 # KARAF 2.3.9 FIX
 ##############################################################################
 
-directory "#{node['aet']['karaf']['root_dir']}/current/system/org/apache/"\
-  'felix/org.apache.felix.framework/4.2.1' do
-  owner node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  mode '0755'
-  recursive true
-  action :create
-end
-
-remote_file "#{node['aet']['karaf']['root_dir']}/current/system/org/apache/"\
-  'felix/org.apache.felix.framework/4.2.1/'\
-  'org.apache.felix.framework-4.2.1.jar' do
-  source node['aet']['karaf']['felix_jar']
-  owner node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-end
-
-# Overwrite config to point to appropriate felix
-template "#{node['aet']['karaf']['root_dir']}/current/etc/config.properties" do
-  source 'content/karaf/current/etc/config.properties.erb'
-  owner node['aet']['karaf']['user']
-  group node['aet']['karaf']['group']
-  cookbook node['aet']['karaf']['src_cookbook']['config_prop']
-  mode '0644'
-
-  notifies :restart, 'service[karaf]', :delayed
-end
+# fix removed
 
 ##############################################################################
 
