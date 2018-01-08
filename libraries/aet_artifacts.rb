@@ -37,6 +37,7 @@ def setup_aet_artifact(artifact_type)
   link_to_current_artifacts = "#{work_dir}/current"
   task_to_run_if_version_changed = "execute[extract-#{artifact_type}]"
 
+  # will only extract zip file if version has changed
   check_if_new(artifact_type,
                link_to_current_artifacts,
                "#{work_dir}/#{ver}",
