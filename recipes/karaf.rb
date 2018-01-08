@@ -166,7 +166,7 @@ directory "#{node['aet']['karaf']['root_dir']}/current/data/log" do
   end
 end
 
-# Create symplink for logs directory
+# Create symlink for logs directory
 link "#{node['aet']['karaf']['root_dir']}/current/data/log" do
   to node['aet']['karaf']['log_dir']
 end
