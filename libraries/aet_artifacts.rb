@@ -73,6 +73,7 @@ def extract_artifact(artifact_type, version)
 end
 
 # creates fileinstall config in Karaf deploy directory
+# only for features and conigs (bundles are loaded from features XML file)
 def create_fileinstall_config(base_dir, artifact_type)
   target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
 
@@ -80,7 +81,10 @@ def create_fileinstall_config(base_dir, artifact_type)
     source 'content/karaf/current/etc/org.apache.felix.fileinstall-template.cfg.erb'
     owner node['aet']['karaf']['user']
     group node['aet']['karaf']['group']
-    cookbook node['aet']['karaf']['src_cookbook']['bundles_cfg']
+
+    template_source_key = "fileinstall_#{artifact_type}_prop"
+    
+    cookbook node['aet']['karaf']['src_cookbook'][template_source_key]
     mode '0644'
     variables(
       'base_dir' => base_dir,

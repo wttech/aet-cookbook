@@ -48,10 +48,9 @@ default['aet']['karaf']['felix_jar'] = 'https://repo1.maven.org/maven2/org/'\
 
 default['aet']['karaf']['src_cookbook']['setenv'] = 'aet'
 default['aet']['karaf']['src_cookbook']['config_prop'] = 'aet'
-# TODO: this one was removed
 default['aet']['karaf']['src_cookbook']['users_prop'] = 'aet'
-# TODO: this one has changed
-default['aet']['karaf']['src_cookbook']['fileinstall_template'] = 'aet'
+default['aet']['karaf']['src_cookbook']['fileinstall_configs_prop'] = 'aet'
+default['aet']['karaf']['src_cookbook']['fileinstall_features_prop'] = 'aet'
 default['aet']['karaf']['src_cookbook']['shell_cfg'] = 'aet'
 default['aet']['karaf']['src_cookbook']['ops4j_cfg'] = 'aet'
 default['aet']['karaf']['src_cookbook']['init_script'] = 'aet'
