@@ -166,6 +166,15 @@ directory "#{node['aet']['karaf']['root_dir']}/current/data/log" do
   end
 end
 
+# Create data folder if it doesn't exists so that we can create link for logs
+directory "#{node['aet']['karaf']['root_dir']}/current/data" do
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0755'
+  action :create
+  recursive true
+end
+
 # Create symlink for logs directory
 link "#{node['aet']['karaf']['root_dir']}/current/data/log" do
   to node['aet']['karaf']['log_dir']
