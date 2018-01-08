@@ -28,7 +28,9 @@ def setup_aet_artifact(artifact_type)
   create_aet_artifact_dir("#{base_dir}/aet_#{artifact_type}")
 
   target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
-  create_fileinstall_config(artifact_type, target_file)
+  if artifact_type != 'bundles'
+    create_fileinstall_config(artifact_type, target_file)
+  end
 
   url = "#{node['aet']['base_link']}/#{ver}/#{artifact_type}.zip"
   file = "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}/#{artifact_type}-#{node['aet']['version']}.zip"
