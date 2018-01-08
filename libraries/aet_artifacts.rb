@@ -22,27 +22,25 @@
 def setup_aet_artifact(artifact_type)
   ver = node['aet']['version']
   base_dir = node['aet']['karaf']['root_dir']
-  work_dir = "#{base_dir}/aet_#{artifact_type}"
-  link_to_current_artifacts = "#{work_dir}/current"
-
+ 
   create_aet_artifact_dir("#{base_dir}/aet_#{artifact_type}")
 
-  target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
-  if artifact_type != 'bundles'
-    create_fileinstall_config(base_dir, artifact_type, target_file)
-  end
-
+  
   url = "#{node['aet']['base_link']}/#{ver}/#{artifact_type}.zip"
-  file = "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}/#{artifact_type}-#{node['aet']['version']}.zip"
+  file = "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}/#{artifact_type}-#{ver}.zip"
   download_artifact(url, file)
 
+  extract_artifact(artifact_type, ver)
+
   # see `helpers.rb` file
+  work_dir = "#{base_dir}/aet_#{artifact_type}"
+  link_to_current_artifacts = "#{work_dir}/current"
+  task_to_run_if_version_changed = "execute[extract-#{artifact_type}]"
+
   check_if_new(artifact_type,
                link_to_current_artifacts,
                "#{work_dir}/#{ver}",
-               "execute[extract-#{artifact_type}]")
-
-  extract_artifact(artifact_type, node['aet']['version'])
+               task_to_run_if_version_changed)
 end
 
 def create_aet_artifact_dir(path)
@@ -54,7 +52,29 @@ def create_aet_artifact_dir(path)
   end
 end
 
-def create_fileinstall_config(base_dir, artifact_type, target_file)
+def download_artifact(url, file)
+  remote_file file do
+    source url
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+  end
+end
+
+# registers extraction task so that it could be called if needed
+def extract_artifact(artifact_type, version)
+  execute "extract-#{artifact_type}" do
+    command "unzip -o #{artifact_type}-#{version}.zip -d #{version}"
+    cwd "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}"
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    action :nothing
+  end
+end
+
+# creates fileinstall config in Karaf deploy directory
+def create_fileinstall_config(base_dir, artifact_type)
+  target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
+
   template target_file do
     source 'content/karaf/current/etc/org.apache.felix.fileinstall-template.cfg.erb'
     owner node['aet']['karaf']['user']
@@ -67,23 +87,5 @@ def create_fileinstall_config(base_dir, artifact_type, target_file)
     )
 
     notifies :restart, 'service[karaf]', :delayed
-  end
-end
-
-def download_artifact(url, file)
-  remote_file file do
-    source url
-    owner node['aet']['karaf']['user']
-    group node['aet']['karaf']['group']
-  end
-end
-
-def extract_artifact(artifact_type, version)
-  execute "extract-#{artifact_type}" do
-    command "unzip -o #{artifact_type}-#{version}.zip -d #{version}"
-    cwd "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}"
-    user node['aet']['karaf']['user']
-    group node['aet']['karaf']['group']
-    action :nothing
   end
 end

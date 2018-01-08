@@ -24,19 +24,19 @@ def get_filename(uri)
   Pathname.new(URI.parse(uri).path).basename.to_s
 end
 
-def check_if_new(artifacts_name, deploy_dir, version_dir, extract_step)
-  log "#{artifacts_name}-version-changed" do
-    message "version of #{artifacts_name} has changed."\
+def check_if_new(artifact_type, current_dir, version_dir, task_to_run_if_version_changed)
+  log "#{artifact_type}-version-changed" do
+    message "version of #{artifact_type} has changed."\
             'notifying dependant resources...'
 
-    not_if { similar?(deploy_dir, version_dir) }
+    not_if { similar?(current_dir, version_dir) }
 
     notifies :stop, 'service[karaf-deploy-stop]', :immediately
-    notifies :run, extract_step, :immediately
+    notifies :run, task_to_run_if_version_changed, :immediately
     notifies :run, 'execute[schedule-karaf-restart]', :immediately
   end
 
-  create_link(deploy_dir, version_dir)
+  create_link(current_dir, version_dir)
 end
 
 def similar?(file_a, file_b)
