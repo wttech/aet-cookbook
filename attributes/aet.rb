@@ -20,6 +20,6 @@
 #
 
 # AET
-default['aet']['version'] = '2.0.2'
+default['aet']['version'] = '2.1.4'
 default['aet']['base_link'] =
   'https://github.com/Cognifide/AET/releases/download'
