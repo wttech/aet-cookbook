@@ -1,9 +1,3 @@
 # This file is managed by Chef
 # DO NOT CHANGE ANYTHING
-
-felix.fileinstall.dir           = /opt/aet/karaf/aet_<%= @artifact_type %>/current
-felix.fileinstall.tmpdir        = ${karaf.data}/generated-bundles
-felix.fileinstall.poll          = 1000
-felix.fileinstall.start.level   = 80
-felix.fileinstall.active.level  = 80
-felix.fileinstall.log.level     = 3
+felix.fileinstall.dir=<%= @base_dir %>/aet_<%= @artifact_type %>/current

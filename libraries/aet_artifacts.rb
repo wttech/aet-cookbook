@@ -29,7 +29,7 @@ def setup_aet_artifact(artifact_type)
 
   target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
   if artifact_type != 'bundles'
-    create_fileinstall_config(artifact_type, target_file)
+    create_fileinstall_config(base_dir, artifact_type, target_file)
   end
 
   url = "#{node['aet']['base_link']}/#{ver}/#{artifact_type}.zip"
@@ -54,7 +54,7 @@ def create_aet_artifact_dir(path)
   end
 end
 
-def create_fileinstall_config(artifact_type, target_file)
+def create_fileinstall_config(base_dir, artifact_type, target_file)
   template target_file do
     source 'content/karaf/current/etc/org.apache.felix.fileinstall-template.cfg.erb'
     owner node['aet']['karaf']['user']
@@ -62,6 +62,7 @@ def create_fileinstall_config(artifact_type, target_file)
     cookbook node['aet']['karaf']['src_cookbook']['bundles_cfg']
     mode '0644'
     variables(
+      'base_dir' => base_dir,
       'artifact_type' => artifact_type
     )
 
