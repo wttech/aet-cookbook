@@ -23,11 +23,11 @@ def setup_aet_artifact(artifact_type)
   ver = node['aet']['version']
   base_dir = node['aet']['karaf']['root_dir']
   work_dir = "#{base_dir}/aet_#{artifact_type}"
-  deploy_dir = "#{base_dir}/current/deploy/#{artifact_type}"
+  link_to_current_artifacts = "#{work_dir}/current"
 
   create_aet_artifact_dir("#{base_dir}/aet_#{artifact_type}")
 
-  target_file = "#{base_dir}/current/etc/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
+  target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-deploy-#{artifact_type}.cfg"
   create_fileinstall_config(artifact_type, target_file)
 
   url = "#{node['aet']['base_link']}/#{ver}/#{artifact_type}.zip"
@@ -36,7 +36,7 @@ def setup_aet_artifact(artifact_type)
 
   # see `helpers.rb` file
   check_if_new(artifact_type,
-               deploy_dir,
+               link_to_current_artifacts,
                "#{work_dir}/#{ver}",
                "execute[extract-#{artifact_type}]")
 
