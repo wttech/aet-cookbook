@@ -43,6 +43,9 @@ include_recipe 'aet::xvfb'
 # Tomcat to host sample sites
 include_recipe 'aet::tomcat'
 
+# Karaf to host AET bundles and be the core of the system
+include_recipe 'aet::karaf'
+
 # Deploying current version of AET config to Karaf
 include_recipe 'aet::deploy_configs'
 
@@ -51,9 +54,6 @@ include_recipe 'aet::deploy_features'
 
 # Deploying current version of AET bundles to Karaf
 include_recipe 'aet::deploy_bundles'
-
-# Karaf to host AET bundles and be the core of the system
-include_recipe 'aet::karaf'
 
 # Deploying current version of AET reports to Apache
 include_recipe 'aet::deploy_reports'
