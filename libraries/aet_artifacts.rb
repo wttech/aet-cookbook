@@ -90,7 +90,5 @@ def create_fileinstall_config(base_dir, artifact_type)
       'base_dir' => base_dir,
       'artifact_type' => artifact_type
     )
-
-    notifies :restart, 'service[karaf]', :delayed
   end
 end
