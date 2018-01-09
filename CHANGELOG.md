@@ -1,7 +1,11 @@
 
-# 1.4.16
+# 2.0.0
 
-
+* Changes for cookbook to run AET with JAVA 8
+* Karaf upgrade to version 4.1.4
+* ActiveMQ version upgrade to 5.15.2
+* Folders for AET artifacts reorganized
+* Not needed Karaf templates removed
 
 # 1.4.15
 
