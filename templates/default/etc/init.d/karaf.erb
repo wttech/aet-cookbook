@@ -28,7 +28,7 @@ USER="<%= node['aet']['karaf']['user'] %>"
 
 karaf_pid()
 {
-  echo `ps -aefw | grep karaf.jar | grep -v grep | awk '{print $2}'`
+  echo `ps -aefw | grep org.apache.karaf.main.Main | grep -v grep | awk '{print $2}'`
 }
 
 stop_osgi()
