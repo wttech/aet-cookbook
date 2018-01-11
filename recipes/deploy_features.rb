@@ -31,9 +31,7 @@ end
 # FEATURES DEPLOYMENT
 ###############################################################################
 
-artifact_type = 'features'
+setup_aet_artifact 'features'
+
 base_dir = node['aet']['karaf']['root_dir']
-
-setup_aet_artifact artifact_type
-
-create_fileinstall_config(base_dir, artifact_type)
+create_fileinstall_config(base_dir, 'features')

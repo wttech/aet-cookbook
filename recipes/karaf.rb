@@ -95,13 +95,6 @@ link "#{node['aet']['karaf']['root_dir']}/current" do
   notifies :restart, 'service[karaf]', :delayed
 end
 
-# KARAF 2.3.9 FIX
-##############################################################################
-
-# fix removed
-
-##############################################################################
-
 # Overwrite JVM properties for Karaf
 template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
   source 'content/karaf/current/bin/setenv.erb'

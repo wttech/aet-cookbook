@@ -31,9 +31,7 @@ end
 # CONFIG DEPLOYMENT
 ###############################################################################
 
-artifact_type = 'configs'
+setup_aet_artifact 'configs'
+
 base_dir = node['aet']['karaf']['root_dir']
-
-setup_aet_artifact artifact_type
-
-create_fileinstall_config(base_dir, artifact_type)
+create_fileinstall_config(base_dir, 'configs')

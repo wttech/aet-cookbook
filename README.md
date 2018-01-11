@@ -43,8 +43,8 @@ Please refer to the [AET documentation][aet-wiki] on how to setup a test suite.
 
 The cookbook installs following components required by AET:
 
-* [Karaf framework][karaf] (ver [2.3.9][karaf-2.3.9]) - OSGi environment for AET bundles
-* [Active MQ][active-mq] (ver. [5.13.1][active-mq-5.13.1]) - for communication between AET components
+* [Karaf framework][karaf] (ver [4.1.4][karaf-2.3.9]) - OSGi environment for AET bundles
+* [Active MQ][active-mq] (ver. [5.15.2][active-mq-5.15.2]) - for communication between AET components
 * [Mongo DB][mongo-db] - for storing tests results
 * [Apache HTTP server][apache] - for AET reports Web Application
 * [Browsermob][browsermob] (ver. [2.1.4][browsermob-2.1.4]) - proxy for collecting additional browsing data
@@ -87,9 +87,8 @@ Each group (except common) should be installed on same system.
 
 ### Common
 
-* `java::default` - Uses [JAVA cookbook][java-cookbook].
-Installs [JAVA JDK][java-jdk-7] required by other AET components.
-Please notice that Karaf for AET works with JAVA ver. 1.7 only.
+* `java::default` - Installs [Open JDK 8][java-openjdk-8] required by other AET components.
+Uses [JAVA cookbook][java-cookbook], so the JAVA version might be changed with that cookbook properties.
 
 ### Active MQ
 
@@ -124,18 +123,14 @@ Recipes:
 * `aet::karaf` - Creates dedicated system user for [Karaf][karaf] service.
 If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
 Downloads Karaf and extracts it into `node['aet']['karaf']['root_dir']`.
-Creates a symbolic link from `node['aet']['karaf']['root_dir']/current`
-to extracted Karaf instance. Updates karaf OSGi version to _org.apache.felix.framework-4.2.1.jar_.
-Sets the JAVA settings for Karaf (updated OSGi version in `config.properties` file,
-Web Console credentials in `users.properties` file,
-HTTP port in `org.ops4j.pax.wweb.cfg` file).
+Creates a symbolic link from `node['aet']['karaf']['root_dir']/current` to extracted Karaf instance.
+Sets the Web Console credentials in `users.properties` file and HTTP port in `org.ops4j.pax.web.cfg` file).
 Creates symbolic link from Karaf log dir to `node['aet']['karaf']['log_dir']`.
 Registers Karaf as a service (`/etc/init.d/karaf`) and starts it.
-* `aet::deploy_bundles` - Check if `node['aet']['karaf']['root_dir']/current/deploy/bundles`
+* `aet::deploy_bundles` - Check if `node['aet']['karaf']['root_dir']/aet_bundles/current`
 is a link to current version (`node['aet']['version']`). If not, then downloads bundles,
 extracts them to the `node['aet']['karaf']['root_dir']/aet_bundles/#{ver}` folder, creates link
-to that folder from `node['aet']['karaf']['root_dir']/current/deploy/bundles`
-and schedules Karaf restart.
+to that folder from `node['aet']['karaf']['root_dir']/aet_bundles/current` and schedules Karaf restart.
 If `aet::_develop` recipe is used this is done with *develop* user.
 * `aet::deploy_configs` - Similar to `aet::deploy_bundles`
 * `aet::deploy_features` - Similar to `aet::deploy_bundles`
@@ -211,8 +206,8 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['activemq']['enable_debug']` - enables JAVA debug agent on port 5006 (default: `false`)
 * `node['aet']['activemq']['src_cookbook']['env']` - source cookbook for file template of env (default: `'aet'`)
 * `node['aet']['activemq']['src_cookbook']['activemq_xml']` - source cookbook for file template of activemq.xml (default: `'aet'`)
-* `node['aet']['activemq']['src_cookbook']['jetty_prop']` - source cookbook for file template of log4j.properties (default: `'aet'`)
-* `node['aet']['activemq']['src_cookbook']['log4j_prop']` - source cookbook for file template of jetty-realm.properties (default: `'aet'`)
+* `node['aet']['activemq']['src_cookbook']['jetty_prop']` - source cookbook for file template of jetty-realm.properties (default: `'aet'`)
+* `node['aet']['activemq']['src_cookbook']['log4j_prop']` - source cookbook for file template of log4j.properties (default: `'aet'`)
 * `node['aet']['apache']['report_base_dir']` - folder for AET reports web application (default: `'/opt/aet/apache'`)
 * `node['aet']['apache']['log_dir']` - apache logs folder (will be linked from `/var/log/httpd`) (default: `'/var/log/apache'`)
 * `node['aet']['apache']['karaf_ip']` - Karaf IP that the requests will be proxied to (default: `'localhost'`)
@@ -227,7 +222,6 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['firefox']['src_cookbook']['bin']` - source cookbook for file template of firefox start script (default: `'aet'`)
 * `node['aet']['karaf']['user']` - system user for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['group']` - system group for Karaf service (default: `'karaf'`)
-* `node['aet']['karaf']['ssh_password']` - [hashed password][#hashed-passwords] for develop user
 * `node['aet']['karaf']['login']` - login for Karaf instance (WebConsole, SSH) (default: `'karaf'`)
 * `node['aet']['karaf']['password']` - password for Karaf instance (WebConsole, SSH) (default: `'karaf'`)
 * `node['aet']['karaf']['root_dir']` - parent folder for Karaf installation (default: `'/opt/aet/karaf'`)
@@ -271,7 +265,7 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['xvfb']['src_cookbook']['init_script']` - source cookbook for file template of xvfb init script (default: `'aet'`)
 * `node['aet']['develop']['user']` - user for develop instance
 * `node['aet']['develop']['group']` - group for develop instance
-* `node['aet']['develop']['ssh_password']` - hashed password for develop user (generated with `openssl passwd -1 "password"`)
+* `node['aet']['develop']['ssh_password']` - [hashed password](#hashed-passwords) for develop user (generated with `openssl passwd -1 "password"`)
 
 ### Hashed passwords
 
@@ -320,7 +314,7 @@ License: [Apache License, Version 2.0][apache-license]
 [aet-cookbook-github-attributes]: https://github.com/Cognifide/aet-cookbook/tree/master/attributes
 
 [active-mq]: http://activemq.apache.org/
-[active-mq-5.13.1]: https://archive.apache.org/dist/activemq/5.13.1/apache-activemq-5.13.1-bin.tar.gz
+[active-mq-5.15.2]: https://archive.apache.org/dist/activemq/5.15.2/apache-activemq-5.15.2-bin.tar.gz
 [active-mq-webconsole]: http://activemq.apache.org/web-console.html
 
 [browsermob]: https://bmp.lightbody.net/
@@ -331,7 +325,7 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat-max-swallow]: https://tomcat.apache.org/tomcat-8.0-doc/config/http.html
 
 [karaf]: http://karaf.apache.org/index.html
-[karaf-2.3.9]: https://archive.apache.org/dist/karaf/2.3.9/apache-karaf-2.3.9.tar.gz
+[karaf-4.1.4]: https://archive.apache.org/dist/karaf/4.1.4/apache-karaf-4.1.4.tar.gz
 [karaf-web-console]: https://karaf.apache.org/manual/latest-2.x/users-guide/web-console.html
 
 [apache]: https://httpd.apache.org/
@@ -346,7 +340,7 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat-users]: https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Configuring_Manager_Application_Access
 
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
-[java-jdk-7]: http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+[java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/
 
 [mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/mongodb3
 
