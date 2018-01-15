@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Recipe:: deploy_features
+# Recipe:: deploy_aet_for_karaf
 #
 # AET Cookbook
 #
@@ -28,10 +28,14 @@ package 'unzip' do
   action :install
 end
 
-# FEATURES DEPLOYMENT
+# APP DEPLOYMENT
 ###############################################################################
 
+setup_aet_artifact 'bundles'
+setup_aet_artifact 'configs'
 setup_aet_artifact 'features'
 
 base_dir = node['aet']['karaf']['root_dir']
+
+create_fileinstall_config(base_dir, 'configs')
 create_fileinstall_config(base_dir, 'features')
