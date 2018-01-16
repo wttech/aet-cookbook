@@ -281,6 +281,8 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 Deployment of new versions of this cookbook is managed with [Stove][stove].
 Chef Supermarket login and [key][chef-keys] is required for new version deployment.
 
+New version needs to be numeric in form of [X.Y or X.Y.Z](https://github.com/Cognifide/aet-cookbook/issues/12).
+
 ### Prepare Stove
 
 Inside the `aet-cookbook` install [bundler][bundler]:
