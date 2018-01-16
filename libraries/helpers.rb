@@ -29,7 +29,7 @@ def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run)
     message "version of #{artifact_type} has changed."\
             'notifying dependant resources...'
 
-    only_if { version_changed?(deploy_dir, version_dir) }
+    not_if { same_version?(deploy_dir, version_dir) }
 
     notifies :stop, 'service[karaf-deploy-stop]', :immediately
     notifies :run, task_to_run, :immediately
@@ -39,10 +39,12 @@ def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run)
   create_link(deploy_dir, version_dir)
 end
 
-def version_changed?(file_a, file_b)
-  (not ::File.exist?(file_a)) ||
-  (not ::File.exist?(file_b)) ||
-  (not ::File.identical?(file_a, file_b))
+def same_version?(file_a, file_b)
+  ::File.exist?(file_a) && ::File.exist?(file_b) &&
+    ::File.identical?(
+      file_a,
+      file_b
+    )
 end
 
 def create_link(link, folder)
