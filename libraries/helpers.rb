@@ -24,7 +24,7 @@ def get_filename(uri)
   Pathname.new(URI.parse(uri).path).basename.to_s
 end
 
-def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run_if_version_changed)
+def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run)
   log "#{artifact_type}-version-changed" do
     message "version of #{artifact_type} has changed."\
             'notifying dependant resources...'
@@ -32,7 +32,7 @@ def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run_if_version_
     only_if { version_changed?(deploy_dir, version_dir) }
 
     notifies :stop, 'service[karaf-deploy-stop]', :immediately
-    notifies :run, task_to_run_if_version_changed, :immediately
+    notifies :run, task_to_run, :immediately
     notifies :run, 'execute[schedule-karaf-restart]', :immediately
   end
 
