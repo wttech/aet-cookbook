@@ -6,6 +6,8 @@
 * ActiveMQ version upgrade to 5.15.2
 * Folders for AET artifacts reorganized
 * Not needed Karaf templates removed
+* One recipe instead of three for AET artifacts: *deploy_aet_for_karaf*
+* README updated
 
 # 1.4.15
 
