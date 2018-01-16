@@ -308,13 +308,7 @@ Update `metadata.rb` file to contain version that should be released and commit 
 To send the current version of cookbook to Chef supermarket run
 
 ```
-./bin/stove
-```
-
-or if you are using Windows:
-
-```
-ruby bin\stove
+stove
 ```
 
 
