@@ -127,13 +127,11 @@ Creates a symbolic link from `node['aet']['karaf']['root_dir']/current` to extra
 Sets the Web Console credentials in `users.properties` file and HTTP port in `org.ops4j.pax.web.cfg` file).
 Creates symbolic link from Karaf log dir to `node['aet']['karaf']['log_dir']`.
 Registers Karaf as a service (`/etc/init.d/karaf`) and starts it.
-* `aet::deploy_bundles` - Check if `node['aet']['karaf']['root_dir']/aet_bundles/current`
-is a link to current version (`node['aet']['version']`). If not, then downloads bundles,
-extracts them to the `node['aet']['karaf']['root_dir']/aet_bundles/#{ver}` folder, creates link
-to that folder from `node['aet']['karaf']['root_dir']/aet_bundles/current` and schedules Karaf restart.
+* `aet::deploy_aet_for_karaf` - Deploys AET artifacts for Karaf.
+This is done only for new installation or when version is changed for AET.
+New artifacts are downloaded and extracted. Then link with the name of 'current'
+is created that points to the new version folder. Then Karaf restart is scheduled.
 If `aet::_develop` recipe is used this is done with *develop* user.
-* `aet::deploy_configs` - Similar to `aet::deploy_bundles`
-* `aet::deploy_features` - Similar to `aet::deploy_bundles`
 * `aet::postdeploy_restart` - Check if karaf restart was scheduled
 (if `/tmp/karaf-restart` file exists). If so, then stops Karaf service,
 deletes Karaf cache folders and starts Karaf again.
