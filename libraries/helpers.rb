@@ -26,7 +26,7 @@ end
 
 def check_if_new(artifact_type, deploy_dir, version_dir, task_to_run)
   log "#{artifact_type}-version-changed" do
-    message "version of #{artifact_type} has changed."\
+    message "version of #{artifact_type} has changed. "\
             'notifying dependant resources...'
 
     not_if { same_version?(deploy_dir, version_dir) }
@@ -68,7 +68,7 @@ end
 
 def abort_if_too_long(time_diff, timeout_in_seconds, uri, expected_code)
   abort "Aborting since waiting for response code #{expected_code} "\
-        "from #{uri} took more than #{timeout_in_seconds}"\
+        "from #{uri} took more than #{timeout_in_seconds} "\
         'seconds' if time_diff > timeout_in_seconds
 end
 
