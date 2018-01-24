@@ -43,6 +43,23 @@ directory node['aet']['firefox']['root_dir'] do
   recursive true
 end
 
+# Create dedicated log directory
+directory node['aet']['firefox']['log_dir'] do
+  owner node['aet']['firefox']['user']
+  group node['aet']['firefox']['group']
+  mode '0755'
+  action :create
+  recursive true
+end
+
+
+# Create stderr.log file in log directory
+file "#{node['aet']['firefox']['log_dir']}/stderr.log" do
+  owner node['aet']['firefox']['user']
+  group node['aet']['firefox']['group']
+  mode '0755'
+end
+
 # Get Firefox binaries file name from link
 filename = get_filename(node['aet']['firefox']['source'])
 
