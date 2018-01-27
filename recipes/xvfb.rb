@@ -35,7 +35,7 @@
   end
 end
 
-# Create deducated group
+# Create dedicated group
 group node['aet']['xvfb']['group'] do
   action :create
 end

@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-# Create deducated group
+# Create dedicated group
 group node['aet']['firefox']['group'] do
   action :create
 end
