@@ -31,7 +31,7 @@ end
 # INSTALLATION
 ###############################################################################
 
-# Create deducated group
+# Create dedicated group
 group node['aet']['browsermob']['group'] do
   action :create
 end

@@ -30,7 +30,7 @@ include_recipe 'java::default'
 # INSTALLATION
 ###############################################################################
 
-# Create deducated group
+# Create dedicated group
 group node['aet']['activemq']['group'] do
   action :create
 end
