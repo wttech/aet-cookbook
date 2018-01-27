@@ -218,6 +218,7 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['browsermob']['port']` - port for Browsermob proxy (default: `'8080'`)
 * `node['aet']['browsermob']['src_cookbook']['init_script']` - source cookbook for file template of browsermob init script (default: `'aet'`)
 * `node['aet']['firefox']['root_dir']` - parent folder for Firefox browser installation (default: `'/opt/aet/firefox'`)
+* `node['aet']['firefox']['log_dir']` - Firefox log folder path  (default: `'/opt/aet/firefox/log'`)
 * `node['aet']['firefox']['src_cookbook']['bin']` - source cookbook for file template of firefox start script (default: `'aet'`)
 * `node['aet']['karaf']['user']` - system user for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['group']` - system group for Karaf service (default: `'karaf'`)
