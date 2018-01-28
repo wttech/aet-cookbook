@@ -1,4 +1,8 @@
 
+# 2.0.1
+
+* Attribute for Firefox log folder introduced
+
 # 2.0.0
 
 * Changes for cookbook to run AET with JAVA 8
