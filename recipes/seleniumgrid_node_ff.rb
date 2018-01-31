@@ -28,9 +28,8 @@ end
 user node['aet']['seleniumgrid']['user'] do
   group node['aet']['seleniumgrid']['group']
   manage_home true
-  home node['aet']['seleniumgrid']['root_dir']
   system true
-  shell '/bin/bash'
+  shell 'none'
   action :create
 end
 
@@ -76,7 +75,7 @@ template '/etc/init.d/node-ff' do
   source 'etc/init.d/node-ff.erb'
   owner 'root'
   group 'root'
-  cookbook node['aet']['seleniumgrid']['src_cookbook']['init_script']
+  cookbook node['aet']['seleniumgrid']['node_ff']['src_cookbook']['init_script']
   mode '0755'
 
   notifies :restart, 'service[node-ff]', :delayed

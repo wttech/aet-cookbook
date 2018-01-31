@@ -28,4 +28,4 @@ default['aet']['seleniumgrid']['node_ff']['log_dir'] = '/var/log/seleniumgrid'
 
 default['aet']['seleniumgrid']['source'] = 'http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar'
 
-default['aet']['seleniumgrid']['src_cookbook']['init_script'] = 'aet'
+default['aet']['seleniumgrid']['node_ff']['src_cookbook']['init_script'] = 'aet'
