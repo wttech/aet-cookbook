@@ -69,6 +69,8 @@ Default credentials: `admin/admin`.
 means that Mongo is listening on default port.
 * **Apache HTTP Server**  - could be checked with `curl -I 192.168.123.100`
 * **Tomcat** - could be checked with `curl -I 192.168.123.100:9090`
+* **Selenium Grid** - Selenium Grid Hub should be available at `http://192.168.123.100:4444/grid/console`.
+Selenium Grid nodes should be listed there as well.
 * **Browsermob** - try `curl -I 192.168.123.100:8080`.
 Expected response is:
 
