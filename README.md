@@ -164,12 +164,17 @@ If not, then downloads required version, extracts it to
 creates a link from *current* to this version and restarts tomcat.
 If `aet::_develop` recipe is used this is done with *develop* user.
 
-### Selenium Grid 
-* `aet::seleniumgrid` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
+### Selenium Grid hub
+* `aet::seleniumgrid_hub` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
 If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
-Downloads selenium standalone server and installs hub and firefox node it into `node['aet']['selenium']['root_dir']`.
-Registers seleniumgrid-hub and seleniumgrid-ff as a service (`/etc/init.d/seleniumgrid-hub`,
- `/etc/init.d/seleniumgrid-ff`), enables and starts them.
+Downloads selenium standalone server and installs hub into `node['aet']['selenium']['hub']['root_dir']`.
+Registers seleniumgrid-hub as a service (`/etc/init.d/hub`), enables and starts it.
+ 
+ ### Selenium Grid Firefox node
+ * `aet::seleniumgrid_node_ff` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
+ If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
+ Downloads selenium standalone server and installs node for Firefox browser into `node['aet']['selenium']['node_ff']['root_dir']`.
+ Registers node-ff as a service (`/etc/init.d/node-ff`), enables and starts it.
  
 ### _develop recipe
 
@@ -269,10 +274,12 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['tomcat']['src_cookbook']['init_script']` - source cookbook for file template of tomcat init script (default: `'aet'`)
 * `node['aet']['seleniumgrid']['user']` - system user for Selenium Grid service (default: `'seleniumgrid'`)
 * `node['aet']['seleniumgrid']['group']` - system group for Selenium Grid service (default: `'seleniumgrid`)
-* `node['aet']['seleniumgrid']['root_dir']` -  parent folder for [Selenium Grid][seleniumgrid] installation (default: `'/opt/aet/seleniumgrid'`)
-* `node['aet']['seleniumgrid']['log_dir']` - Selenium Grid logs folder (default: `'/var/log/seleniumgrid'`)
+* `node['aet']['seleniumgrid']['hub']['root_dir']` -  parent folder for [Selenium Grid][seleniumgrid] hub installation (default: `'/opt/aet/seleniumgrid/hub'`)
+* `node['aet']['seleniumgrid']['hub']['log_dir']` - Selenium Grid hub logs folder (default: `'/var/log/seleniumgrid'`)
 * `node['aet']['seleniumgrid']['source']` - URL for Selenium Grid standalone server jar
 * `node['aet']['seleniumgrid']['src_cookbook']['init_script']` - source cookbook for file template of Selenium Grid init script (default: `'aet'`)
+* `node['aet']['seleniumgrid']['node_ff']['root_dir']` -  parent folder for [Selenium Grid][seleniumgrid] firefox node installation (default: `'/opt/aet/seleniumgrid/node-ff'`)
+* `node['aet']['seleniumgrid']['node_ff']['log_dir']` - Selenium Grid firefox node logs folder (default: `'/var/log/seleniumgrid'`)
 * `node['aet']['xvfb']['user']` - system user for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['group']` - system group for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['log_dir']` - log dir for XVFB (default: `'/var/log/xvfb'`)
