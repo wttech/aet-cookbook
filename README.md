@@ -51,6 +51,8 @@ The cookbook installs following components required by AET:
 * [XVFB][xvfb] - for running firefox in virtual screen
 * [Firefox][firefox] (ver. [38.6.0esr][firefox-38.6.0esr]) - for collecting screenshots of pages and other data
 * [Tomcat][tomcat] (ver. [8.0.36][tomcat-8.0.36]) - for serving sample site that is used by maintenance tests
+* [Selenium Grid][seleniumgrid] (ver. [3.8.1][seleniumgrid-3.8.1]) - for handling tests on different browsers
+
 
 Those components may be installed on separate machines
 provided they have been configured to work with each other.
@@ -163,6 +165,14 @@ If not, then downloads required version, extracts it to
 creates a link from *current* to this version and restarts tomcat.
 If `aet::_develop` recipe is used this is done with *develop* user.
 
+
+### Selenium Grid 
+* `aet::seleniumgrid` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
+If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
+Downloads selenium standalone server and installs hub and firefox node it into `node['aet']['selenium']['root_dir']`.
+Registers seleniumgrid-hub and seleniumgrid-ff as a service (`/etc/init.d/seleniumgrid-hub`,
+ `/etc/init.d/seleniumgrid-ff`), enables and starts them.
+ .
 ### _develop recipe
 
 * `aet::_develop` - Please note that this recipe is not included by default.
@@ -259,6 +269,12 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['tomcat']['src_cookbook']['server_xml']` - source cookbook for file template of server.xml (default: `'aet'`)
 * `node['aet']['tomcat']['src_cookbook']['users_xml']` - source cookbook for file template of tomcat-users.xml (default: `'aet'`)
 * `node['aet']['tomcat']['src_cookbook']['init_script']` - source cookbook for file template of tomcat init script (default: `'aet'`)
+* `node['aet']['seleniumgrid']['user']` - system user for Selenium Grid service (default: `'seleniumgrid'`)
+* `node['aet']['seleniumgrid']['group']` - system group for Selenium Grid service (default: `'seleniumgrid`)
+* `node['aet']['seleniumgrid']['root_dir']` -  parent folder for [Selenium Grid][seleniumgrid] installation (default: `'/opt/aet/seleniumgrid'`)
+* `node['aet']['seleniumgrid']['log_dir']` - Selenium Grid logs folder (default: `'/var/log/seleniumgrid'`)
+* `node['aet']['seleniumgrid']['source']` - URL for Selenium Grid standalone server jar
+* `node['aet']['seleniumgrid']['src_cookbook']['init_script']` - source cookbook for file template of Selenium Grid init script (default: `'aet'`)
 * `node['aet']['xvfb']['user']` - system user for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['group']` - system group for XVFB (default: `'xvfb'`)
 * `node['aet']['xvfb']['log_dir']` - log dir for XVFB (default: `'/var/log/xvfb'`)
@@ -355,6 +371,9 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat]: https://tomcat.apache.org/index.html
 [tomcat-8.0.36]: http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.36/
 [tomcat-users]: https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Configuring_Manager_Application_Access
+
+[seleniumgrid]: http://www.seleniumhq.org/projects/grid
+[seleniumgrid-3.8.1]: http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.36/
 
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
 [java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/

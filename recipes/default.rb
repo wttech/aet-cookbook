@@ -43,6 +43,9 @@ include_recipe 'aet::xvfb'
 # Tomcat to host sample sites
 include_recipe 'aet::tomcat'
 
+# Selenium Grid to handle tests on many browsers
+include_recipe 'aet::seleniumgrid'
+
 # Karaf to host AET bundles and be the core of the system
 include_recipe 'aet::karaf'
 
