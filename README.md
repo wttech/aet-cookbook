@@ -371,7 +371,7 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat-users]: https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Configuring_Manager_Application_Access
 
 [seleniumgrid]: http://www.seleniumhq.org/projects/grid
-[seleniumgrid-3.8.1]: http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.36/
+[seleniumgrid-3.8.1]: http://www.seleniumhq.org/download
 
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
 [java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/
