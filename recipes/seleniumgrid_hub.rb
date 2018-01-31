@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: aet
-# Recipe:: seleniumgrid
+# Recipe:: seleniumgrid_hub
 #
 # AET Cookbook
 #
@@ -35,16 +35,7 @@ user node['aet']['seleniumgrid']['user'] do
 end
 
 # Create dedicated hub directory
-directory "#{node['aet']['seleniumgrid']['root_dir']}/hub" do
-  owner node['aet']['seleniumgrid']['user']
-  group node['aet']['seleniumgrid']['group']
-  mode '0755'
-  action :create
-  recursive true
-end
-
-# Create dedicated node directory
-directory "#{node['aet']['seleniumgrid']['root_dir']}/ff" do
+directory "#{node['aet']['seleniumgrid']['hub']['root_dir']}" do
   owner node['aet']['seleniumgrid']['user']
   group node['aet']['seleniumgrid']['group']
   mode '0755'
@@ -53,7 +44,7 @@ directory "#{node['aet']['seleniumgrid']['root_dir']}/ff" do
 end
 
 # Create log directory
-directory "#{node['aet']['seleniumgrid']['log_dir']}" do
+directory "#{node['aet']['seleniumgrid']['hub']['log_dir']}" do
   owner node['aet']['seleniumgrid']['user']
   group node['aet']['seleniumgrid']['group']
   mode '0755'
@@ -64,53 +55,35 @@ end
 # Get Selenium Grid file name from link
 filename = get_filename(node['aet']['seleniumgrid']['source'])
 
-# Download Selenium Grid jar
-remote_file "#{node['aet']['seleniumgrid']['root_dir']}/hub/#{filename}" do
+# Download Selenium Grid jar to temporary folder
+remote_file "/tmp/#{filename}" do
   owner node['aet']['seleniumgrid']['user']
   group node['aet']['seleniumgrid']['group']
   mode '0644'
   source node['aet']['seleniumgrid']['source']
 end
 
-# Download Selenium Grid jar
-remote_file "#{node['aet']['seleniumgrid']['root_dir']}/ff/#{filename}" do
+# Copy Selenium Grid jar to hub folder
+remote_file "#{node['aet']['seleniumgrid']['hub']['root_dir']}/#{filename}" do
+  source "file:///tmp/#{filename}"
   owner node['aet']['seleniumgrid']['user']
   group node['aet']['seleniumgrid']['group']
-  mode '0644'
-  source node['aet']['seleniumgrid']['source']
+  mode 0755
 end
 
 # Create Selenium Grid hub init file
-template '/etc/init.d/seleniumgrid-hub' do
-  source 'etc/init.d/seleniumgrid-hub.erb'
+template '/etc/init.d/hub' do
+  source 'etc/init.d/hub.erb'
   owner 'root'
   group 'root'
   cookbook node['aet']['seleniumgrid']['src_cookbook']['init_script']
   mode '0755'
 
-  notifies :restart, 'service[seleniumgrid-hub]', :delayed
+  notifies :restart, 'service[hub]', :delayed
 end
 
 # Enable and start Selenium Grid hub
-service 'seleniumgrid-hub' do
+service 'hub' do
   supports status: true, restart: true
   action [:start, :enable]
 end
-
-# Create Selenium Grid FF node init file
-template '/etc/init.d/seleniumgrid-ff' do
-  source 'etc/init.d/seleniumgrid-ff.erb'
-  owner 'root'
-  group 'root'
-  cookbook node['aet']['seleniumgrid']['src_cookbook']['init_script']
-  mode '0755'
-
-  notifies :restart, 'service[seleniumgrid-ff]', :delayed
-end
-
-# Enable and start Selenium Grid FF node
-service 'seleniumgrid-ff' do
-  supports status: true, restart: true
-  action [:start, :enable]
-end
-

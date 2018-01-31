@@ -22,9 +22,9 @@
 default['aet']['seleniumgrid']['user'] = 'seleniumgrid'
 default['aet']['seleniumgrid']['group'] = 'seleniumgrid'
 
-default['aet']['seleniumgrid']['root_dir'] = '/opt/aet/seleniumgrid'
+default['aet']['seleniumgrid']['node_ff']['root_dir'] = '/opt/aet/seleniumgrid/node-ff'
 
-default['aet']['seleniumgrid']['log_dir'] = '/var/log/seleniumgrid'
+default['aet']['seleniumgrid']['node_ff']['log_dir'] = '/var/log/seleniumgrid'
 
 default['aet']['seleniumgrid']['source'] = 'http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar'
 

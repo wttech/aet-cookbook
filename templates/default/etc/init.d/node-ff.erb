@@ -2,22 +2,20 @@
 
 #
 # chkconfig: - 80 20
-# processname: seleniumgrid-ff
-# description: Selenium Grid ff node
+# processname: node-ff
+# description: Selenium Grid node for Firefox
 #
 
 ### BEGIN INIT INFO
-# Provides: Selenium Grid ff node
+# Provides: Selenium Grid Firefox node
 # Required-Start: $network $syslog
 # Required-Stop: $network $syslog
 # Default-Start:
 # Default-Stop:
 ### END INIT INFO
 
-. /etc/rc.d/init.d/functions
-
-PATH_TO_JAR=<%= node['aet']['seleniumgrid']['root_dir'] %>/ff/selenium-server-standalone-3.8.1.jar
-LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['log_dir'] %>
+PATH_TO_JAR=<%= node['aet']['seleniumgrid']['node_ff']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
+LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['node_ff']['log_dir'] %>
 
 hub_pid()
 {
@@ -26,18 +24,20 @@ hub_pid()
 
 start() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Selenium Grid Firefox node is already running (pid: $pid)"
   else
     echo "Starting Selenium Grid Firefox node"
-    nohup java -Dwebdriver.firefox.marionette="false" -Dwebdriver.firefox.bin="/usr/bin/firefox" -jar $PATH_TO_JAR -role node -hub "http://localhost:4444/grid/register" 2>> $LOG_DIR_PATH/ff.log >> $LOG_DIR_PATH/ff.log &
+    nohup java -Dwebdriver.firefox.marionette="false" -Dwebdriver.firefox.bin="/usr/bin/firefox" -jar $PATH_TO_JAR -role node -hub "http://localhost:4444/grid/register" 2>> $LOG_DIR_PATH/node-ff.log >> $LOG_DIR_PATH/node-ff.log &
 	fi
   return 0
 }
 
 stop() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Stoping Selenium Grid Firefox node"
     kill -9 $pid
   else
@@ -48,7 +48,8 @@ stop() {
 
 status() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Selenium Grid Firefox node is running with pid: $pid"
     return 0
   else

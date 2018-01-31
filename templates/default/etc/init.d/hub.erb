@@ -2,7 +2,7 @@
 
 #
 # chkconfig: - 80 20
-# processname: seleniumgrid-hub
+# processname: hub
 # description: Selenium Grid hub
 #
 
@@ -14,10 +14,8 @@
 # Default-Stop:
 ### END INIT INFO
 
-. /etc/rc.d/init.d/functions
-
-PATH_TO_JAR=<%= node['aet']['seleniumgrid']['root_dir'] %>/hub/selenium-server-standalone-3.8.1.jar
-LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['log_dir'] %>
+PATH_TO_JAR=<%= node['aet']['seleniumgrid']['hub']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
+LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['hub']['log_dir'] %>
 
 hub_pid()
 {
@@ -26,7 +24,8 @@ hub_pid()
 
 start() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Selenium Grid hub is already running (pid: $pid)"
   else
     echo "Starting Selenium Grid hub"
@@ -37,7 +36,8 @@ start() {
 
 stop() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Stoping Selenium Grid hub"
     kill -9 $pid
   else
@@ -48,7 +48,8 @@ stop() {
 
 status() {
   pid=$(hub_pid)
-  if [ -n "$pid" ] then
+  if [ -n "$pid" ]
+  then
     echo "Selenium Grid hub is running with pid: $pid"
     return 0
   else
