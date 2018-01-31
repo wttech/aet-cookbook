@@ -53,7 +53,6 @@ The cookbook installs following components required by AET:
 * [Tomcat][tomcat] (ver. [8.0.36][tomcat-8.0.36]) - for serving sample site that is used by maintenance tests
 * [Selenium Grid][seleniumgrid] (ver. [3.8.1][seleniumgrid-3.8.1]) - for handling tests on different browsers
 
-
 Those components may be installed on separate machines
 provided they have been configured to work with each other.
 The configuration is done within [Karaf Web Console][karaf-web-console].
@@ -165,14 +164,13 @@ If not, then downloads required version, extracts it to
 creates a link from *current* to this version and restarts tomcat.
 If `aet::_develop` recipe is used this is done with *develop* user.
 
-
 ### Selenium Grid 
 * `aet::seleniumgrid` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
 If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
 Downloads selenium standalone server and installs hub and firefox node it into `node['aet']['selenium']['root_dir']`.
 Registers seleniumgrid-hub and seleniumgrid-ff as a service (`/etc/init.d/seleniumgrid-hub`,
  `/etc/init.d/seleniumgrid-ff`), enables and starts them.
- .
+ 
 ### _develop recipe
 
 * `aet::_develop` - Please note that this recipe is not included by default.
