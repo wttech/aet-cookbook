@@ -29,7 +29,6 @@ user node['aet']['firefox']['user'] do
   group node['aet']['firefox']['group']
   manage_home true
   system true
-  shell 'none'
   action :create
 end
 

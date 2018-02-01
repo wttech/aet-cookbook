@@ -29,7 +29,6 @@ user node['aet']['seleniumgrid']['user'] do
   group node['aet']['seleniumgrid']['group']
   manage_home true
   system true
-  shell 'none'
   action :create
 end
 
