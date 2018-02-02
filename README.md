@@ -171,13 +171,14 @@ If `aet::_develop` recipe is used this is done with *develop* user.
 If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
 Downloads selenium standalone server and installs hub into `node['aet']['selenium']['hub']['root_dir']`.
 Registers seleniumgrid-hub as a service (`/etc/init.d/hub`), enables and starts it.
- 
- ### Selenium Grid Firefox node
- * `aet::seleniumgrid_node_ff` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
- If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
- Downloads selenium standalone server and installs node for Firefox browser into `node['aet']['selenium']['node_ff']['root_dir']`.
- Registers node-ff as a service (`/etc/init.d/node-ff`), enables and starts it.
- 
+
+### Selenium Grid Firefox node
+* `aet::seleniumgrid_node_ff` - Creates dedicated user for [Selenium Grid][seleniumgrid] service.
+If `aet::_develop` recipe is used, then this user is overwritten by *develop* user.
+Downloads selenium standalone server and installs Selenium node in `node['aet']['selenium']['node_ff']['root_dir']`.
+Uses existing Firefox browser `/usr/bin/firefox` without gecko driver (`"marionette"` set to `false`).
+Registers node-ff as a service (`/etc/init.d/node-ff`), enables and starts it.
+
 ### _develop recipe
 
 * `aet::_develop` - Please note that this recipe is not included by default.
