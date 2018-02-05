@@ -14,10 +14,9 @@
 # Default-Stop:
 ### END INIT INFO
 
-NODE_JAVA_OPTS=-Dwebdriver.firefox.marionette=false -Dwebdriver.firefox.bin="/usr/bin/firefox" 
 PATH_TO_JAR=<%= node['aet']['seleniumgrid']['node_ff']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
 HUB_URL="http://localhost:4444"
-CAPABILITIES="browserName=firefox,marionette=false,version=38,platform=LINUX,maxInstances=5"
+CAPABILITIES="browserName=firefox,version=ANY,platform=LINUX,maxInstances=5"
 LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['node_ff']['log_dir'] %>
 
 hub_pid()
@@ -32,7 +31,7 @@ start() {
     echo "Selenium Grid Firefox node is already running (pid: $pid)"
   else
     echo "Starting Selenium Grid Firefox node"
-    nohup java $NODE_JAVA_OPTS -jar $PATH_TO_JAR -role node -hub $HUB_URL -browser $CAPABILITIES >> $LOG_DIR_PATH/node-ff.log 2>&1 &
+    nohup java -jar $PATH_TO_JAR -role node -hub $HUB_URL -browser $CAPABILITIES >> $LOG_DIR_PATH/node-ff.log 2>&1 &
 	fi
   return 0
 }
