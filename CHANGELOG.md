@@ -1,6 +1,6 @@
 # 2.0.2
 
-* 
+* Selenium Grid recipes added for hub and node with Firefox 38.6
 
 # 2.0.1
 
