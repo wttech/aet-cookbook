@@ -1,0 +1,78 @@
+#!/bin/sh
+
+#
+# chkconfig: - 80 20
+# processname: node-ff
+# description: Selenium Grid node for Firefox
+#
+
+### BEGIN INIT INFO
+# Provides: Selenium Grid Firefox node
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+### END INIT INFO
+
+PATH_TO_JAR=<%= node['aet']['seleniumgrid']['node_ff']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
+HUB_URL="http://localhost:4444"
+CAPABILITIES="browserName=firefox,maxInstances=5"
+LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['node_ff']['log_dir'] %>
+LOG_LEVEL=-Dselenium.LOGGER.level=INFO
+
+hub_pid()
+{
+  echo `ps -aefw | grep java | grep -e '-role node' | awk '{print $2}'`
+}
+
+start() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Selenium Grid Firefox node is already running (pid: $pid)"
+  else
+    echo "Starting Selenium Grid Firefox node"
+    nohup java $LOG_LEVEL -jar $PATH_TO_JAR -role node -hub $HUB_URL -browser $CAPABILITIES >> $LOG_DIR_PATH/node-ff.log 2>&1 &
+	fi
+  return 0
+}
+
+stop() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Stoping Selenium Grid Firefox node"
+    kill -9 $pid
+  else
+    echo "Selenium Grid Firefox node is not running"
+  fi
+  return 0
+}
+
+status() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Selenium Grid Firefox node is running with pid: $pid"
+    return 0
+  else
+    echo "Selenium Grid Firefox node is not running"
+    return 3
+  fi
+}
+
+case $1 in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  status)
+    status
+    ;;
+esac

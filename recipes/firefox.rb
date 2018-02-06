@@ -28,9 +28,7 @@ end
 user node['aet']['firefox']['user'] do
   group node['aet']['firefox']['group']
   manage_home true
-  home node['aet']['firefox']['root_dir']
   system true
-  shell '/bin/bash'
   action :create
 end
 

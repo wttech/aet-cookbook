@@ -1,0 +1,76 @@
+#!/bin/sh
+
+#
+# chkconfig: - 80 20
+# processname: hub
+# description: Selenium Grid hub
+#
+
+### BEGIN INIT INFO
+# Provides: Selenium Grid hub
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+### END INIT INFO
+
+PATH_TO_JAR=<%= node['aet']['seleniumgrid']['hub']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
+LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['hub']['log_dir'] %>
+LOG_LEVEL=-Dselenium.LOGGER.level=INFO
+
+hub_pid()
+{
+  echo `ps -aefw | grep java | grep -e '-role hub' | awk '{print $2}'`
+}
+
+start() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Selenium Grid hub is already running (pid: $pid)"
+  else
+    echo "Starting Selenium Grid hub"
+    nohup java $LOG_LEVEL -jar $PATH_TO_JAR -role hub >> $LOG_DIR_PATH/hub.log 2>&1 &
+  fi
+  return 0
+}
+
+stop() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Stoping Selenium Grid hub"
+    kill -9 $pid
+  else
+    echo "Selenium Grid hub is not running"
+  fi
+  return 0
+}
+
+status() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo "Selenium Grid hub is running with pid: $pid"
+    return 0
+  else
+    echo "Selenium Grid hub is not running"
+    return 3
+  fi
+}
+
+case $1 in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  status)
+    status
+    ;;
+esac
