@@ -16,8 +16,9 @@
 
 PATH_TO_JAR=<%= node['aet']['seleniumgrid']['node_ff']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
 HUB_URL="http://localhost:4444"
-CAPABILITIES="browserName=firefox,version=ANY,platform=LINUX,maxInstances=5"
+CAPABILITIES="browserName=firefox,maxInstances=5"
 LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['node_ff']['log_dir'] %>
+LOG_LEVEL=-Dselenium.LOGGER.level=INFO
 
 hub_pid()
 {
@@ -31,7 +32,7 @@ start() {
     echo "Selenium Grid Firefox node is already running (pid: $pid)"
   else
     echo "Starting Selenium Grid Firefox node"
-    nohup java -jar $PATH_TO_JAR -role node -hub $HUB_URL -browser $CAPABILITIES >> $LOG_DIR_PATH/node-ff.log 2>&1 &
+    nohup java $LOG_LEVEL -jar $PATH_TO_JAR -role node -hub $HUB_URL -browser $CAPABILITIES >> $LOG_DIR_PATH/node-ff.log 2>&1 &
 	fi
   return 0
 }

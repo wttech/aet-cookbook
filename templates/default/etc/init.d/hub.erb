@@ -16,6 +16,7 @@
 
 PATH_TO_JAR=<%= node['aet']['seleniumgrid']['hub']['root_dir'] %>/selenium-server-standalone-3.8.1.jar
 LOG_DIR_PATH=<%= node['aet']['seleniumgrid']['hub']['log_dir'] %>
+LOG_LEVEL=-Dselenium.LOGGER.level=INFO
 
 hub_pid()
 {
@@ -29,7 +30,7 @@ start() {
     echo "Selenium Grid hub is already running (pid: $pid)"
   else
     echo "Starting Selenium Grid hub"
-    nohup java -jar $PATH_TO_JAR -role hub 2>> $LOG_DIR_PATH/hub.log >> $LOG_DIR_PATH/hub.log &
+    nohup java $LOG_LEVEL -jar $PATH_TO_JAR -role hub >> $LOG_DIR_PATH/hub.log 2>&1 &
   fi
   return 0
 }
