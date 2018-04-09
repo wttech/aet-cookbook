@@ -12,7 +12,7 @@ from [AET GitHub releases page][aet-releases].
 
 Because this cookbook is used for demo instances or development platforms
 we are not supporting a wide range of platforms.
-CentOS release 6.7 (Final) is supported currently.
+CentOS release 6.8 (Final) is supported currently.
 
 ## Usage
 
