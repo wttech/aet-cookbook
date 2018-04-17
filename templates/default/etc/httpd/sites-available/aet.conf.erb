@@ -5,6 +5,10 @@
     ErrorLog "<%= node['aet']['apache']['log_dir'] %>/aet-error.log"
     CustomLog "<%= node['aet']['apache']['log_dir'] %>/aet-access.log" common
 
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+
     <Location "/api">
       Header set Access-Control-Allow-Origin "*"
       ProxyPass http://<%= node['aet']['apache']['karaf_ip'] %>:<%= node['aet']['karaf']['web_port'] %>/api
