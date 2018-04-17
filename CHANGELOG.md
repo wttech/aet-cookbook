@@ -2,7 +2,7 @@
 
 * Fix for Karaf service script
 * Selenium Grid recipes added for hub and node with Firefox 38.6
-* Adding gzip compression for Apache (Report application)
+* Gzip compression added for Apache (Report application)
 
 # 2.0.1
 
