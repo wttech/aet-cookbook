@@ -302,9 +302,10 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 [vagrant@aet-vagrant ~]$
 ```
 
-## New cookbook version
+## Releasing new version
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
+For Ruby on windows you can use [Ruby Installer].
 Chef Supermarket login and [key][chef-keys] is required for new version deployment.
 
 New version needs to be numeric in form of [X.Y or X.Y.Z](https://github.com/Cognifide/aet-cookbook/issues/12).
@@ -327,15 +328,21 @@ Configure your Chef credentials (see [stove configuration][stove-configuration])
 
 ### Create new version
 
-Update `metadata.rb` file to contain version that should be released and commit it.
+1. Update `metadata.rb` file to contain the version that should be released ([Cookbook Versioning Policy]).
+2. Update `CHANGELOG.md` file: provide version number for unreleased changes.
+3. Commit and push changes. Create a GIT tag with version number i.e. `v3.1.0`.
 
 ### Deploy Cookbook
 
 To send the current version of cookbook to Chef supermarket run
 
 ```
-stove
+stove --no-git --username <your username> --key <path to chef private key>
 ```
+
+### Update to SNAPSHOT version again
+
+After cookbook deployment update `metadata.rb` and `CHANGELOG.md` files for new development lifecycle.
 
 
 ## License and Authors
@@ -390,7 +397,11 @@ License: [Apache License, Version 2.0][apache-license]
 [mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/mongodb3
 
 [stove]: http://sethvargo.github.io/stove/
+[Ruby Installer]: https://rubyinstaller.org/downloads/
 [chef-keys]: https://supermarket.chef.io/profile/edit#keys
 
 [bundler]: https://github.com/bundler/bundler
 [stove-configuration]: https://github.com/sethvargo/stove#configuration
+
+[Chef Supermarket]: https://supermarket.chef.io/cookbooks/aet
+[Cookbook Versioning Policy]: https://chef-community.github.io/cvp/
