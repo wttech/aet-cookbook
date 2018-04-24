@@ -1,4 +1,6 @@
-# 2.0.2
+# unreleased
+
+# 3.0.0
 
 * Fix for Karaf service script
 * Selenium Grid recipes added for hub and node with Firefox 38.6
