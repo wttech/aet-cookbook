@@ -302,7 +302,7 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 [vagrant@aet-vagrant ~]$
 ```
 
-## Releasing new version
+## New version release
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
 For Ruby on windows you can use [Ruby Installer].
