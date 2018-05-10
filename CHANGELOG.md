@@ -1,5 +1,7 @@
 # unreleased
 
+* AET artifacts deployed to Karaf *deploy* folder
+
 # 3.0.0
 
 * Fix for Karaf service script
