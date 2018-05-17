@@ -30,3 +30,11 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+  - name: karaf
+    run_list:
+      - recipe[aet::karaf]
+      - recipe[aet::postdeploy_restart]
+      - recipe[aet::deploy_aet_for_karaf]
+    verifier:
+      inspec_tests:
+        - test/karaf
