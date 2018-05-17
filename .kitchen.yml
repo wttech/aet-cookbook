@@ -35,3 +35,6 @@ suites:
       - recipe[aet::karaf]
       - recipe[aet::postdeploy_restart]
       - recipe[aet::deploy_aet_for_karaf]
+    verifier:
+      inspec_tests:
+        - test/karaf
