@@ -1,5 +1,7 @@
 # unreleased
 
+* Fix for Karaf cache clearing
+
 # 3.0.0
 
 * Fix for Karaf service script
