@@ -1,6 +1,7 @@
 # unreleased
 
 * AET artifacts deployed to Karaf *deploy* folder
+* Fix for Karaf cache clearing
 
 # 3.0.0
 
