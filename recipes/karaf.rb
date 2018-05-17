@@ -35,8 +35,6 @@ end
 user 'karaf user' do
   username node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
-  manage_home true
-  home node['aet']['karaf']['root_dir']
   system true
   shell '/bin/bash'
   action :create
