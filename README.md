@@ -307,7 +307,7 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 `kitchen list` command shows list of available suites. Sample test execution might look like this:
 
 ```
-kitchen test seleniumgrid
+kitchen test seleniumgrid-centos-68
 ```
 
 ## New version release
