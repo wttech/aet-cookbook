@@ -251,8 +251,6 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['karaf']['java_max_perm_mem']` - max permanent space for Karaf (default: `'128M'`)
 * `node['aet']['karaf']['src_cookbook']['setenv']` - source cookbook for file template of setenv.sh (default: `'aet'`)
 * `node['aet']['karaf']['src_cookbook']['users_prop']` - source cookbook for file template of users.properties (default: `'aet'`)
-* `node['aet']['karaf']['src_cookbook']['fileinstall_configs_prop']` - source cookbook for file template of org.apache.felix.fileinstall-configs.cfg (default: `'aet'`)
-* `node['aet']['karaf']['src_cookbook']['fileinstall_features_prop']` - source cookbook for file template of org.apache.felix.fileinstall-features.cfg (default: `'aet'`)
 * `node['aet']['karaf']['src_cookbook']['shell_cfg']` - source cookbook for file template of org.apache.karaf.shell.cfg (default: `'aet'`)
 * `node['aet']['karaf']['src_cookbook']['ops4j_cfg']` - source cookbook for file template of org.ops4j.pax.web.cfg (default: `'aet'`)
 * `node['aet']['karaf']['src_cookbook']['init_script']` - source cookbook for file template of karaf init script (default: `'aet'`)

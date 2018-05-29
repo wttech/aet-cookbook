@@ -31,11 +31,76 @@ end
 # APP DEPLOYMENT
 ###############################################################################
 
-setup_aet_artifact 'bundles'
-setup_aet_artifact 'configs'
-setup_aet_artifact 'features'
+# global variables
+$ver = "#{node['aet']['version']}"
+$deploy_dir = "#{node['aet']['karaf']['root_dir']}/current/deploy"
+$version_dir = "#{node['aet']['karaf']['root_dir']}/#{node['aet']['version']}"
 
-base_dir = node['aet']['karaf']['root_dir']
+# registers tasks for artifacts
+%w(
+  bundles
+  configs
+  features
+).each do |artifact_type|
 
-create_fileinstall_config(base_dir, 'configs')
-create_fileinstall_config(base_dir, 'features')
+  url = "#{node['aet']['base_link']}/#{$ver}/#{artifact_type}.zip"
+
+  remote_file artifact_type do
+    source url
+    path "/tmp/#{artifact_type}-#{$ver}.zip"
+    owner node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    # action :nothing as it will be called explicitly if version has changed
+    action :nothing
+  end
+
+  file = "/tmp/#{artifact_type}-#{$ver}.zip"
+
+  execute "unzip-#{artifact_type}" do
+    command "unzip -o -d #{$version_dir} #{file}"
+    user node['aet']['karaf']['user']
+    group node['aet']['karaf']['group']
+    # action :nothing as it will be called explicitly if version has changed
+    action :nothing
+  end
+end
+
+# registers task for deploy folder
+execute 'delete-deploy-folder' do
+  command "rm -fr #{$deploy_dir}"
+  user node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  # action :nothing as it will be called explicitly if version has changed
+  action :nothing
+end
+
+link 'deploy-folder' do
+  target_file $deploy_dir
+  to $version_dir
+  # action :nothing as it will be called explicitly if version has changed
+  action :nothing
+end
+
+# will only extract zip file if version has changed
+log "version-changed" do
+  message "version of AET has changed. "\
+          'notifying dependant resources...'
+
+  not_if { same_version?($deploy_dir, $version_dir) }
+
+  notifies :stop, 'service[karaf-deploy-stop]', :immediately
+
+  notifies :run, 'execute[delete-deploy-folder]', :immediately
+  notifies :create, 'link[deploy-folder]', :immediately
+  %w(
+    bundles
+    configs
+    features
+  ).each do |artifact_type|
+
+    notifies :create, "remote_file[#{artifact_type}]", :immediately
+    notifies :run, "execute[unzip-#{artifact_type}]", :immediately
+  end
+
+  notifies :run, 'execute[schedule-karaf-restart]', :immediately
+end
