@@ -43,7 +43,7 @@ Please refer to the [AET documentation][aet-wiki] on how to setup a test suite.
 
 The cookbook installs following components required by AET:
 
-* [Karaf framework][karaf] (ver [4.1.4][karaf-2.3.9]) - OSGi environment for AET bundles
+* [Karaf framework][karaf] (ver [4.1.5][karaf-4.1.5]) - OSGi environment for AET bundles
 * [Active MQ][active-mq] (ver. [5.15.2][active-mq-5.15.2]) - for communication between AET components
 * [Mongo DB][mongo-db] - for storing tests results
 * [Apache HTTP server][apache] - for AET reports Web Application
@@ -236,6 +236,7 @@ See [attributes/][aet-cookbook-github-attributes] folder for default values.
 * `node['aet']['firefox']['root_dir']` - parent folder for Firefox browser installation (default: `'/opt/aet/firefox'`)
 * `node['aet']['firefox']['log_dir']` - Firefox log folder path  (default: `'/opt/aet/firefox/log'`)
 * `node['aet']['firefox']['src_cookbook']['bin']` - source cookbook for file template of firefox start script (default: `'aet'`)
+* `node['aet']['karaf']['source']` - source URL for Karaf download (default: `'https://archive.apache.org/dist/karaf/4.1.5/apache-karaf-4.1.5.tar.gz'`)
 * `node['aet']['karaf']['user']` - system user for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['group']` - system group for Karaf service (default: `'karaf'`)
 * `node['aet']['karaf']['login']` - login for Karaf instance (WebConsole, SSH) (default: `'karaf'`)
@@ -382,7 +383,7 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat-max-swallow]: https://tomcat.apache.org/tomcat-8.0-doc/config/http.html
 
 [karaf]: http://karaf.apache.org/index.html
-[karaf-4.1.4]: https://archive.apache.org/dist/karaf/4.1.4/apache-karaf-4.1.4.tar.gz
+[karaf-4.1.5]: https://archive.apache.org/dist/karaf/4.1.5/apache-karaf-4.1.5.tar.gz
 [karaf-web-console]: https://karaf.apache.org/manual/latest-2.x/users-guide/web-console.html
 
 [apache]: https://httpd.apache.org/
