@@ -83,7 +83,7 @@ def create_fileinstall_config(base_dir, artifact_type)
     group node['aet']['karaf']['group']
 
     template_source_key = "fileinstall_#{artifact_type}_prop"
-    
+
     cookbook node['aet']['karaf']['src_cookbook'][template_source_key]
     mode '0644'
     variables(

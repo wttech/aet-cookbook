@@ -11,6 +11,9 @@ driver:
 provisioner:
   name: chef_zero
 
+verifier:
+  name: inspec
+
 platforms:
   - name: centos-6.8
 
@@ -22,19 +25,18 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
-  - name: develop
+  - name: seleniumgrid
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.123.112"}]
+      customize:
+        memory: 768
     run_list:
-      - recipe[aet::_develop]
-      - recipe[aet::default]
+      - recipe[java::default]
+      - recipe[aet::seleniumgrid_hub]
     attributes:
-      aet:
-        activemq:
-          jmx_ip: '192.168.123.111'
-  - name: karaf
-    run_list:
-      - recipe[aet::karaf]
-      - recipe[aet::postdeploy_restart]
-      - recipe[aet::deploy_aet_for_karaf]
+      java:
+        jdk_version: '8'
     verifier:
       inspec_tests:
-        - test/karaf
+        - test/seleniumgrid

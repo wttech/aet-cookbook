@@ -302,6 +302,14 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 [vagrant@aet-vagrant ~]$
 ```
 
+## Automated tests with Kitchen
+
+`kitchen list` command shows list of available suites. Sample test execution might look like this:
+
+```
+kitchen test seleniumgrid-centos-68
+```
+
 ## New version release
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
