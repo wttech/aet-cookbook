@@ -19,6 +19,10 @@
 # limitations under the License.
 #
 
+def systemd_daemon_reload
+  `systemctl daemon-reload`
+end
+
 def get_filename(uri)
   require 'uri'
   Pathname.new(URI.parse(uri).path).basename.to_s

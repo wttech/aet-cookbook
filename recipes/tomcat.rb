@@ -118,7 +118,7 @@ end
 # Creating settings override file to easily handle all required variables
 template "#{node['aet']['tomcat']['base_dir']}/bin/setenv.sh" do
   cookbook node['aet']['tomcat']['src_cookbook']['setenv']
-  source 'content/tomcat/bin/setenv.sh.erb'
+  source 'opt/aet/tomcat/bin/setenv.sh.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']
   mode '0755'
@@ -129,7 +129,7 @@ end
 # Base settings management template
 template "#{node['aet']['tomcat']['base_dir']}/conf/server.xml" do
   cookbook node['aet']['tomcat']['src_cookbook']['server_xml']
-  source 'content/tomcat/conf/server.xml.erb'
+  source 'opt/aet/tomcat/conf/server.xml.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']
   mode '0644'
@@ -140,7 +140,7 @@ end
 # User management template
 template "#{node['aet']['tomcat']['base_dir']}/conf/tomcat-users.xml" do
   cookbook node['aet']['tomcat']['src_cookbook']['users_xml']
-  source 'content/tomcat/conf/tomcat-users.xml.erb'
+  source 'opt/aet/tomcat/conf/tomcat-users.xml.erb'
   owner node['aet']['tomcat']['user']
   group node['aet']['tomcat']['group']
   mode '0644'

@@ -36,6 +36,7 @@ end
 
 # Remove original logging directory
 directory '/var/log/httpd' do
+  recursive true
   action :delete
 
   not_if do

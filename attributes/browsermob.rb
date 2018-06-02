@@ -31,4 +31,4 @@ default['aet']['browsermob']['group'] = 'browsermob'
 
 default['aet']['browsermob']['port'] = '8080'
 
-default['aet']['browsermob']['src_cookbook']['init_script'] = 'aet'
+default['aet']['browsermob']['src_cookbook']['systemd_script'] = 'aet'

@@ -6,12 +6,13 @@ description       'Installs/Configures aet'
 long_description  'Installs/Configures aet'
 version           '3.0.1-SNAPSHOT'
 
-depends           'apache2', '~> 3.2.2'
-depends           'java', '~> 1.13'
-depends           'mongodb3', '~> 5.2.0'
+depends           'apache2', '~> 5.0.1'
+depends           'java', '~> 2.1.0'
+depends           'sc-mongodb', '~> 1.0.1'
 
 %w(
-  centos-6.8
+  centos-7
+  windows-2016
 ).each do |os|
   supports os
 end

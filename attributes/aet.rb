@@ -21,5 +21,6 @@
 
 # AET
 default['aet']['version'] = '2.1.4'
+default['aet']['base_dir'] = '/opt/aet'
 default['aet']['base_link'] =
   'https://github.com/Cognifide/AET/releases/download'

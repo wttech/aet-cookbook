@@ -27,6 +27,12 @@
 
 include_recipe 'java::default'
 
+# Base directory prerequisite
+directory node['aet']['base_dir'] do
+  recursive true
+  action :create
+end
+
 # INSTALLATION
 ###############################################################################
 
@@ -116,7 +122,7 @@ end
 
 # Create ActiveMQ init file
 template "#{node['aet']['activemq']['root_dir']}/current/bin/env" do
-  source 'content/activemq/current/bin/env.erb'
+  source 'opt/aet/activemq/current/bin/env.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
   cookbook node['aet']['activemq']['src_cookbook']['env']
@@ -132,7 +138,7 @@ end
 
 # Overwrite ActiveMQ core settings
 template "#{node['aet']['activemq']['root_dir']}/current/conf/activemq.xml" do
-  source 'content/activemq/current/conf/activemq.xml.erb'
+  source 'opt/aet/activemq/current/conf/activemq.xml.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
   cookbook node['aet']['activemq']['src_cookbook']['activemq_xml']
@@ -143,7 +149,7 @@ end
 # Overwrite ActiveMQ logging settings
 template "#{node['aet']['activemq']['root_dir']}/current"\
   '/conf/log4j.properties' do
-  source 'content/activemq/current/conf/log4j.properties.erb'
+  source 'opt/aet/activemq/current/conf/log4j.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
   cookbook node['aet']['activemq']['src_cookbook']['log4j_prop']
@@ -154,7 +160,7 @@ end
 # Overwrite ActiveMQ credentials
 template "#{node['aet']['activemq']['root_dir']}/current"\
   '/conf/jetty-realm.properties' do
-  source 'content/activemq/current/conf/jetty-realm.properties.erb'
+  source 'opt/aet/activemq/current/conf/jetty-realm.properties.erb'
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
   cookbook node['aet']['activemq']['src_cookbook']['jetty_prop']

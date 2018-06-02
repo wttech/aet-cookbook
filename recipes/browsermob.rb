@@ -28,6 +28,12 @@ package 'unzip' do
   action :install
 end
 
+# Base directory prerequisite
+directory node['aet']['base_dir'] do
+  recursive true
+  action :create
+end
+
 # INSTALLATION
 ###############################################################################
 
@@ -100,16 +106,45 @@ link "#{node['aet']['browsermob']['root_dir']}/current" do
   notifies :restart, 'service[browsermob]', :delayed
 end
 
-# Create init script for browsermob
-template '/etc/init.d/browsermob' do
-  source 'etc/init.d/browsermob.erb'
+# Create systemd script for browsermob
+template '/etc/systemd/system/browsermob.service' do
+  source 'etc/systemd/system/browsermob.service.erb'
   owner 'root'
   group 'root'
-  cookbook node['aet']['browsermob']['src_cookbook']['init_script']
+  cookbook node['aet']['browsermob']['src_cookbook']['systemd_script']
   mode '0755'
+  variables(
+    :home_dir => node['aet']['browsermob']['root_dir'],
+    :user => node['aet']['browsermob']['user'],
+    :port => node['aet']['browsermob']['port']
+  )
+
+  notifies :run, 'execute[systemd-reload]', :delayed
+  notifies :restart, 'service[browsermob]', :delayed
+end
+
+# Reload systemd services if script changed
+execute 'systemd-reload' do
+  command 'systemctl daemon-reload'
+  action :nothing
+end
+
+logger_settings_file =
+  "#{node['aet']['browsermob']['root_dir']}/current/bin/conf/bmp-logging.yaml"
+
+# Logger settings
+template logger_settings_file do
+  source 'opt/aet/browsermob/current/bin/conf/bmp-logging.yaml.erb'
+  owner node['aet']['browsermob']['user']
+  group node['aet']['browsermob']['group']
+  mode '0755'
+  variables(
+    :log_dir => node['aet']['browsermob']['log_dir'],
+  )
 
   notifies :restart, 'service[browsermob]', :delayed
 end
+
 
 # Enable and start browsermob service
 service 'browsermob' do

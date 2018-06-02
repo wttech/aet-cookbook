@@ -95,7 +95,7 @@ end
 
 # Overwrite JVM properties for Karaf
 template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
-  source 'content/karaf/current/bin/setenv.erb'
+  source 'opt/aet/karaf/current/bin/setenv.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
   cookbook node['aet']['karaf']['src_cookbook']['setenv']
@@ -104,20 +104,32 @@ template "#{node['aet']['karaf']['root_dir']}/current/bin/setenv" do
   notifies :restart, 'service[karaf]', :delayed
 end
 
-# Create Karaf init file
-template '/etc/init.d/karaf' do
-  source 'etc/init.d/karaf.erb'
+# Create systemd script for karaf
+template '/etc/systemd/system/karaf.service' do
+  source 'etc/systemd/system/karaf.service.erb'
   owner 'root'
   group 'root'
-  cookbook node['aet']['karaf']['src_cookbook']['init_script']
+  cookbook node['aet']['karaf']['src_cookbook']['systemd_script']
   mode '0755'
+  variables(
+    :home_dir => node['aet']['karaf']['root_dir'],
+    :user => node['aet']['karaf']['user'],
+    :group => node['aet']['karaf']['port']
+  )
 
+  notifies :run, 'execute[systemd-reload]', :delayed
   notifies :restart, 'service[karaf]', :delayed
+end
+
+# Reload systemd services if script changed
+execute 'systemd-reload' do
+  command 'systemctl daemon-reload'
+  action :nothing
 end
 
 # Configure user credentials
 template "#{node['aet']['karaf']['root_dir']}/current/etc/users.properties" do
-  source 'content/karaf/current/etc/users.properties.erb'
+  source 'opt/aet/karaf/current/etc/users.properties.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
   cookbook node['aet']['karaf']['src_cookbook']['users_prop']
@@ -127,7 +139,7 @@ end
 # Configure Web console port
 template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   'org.ops4j.pax.web.cfg' do
-  source 'content/karaf/current/etc/org.ops4j.pax.web.cfg.erb'
+  source 'opt/aet/karaf/current/etc/org.ops4j.pax.web.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
   cookbook node['aet']['karaf']['src_cookbook']['ops4j_cfg']
@@ -139,7 +151,7 @@ end
 # Configure SSH console port
 template "#{node['aet']['karaf']['root_dir']}/current/etc/"\
   'org.apache.karaf.shell.cfg' do
-  source 'content/karaf/current/etc/org.apache.karaf.shell.cfg.erb'
+  source 'opt/aet/karaf/current/etc/org.apache.karaf.shell.cfg.erb'
   owner node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
   cookbook node['aet']['karaf']['src_cookbook']['shell_cfg']

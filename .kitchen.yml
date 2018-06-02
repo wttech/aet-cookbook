@@ -15,7 +15,7 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.8
+  - name: centos-7.4
 
 suites:
   - name: default
@@ -40,3 +40,33 @@ suites:
     verifier:
       inspec_tests:
         - test/seleniumgrid
+# chef14 ok, systemd
+  - name: apache
+    run_list:
+      - recipe[aet::apache]
+    attributes:
+# chef14 ok, sysvinit
+  - name: mongo
+    run_list:
+      - recipe[aet::mongo]
+    attributes:
+# chef14 ok, sysvinit
+  - name: activemq
+    run_list:
+      - recipe[aet::activemq]
+    attributes:
+# chef14 ok, systemd
+  - name: browsermob
+    run_list:
+      - recipe[aet::browsermob]
+    attributes:
+# chef14 ok, sysvinit
+  - name: tomcat
+    run_list:
+      - recipe[aet::tomcat]
+    attributes:
+# chef14 ok, systemd
+  - name: karaf
+    run_list:
+      - recipe[aet::karaf]
+    attributes:

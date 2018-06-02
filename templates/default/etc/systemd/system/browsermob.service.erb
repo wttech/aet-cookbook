@@ -1,0 +1,16 @@
+[Unit]
+Description=browsermob
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/java \
+  -Dapp.name=browsermob-proxy \
+  -Dbasedir=<%= @home_dir %>/current \
+  -jar <%= @home_dir %>/current/lib/browsermob-dist-2.1.4.jar \
+  -port <%= @port %>
+Type=simple
+PIDFile=/var/run/browsermob
+User=<%= @user %>
+
+[Install]
+WantedBy=default.target
