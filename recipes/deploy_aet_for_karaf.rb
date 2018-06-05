@@ -31,9 +31,9 @@ end
 # APP DEPLOYMENT
 ###############################################################################
 
-setup_aet_artifact 'bundles'
 setup_aet_artifact 'configs'
 setup_aet_artifact 'features'
+setup_aet_artifact 'bundles'
 
 base_dir = node['aet']['karaf']['root_dir']
 
