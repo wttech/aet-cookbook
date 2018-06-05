@@ -39,3 +39,4 @@ base_dir = node['aet']['karaf']['root_dir']
 
 create_fileinstall_config(base_dir, 'configs')
 create_fileinstall_config(base_dir, 'features')
+create_fileinstall_config(base_dir, 'bundles')
