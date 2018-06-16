@@ -75,7 +75,7 @@ end
 # creates fileinstall config in Karaf deploy directory
 # only for features and conigs (bundles are loaded from features XML file)
 def create_fileinstall_config(base_dir, artifact_type)
-  target_file = "#{base_dir}/current/deploy/org.apache.felix.fileinstall-#{artifact_type}.cfg"
+  target_file = "#{base_dir}/current/etc/org.apache.felix.fileinstall-aet_#{artifact_type}.cfg"
 
   template target_file do
     source 'content/karaf/current/deploy/org.apache.felix.fileinstall-template.cfg.erb'
