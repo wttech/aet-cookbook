@@ -4,7 +4,7 @@ maintainer_email  'karol.drazek@cognifide.com'
 license           'Apache 2.0'
 description       'Installs/Configures aet'
 long_description  'Installs/Configures aet'
-version           '3.0.1-SNAPSHOT'
+version           '4.0.0-SNAPSHOT'
 
 depends           'apache2', '~> 5.0.1'
 depends           'java', '~> 2.1.0'
