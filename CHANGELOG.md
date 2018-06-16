@@ -1,6 +1,6 @@
-# unrelesed
+# 4.0.1
 
-* ...
+* Fix for missing attributes, README updated
 
 # 4.0.0
 
