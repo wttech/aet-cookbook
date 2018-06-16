@@ -1,5 +1,6 @@
 # unreleased
 
+* Karaf upgrade to version 4.2.0
 * Karaf upgrade to version 4.1.5
 * Fix for Karaf cache clearing
 
