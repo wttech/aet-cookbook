@@ -1,6 +1,6 @@
 # unreleased
 
-* ...
+* Removed release numbers of karaf bundles, configs and features folders.
 
 # 4.0.1
 
@@ -34,7 +34,7 @@
 
 # 1.4.15
 
-* Switch to OpenJDK, as JAVA 7 is unable to be automatically downloaded by Java Cookbook. 
+* Switch to OpenJDK, as JAVA 7 is unable to be automatically downloaded by Java Cookbook.
 
 # 1.4.14
 
