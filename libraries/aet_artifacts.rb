@@ -22,10 +22,10 @@
 def setup_aet_artifact(artifact_type)
   ver = node['aet']['version']
   base_dir = node['aet']['karaf']['root_dir']
- 
+
   create_aet_artifact_dir("#{base_dir}/aet_#{artifact_type}")
 
-  
+
   url = "#{node['aet']['base_link']}/#{ver}/#{artifact_type}.zip"
   file = "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}/#{artifact_type}-#{ver}.zip"
   download_artifact(url, file)
@@ -64,7 +64,7 @@ end
 # registers extraction task so that it could be called if needed
 def extract_artifact(artifact_type, version)
   execute "extract-#{artifact_type}" do
-    command "unzip -o #{artifact_type}-#{version}.zip -d #{version}"
+    command "unzip -o #{artifact_type}-#{version}.zip -d current"
     cwd "#{node['aet']['karaf']['root_dir']}/aet_#{artifact_type}"
     user node['aet']['karaf']['user']
     group node['aet']['karaf']['group']
