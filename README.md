@@ -312,6 +312,12 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 kitchen test seleniumgrid-centos-68
 ```
 
+To run all existing tests you cun use this command:
+
+```
+kitchen test --concurrency 4 --parallel
+```
+
 ## New version release
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
