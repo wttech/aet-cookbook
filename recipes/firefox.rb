@@ -27,7 +27,6 @@ end
 # Create dedicated user
 user node['aet']['firefox']['user'] do
   group node['aet']['firefox']['group']
-  manage_home true
   system true
   action :create
 end

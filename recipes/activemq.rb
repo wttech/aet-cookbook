@@ -38,8 +38,6 @@ end
 # Create dedicated user
 user node['aet']['activemq']['user'] do
   group node['aet']['activemq']['group']
-  manage_home true
-  home node['aet']['activemq']['root_dir']
   system true
   shell '/bin/bash'
   action :create
