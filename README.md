@@ -404,7 +404,7 @@ License: [Apache License, Version 2.0][apache-license]
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
 [java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/
 
-[mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/mongodb3
+[mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/sc-mongodb
 
 [stove]: http://sethvargo.github.io/stove/
 [Ruby Installer]: https://rubyinstaller.org/downloads/

@@ -18,9 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-default['mongodb3']['package']['version'] = '3.2.3-1.el6'
-default['mongodb3']['config']['mongod']['storage']['dbPath'] =
+default['mongodb']['package_version'] = '3.2.3'
+default['mongodb']['config']['dbpath'] =
   '/opt/aet/mongodb/db'
-default['mongodb3']['config']['mongod']['systemLog']['path'] =
-  '/var/log/mongodb/mongod.log'

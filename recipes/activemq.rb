@@ -30,6 +30,14 @@ include_recipe 'java::default'
 # INSTALLATION
 ###############################################################################
 
+# Create root dir for ActiveMQ
+directory node['aet']['activemq']['root_dir'] do
+  owner node['aet']['activemq']['user']
+  group node['aet']['activemq']['group']
+  mode '0755'
+  recursive true
+end
+
 # Create dedicated group
 group node['aet']['activemq']['group'] do
   action :create
@@ -45,15 +53,7 @@ user node['aet']['activemq']['user'] do
   action :create
 end
 
-# Create root dir for ActiveMQ
-directory node['aet']['activemq']['root_dir'] do
-  owner node['aet']['activemq']['user']
-  group node['aet']['activemq']['group']
-  mode '0755'
-  recursive true
-end
-
-# Create root dir for ActiveMQ
+# Create root dir for Logs
 directory node['aet']['activemq']['log_dir'] do
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']
