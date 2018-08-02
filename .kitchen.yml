@@ -18,13 +18,6 @@ platforms:
   - name: centos-6.8
 
 suites:
-  - name: default
-    run_list:
-      - recipe[aet::default]
-    attributes:
-      aet:
-        activemq:
-          jmx_ip: '192.168.123.111'
   - name: seleniumgrid
     driver:
       network:
@@ -40,3 +33,14 @@ suites:
     verifier:
       inspec_tests:
         - test/seleniumgrid
+  - name: apache2
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.123.113"}]
+      customize:
+        memory: 768
+    run_list:
+      - recipe[aet::apache]
+    verifier:
+      inspec_tests:
+        - test/apache2
