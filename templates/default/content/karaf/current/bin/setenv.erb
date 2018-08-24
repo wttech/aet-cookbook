@@ -1,5 +1,8 @@
-
+# This file is managed by Chef
+# DO NOT CHANGE ANYTHING
 export JAVA_MIN_MEM=<%= node['aet']['karaf']['java_min_mem'] %>
 export JAVA_MAX_MEM=<%= node['aet']['karaf']['java_max_mem'] %>
 export JAVA_PERM_MEM=<%= node['aet']['karaf']['java_min_perm_mem'] %>
 export JAVA_MAX_PERM_MEM=<%= node['aet']['karaf']['java_max_perm_mem'] %>
+# for Maven local repository
+export KARAF_OPTS=-Dorg.ops4j.pax.url.mvn.localRepository=<%= node['aet']['karaf']['root_dir'] %>/m2/repository

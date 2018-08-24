@@ -51,6 +51,15 @@ directory node['aet']['karaf']['root_dir'] do
   recursive true
 end
 
+# Create local Maven repository
+directory maven"#{node['aet']['karaf']['root_dir']}/m2/repository" do
+  owner node['aet']['karaf']['user']
+  group node['aet']['karaf']['group']
+  mode '0755'
+  action :create
+  recursive true
+end
+
 # Create log dir
 directory node['aet']['karaf']['log_dir'] do
   owner node['aet']['karaf']['user']

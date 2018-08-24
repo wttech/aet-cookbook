@@ -40,3 +40,20 @@ suites:
     verifier:
       inspec_tests:
         - test/seleniumgrid
+  - name: karaf
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.123.113"}]
+      customize:
+        memory: 2048
+    run_list:
+      - recipe[aet::karaf]
+      - recipe[aet::deploy_aet_for_karaf]
+      - recipe[aet::postdeploy_restart]
+      - recipe[aet::reboot]
+    attributes:
+      java:
+        jdk_version: '8'
+    verifier:
+      inspec_tests:
+        - test/karaf

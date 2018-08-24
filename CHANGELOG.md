@@ -1,6 +1,6 @@
 # unreleased
 
-* ...
+* Fix for Karaf not working without service user home folder
 
 # 4.0.1
 
