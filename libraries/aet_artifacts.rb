@@ -78,7 +78,7 @@ def create_fileinstall_config(base_dir, artifact_type)
   target_file = "#{base_dir}/current/etc/org.apache.felix.fileinstall-aet_#{artifact_type}.cfg"
 
   template target_file do
-    source 'content/karaf/current/deploy/org.apache.felix.fileinstall-template.cfg.erb'
+    source 'content/karaf/current/etc/org.apache.felix.fileinstall-template.cfg.erb'
     owner node['aet']['karaf']['user']
     group node['aet']['karaf']['group']
 
