@@ -315,6 +315,7 @@ kitchen test seleniumgrid-centos-68
 To run all existing tests you cun use this command:
 
 ```
+berks update
 kitchen test --concurrency 4 --parallel
 ```
 
@@ -356,7 +357,7 @@ To send the current version of cookbook to Chef supermarket run
 stove --no-git --username <your username> --key <path to chef private key>
 ```
 
-### Update to SNAPSHOT version again
+### Update to next version
 
 After cookbook deployment update `metadata.rb` and `CHANGELOG.md` files for new development lifecycle.
 
