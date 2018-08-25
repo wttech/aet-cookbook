@@ -25,6 +25,23 @@ suites:
       aet:
         activemq:
           jmx_ip: '192.168.123.111'
+  - name: karaf
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.123.222"}]
+      customize:
+        memory: 2048
+    run_list:
+      - recipe[aet::karaf]
+      - recipe[aet::deploy_aet_for_karaf]
+      - recipe[aet::postdeploy_restart]
+      - recipe[aet::reboot]
+    attributes:
+      java:
+        jdk_version: '8'
+    verifier:
+      inspec_tests:
+        - test/karaf
   - name: seleniumgrid
     driver:
       network:
