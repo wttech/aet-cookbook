@@ -27,7 +27,6 @@ end
 # Create dedicated user
 user node['aet']['seleniumgrid']['user'] do
   group node['aet']['seleniumgrid']['group']
-  manage_home true
   system true
   action :create
 end

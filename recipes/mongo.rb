@@ -20,4 +20,4 @@
 #
 
 # Install MongoDB using supermarket cookbook
-include_recipe 'mongodb3::default'
+include_recipe 'sc-mongodb::default'

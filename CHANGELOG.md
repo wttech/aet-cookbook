@@ -1,6 +1,7 @@
 # unreleased
 
-* ...
+* Selenium grid hub upgrade from 3.8.1 to 3.14.0
+* Dependant cookbooks upgrade and change for Mongo DB cookbook
 
 # 4.0.1
 

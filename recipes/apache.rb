@@ -37,6 +37,7 @@ end
 # Remove original logging directory
 directory '/var/log/httpd' do
   action :delete
+  recursive true
 
   not_if do
     ::File.symlink?('/var/log/httpd')
