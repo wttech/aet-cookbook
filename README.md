@@ -309,7 +309,8 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 `kitchen list` command shows list of available suites. Sample test execution might look like this:
 
 ```
-kitchen test seleniumgrid-centos-68
+berks update
+kitchen verify karaf-centos-68
 ```
 
 To run all existing tests you cun use this command:
