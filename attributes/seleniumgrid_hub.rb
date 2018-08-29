@@ -26,6 +26,6 @@ default['aet']['seleniumgrid']['hub']['root_dir'] = '/opt/aet/seleniumgrid/hub'
 
 default['aet']['seleniumgrid']['hub']['log_dir'] = '/var/log/seleniumgrid'
 
-default['aet']['seleniumgrid']['source'] = 'http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar'
+default['aet']['seleniumgrid']['source'] = 'https://selenium-release.storage.googleapis.com/3.14/selenium-server-standalone-3.14.0.jar'
 
 default['aet']['seleniumgrid']['hub']['src_cookbook']['init_script'] = 'aet'
