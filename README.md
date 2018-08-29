@@ -312,6 +312,13 @@ $1$WxkKLOya$9ZOsQs7YdfjZB1wsaJPkW0
 kitchen test seleniumgrid-centos-68
 ```
 
+To run all existing tests you cun use this command:
+
+```
+berks update
+kitchen test --concurrency 4 --parallel
+```
+
 ## New version release
 
 Deployment of new versions of this cookbook is managed with [Stove][stove].
@@ -350,7 +357,7 @@ To send the current version of cookbook to Chef supermarket run
 stove --no-git --username <your username> --key <path to chef private key>
 ```
 
-### Update to SNAPSHOT version again
+### Update to next version
 
 After cookbook deployment update `metadata.rb` and `CHANGELOG.md` files for new development lifecycle.
 
@@ -404,7 +411,7 @@ License: [Apache License, Version 2.0][apache-license]
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
 [java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/
 
-[mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/mongodb3
+[mongodb3-cookbook]: https://supermarket.chef.io/cookbooks/sc-mongodb
 
 [stove]: http://sethvargo.github.io/stove/
 [Ruby Installer]: https://rubyinstaller.org/downloads/

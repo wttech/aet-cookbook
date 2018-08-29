@@ -4,11 +4,11 @@ maintainer_email  'karol.drazek@cognifide.com'
 license           'Apache 2.0'
 description       'Installs/Configures aet'
 long_description  'Installs/Configures aet'
-version           '4.0.2-SNAPSHOT'
+version           '5.0.0'
 
-depends           'apache2', '~> 3.2.2'
-depends           'java', '~> 1.13'
-depends           'mongodb3', '~> 5.2.0'
+depends           'apache2', '~> 3.3.1'
+depends           'java', '~> 2.2.0'
+depends           'sc-mongodb', '~> 1.2.0'
 
 %w(
   centos-6.8

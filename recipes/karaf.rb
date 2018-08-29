@@ -26,6 +26,13 @@ include_recipe 'java::default'
 # INSTALLATION
 ###############################################################################
 
+# Create aet folder (that will be later changed to karaf home dir)
+directory node['aet']['karaf']['root_dir'] do
+  mode '0755'
+  action :create
+  recursive true
+end
+
 # Create dedicated group
 group node['aet']['karaf']['group'] do
   action :create
@@ -35,6 +42,8 @@ end
 user 'karaf user' do
   username node['aet']['karaf']['user']
   group node['aet']['karaf']['group']
+  manage_home true
+  home node['aet']['karaf']['root_dir']
   system true
   shell '/bin/bash'
   action :create

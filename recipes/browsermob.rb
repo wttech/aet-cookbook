@@ -39,8 +39,6 @@ end
 # Create dedicated user
 user node['aet']['browsermob']['user'] do
   group node['aet']['browsermob']['group']
-  manage_home true
-  home node['aet']['browsermob']['root_dir']
   system true
   shell '/bin/bash'
   action :create

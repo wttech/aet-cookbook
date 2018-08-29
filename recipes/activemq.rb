@@ -38,8 +38,6 @@ end
 # Create dedicated user
 user node['aet']['activemq']['user'] do
   group node['aet']['activemq']['group']
-  manage_home true
-  home node['aet']['activemq']['root_dir']
   system true
   shell '/bin/bash'
   action :create
@@ -53,7 +51,7 @@ directory node['aet']['activemq']['root_dir'] do
   recursive true
 end
 
-# Create root dir for ActiveMQ
+# Create root dir for Logs
 directory node['aet']['activemq']['log_dir'] do
   owner node['aet']['activemq']['user']
   group node['aet']['activemq']['group']

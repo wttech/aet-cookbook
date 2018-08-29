@@ -1,6 +1,6 @@
 # unreleased
 
-* ...
+* Dependant cookbooks upgrade and change for Mongo DB cookbook
 
 # 4.0.1
 
