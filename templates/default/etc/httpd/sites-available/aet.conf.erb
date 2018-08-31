@@ -9,9 +9,9 @@
     AddOutputFilterByType DEFLATE text/css
     AddOutputFilterByType DEFLATE text/javascript
 
-    <Location "/api">
+    <LocationMatch "^/((api|configs|suite|system).*)">
       Header set Access-Control-Allow-Origin "*"
-      ProxyPass http://<%= node['aet']['apache']['karaf_ip'] %>:<%= node['aet']['karaf']['web_port'] %>/api
-    </Location>
+      ProxyPassMatch http://<%= node['aet']['apache']['karaf_ip'] %>:<%= node['aet']['karaf']['web_port'] %>/$1
+    </LocationMatch>
 
 </VirtualHost>
