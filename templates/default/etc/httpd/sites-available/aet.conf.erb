@@ -9,7 +9,7 @@
     AddOutputFilterByType DEFLATE text/css
     AddOutputFilterByType DEFLATE text/javascript
 
-    <LocationMatch "^/((api|configs|suite|system).*)">
+    <LocationMatch "^/((api|configs|suite|system|xunit|lock).*)">
       Header set Access-Control-Allow-Origin "*"
       ProxyPassMatch http://<%= node['aet']['apache']['karaf_ip'] %>:<%= node['aet']['karaf']['web_port'] %>/$1
     </LocationMatch>
