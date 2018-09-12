@@ -51,7 +51,7 @@ The cookbook installs following components required by AET:
 * [XVFB][xvfb] - for running firefox in virtual screen
 * [Firefox][firefox] (ver. [38.6.0esr][firefox-38.6.0esr]) - for collecting screenshots of pages and other data
 * [Tomcat][tomcat] (ver. [8.0.36][tomcat-8.0.36]) - for serving sample site that is used by maintenance tests
-* [Selenium Grid][seleniumgrid] (ver. [3.8.1][seleniumgrid-3.8.1]) - for handling tests on different browsers
+* [Selenium Grid][seleniumgrid] (ver. [3.14.0][seleniumgrid-3.14.0]) - for handling tests on different browsers
 
 Those components may be installed on separate machines
 provided they have been configured to work with each other.
@@ -407,7 +407,7 @@ License: [Apache License, Version 2.0][apache-license]
 [tomcat-users]: https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Configuring_Manager_Application_Access
 
 [seleniumgrid]: http://www.seleniumhq.org/projects/grid
-[seleniumgrid-3.8.1]: http://www.seleniumhq.org/download
+[seleniumgrid-3.14.0]: http://www.seleniumhq.org/download
 
 [java-cookbook]: https://supermarket.chef.io/cookbooks/java
 [java-openjdk-8]: http://openjdk.java.net/projects/jdk8u/
