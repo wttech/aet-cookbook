@@ -1,5 +1,6 @@
 # 5.0.0
 
+* AET release of v3.0.0
 * Apache config (vhost) to proxy Web API requests to Karaf port
 * Selenium grid hub upgrade from 3.8.1 to 3.14.0
 * Dependant cookbooks upgrade and change for Mongo DB cookbook
