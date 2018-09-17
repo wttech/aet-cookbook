@@ -203,7 +203,7 @@ This cookbook schedules reboot of virtual machine. The reboot is done only once.
 
 See [attributes/][aet-cookbook-github-attributes] folder for default values.
 
-* `node['aet']['version']` - version of AET to set-up. Used by _deploy_ recipes. (default: `'2.0.2'`)
+* `node['aet']['version']` - version of AET to set-up. Used by _deploy_ recipes. (default: `'3.0.0'`)
 * `node['aet']['base_link']` - base link for AET release artifacts. (default: `'https://github.com/Cognifide/AET/releases/download'`)
 * `node['aet']['activemq']['root_dir']` - parent folder for [Active MQ][active-mq] installation (default: `'/opt/aet/activemq'`)
 * `node['aet']['activemq']['log_dir']` - log dir for Active MQ (default: `'/var/log/activemq'`)
