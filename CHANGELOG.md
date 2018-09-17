@@ -1,4 +1,4 @@
-# unreleased
+# 5.0.0
 
 * Apache config (vhost) to proxy Web API requests to Karaf port
 * Selenium grid hub upgrade from 3.8.1 to 3.14.0
@@ -36,7 +36,7 @@
 
 # 1.4.15
 
-* Switch to OpenJDK, as JAVA 7 is unable to be automatically downloaded by Java Cookbook. 
+* Switch to OpenJDK, as JAVA 7 is unable to be automatically downloaded by Java Cookbook.
 
 # 1.4.14
 
