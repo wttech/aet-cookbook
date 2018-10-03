@@ -52,17 +52,9 @@ end
 # Get Selenium Grid file name from link
 filename = get_filename(node['aet']['seleniumgrid']['source'])
 
-# Download Selenium Grid jar to temporary folder
-remote_file "/tmp/#{filename}" do
-  owner node['aet']['seleniumgrid']['user']
-  group node['aet']['seleniumgrid']['group']
-  mode '0644'
-  source node['aet']['seleniumgrid']['source']
-end
-
 # Copy Selenium Grid jar to hub folder
 remote_file "#{node['aet']['seleniumgrid']['hub']['root_dir']}/#{filename}" do
-  source "file:///tmp/#{filename}"
+  source node['aet']['seleniumgrid']['source']
   owner node['aet']['seleniumgrid']['user']
   group node['aet']['seleniumgrid']['group']
   mode 0755

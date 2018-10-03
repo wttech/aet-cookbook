@@ -1,5 +1,9 @@
 # unreleased
 
+# 5.0.1
+
+* Fix for downloading Seleniumgrid hub. Removed use of hardcoded /tmp folder.
+
 # 5.0.0
 
 * AET release of version 3.0.0
