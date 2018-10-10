@@ -1,5 +1,9 @@
 # unreleased
 
+# 5.1.0
+
+* Configurable Browsermob proxy port range
+
 # 5.0.0
 
 * AET release of version 3.0.0
