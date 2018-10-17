@@ -18,7 +18,7 @@
 . /etc/rc.d/init.d/functions
 
 DAEMON="<%= node['aet']['browsermob']['root_dir']  %>/current/bin/browsermob-proxy"
-PARAM="-port <%= node['aet']['browsermob']['port'] %>"
+PARAM="-port <%= node['aet']['browsermob']['port'] %> -proxyPortRange <%= node['aet']['browsermob']['proxy_port_range'] %>"
 LOCK_FILE="/var/lock/subsys/browsermob"
 USER="<%= node['aet']['browsermob']['user'] %>"
 

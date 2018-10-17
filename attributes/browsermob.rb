@@ -30,5 +30,6 @@ default['aet']['browsermob']['user'] = 'browsermob'
 default['aet']['browsermob']['group'] = 'browsermob'
 
 default['aet']['browsermob']['port'] = '8080'
+default['aet']['browsermob']['proxy_port_range'] = '8081-8151'
 
 default['aet']['browsermob']['src_cookbook']['init_script'] = 'aet'
