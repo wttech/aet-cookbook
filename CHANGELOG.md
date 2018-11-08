@@ -1,5 +1,7 @@
 # unreleased
 
+* [PR-43](https://github.com/Cognifide/aet-cookbook/pull/43) that fixes [#42](https://github.com/Cognifide/aet-cookbook/issues/42). **Important** if you're upgrading from `aet-cookbook` versions `v5.0.0` or `v5.1.0` please follow the instructions in the [PR-43 description](https://github.com/Cognifide/aet-cookbook/pull/43)
+
 # 5.1.0
 
 * Configurable Browsermob proxy port range
