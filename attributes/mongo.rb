@@ -19,5 +19,4 @@
 # limitations under the License.
 #
 default['mongodb']['package_version'] = '3.2.3'
-default['mongodb']['config']['dbpath'] =
-  '/opt/aet/mongodb/db'
+default['mongodb']['config']['mongod']['storage']['dbPath'] = '/opt/aet/mongodb/db'
