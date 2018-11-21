@@ -1,4 +1,5 @@
 # unreleased
+* [PR-44](https://github.com/Cognifide/aet-cookbook/pull/44) Added mode rewrite module to apache - required for [AET #152](https://github.com/Cognifide/aet/issues/152)
 
 # 5.1.1
 **Important**: if you're upgrading from `aet-cookbook` versions `v5.0.0` or `v5.1.0` please follow the instructions in the [PR-43 description](https://github.com/Cognifide/aet-cookbook/pull/43)
