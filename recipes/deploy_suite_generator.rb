@@ -55,32 +55,32 @@ package 'unzip' do
 #     group node['apache']['group']
 #   end
   
-  # Check if new version of suite-generator
-  log 'suite-generator-version-changed' do
-    message 'version of suite generator web application has changed.'\
-            'notifying dependant resources...'
+#   # Check if new version of suite-generator
+#   log 'suite-generator-version-changed' do
+#     message 'version of suite generator web application has changed.'\
+#             'notifying dependant resources...'
   
-    not_if do
-      ::File.exist?("#{work_dir}/#{ver}") &&
-        ::File.identical?(
-          suite_generator_deploy_dir,
-          "#{work_dir}/#{ver}"
-        )
-    end
+#     not_if do
+#       ::File.exist?("#{work_dir}/#{ver}") &&
+#         ::File.identical?(
+#           suite_generator_deploy_dir,
+#           "#{work_dir}/#{ver}"
+#         )
+#     end
   
-    notifies :run, 'execute[extract-suite-generator]', :immediately
-    notifies :create, "link[#{suite_generator_deploy_dir}]", :immediately
-    notifies :restart, 'service[apache2]', :delayed
-  end
+#     notifies :run, 'execute[extract-suite-generator]', :immediately
+#     notifies :create, "link[#{suite_generator_deploy_dir}]", :immediately
+#     notifies :restart, 'service[apache2]', :delayed
+#   end
   
-  # Extract suite generator zip (skipped by default, run only when notified)
-  execute 'extract-suite-generator' do
-    command "unzip -o -q #{suite_generator_local_path} -d #{ver}"
-    cwd work_dir
-    user node['apache']['user']
-    group node['apache']['group']
-    action :nothing
-  end
+#   # Extract suite generator zip (skipped by default, run only when notified)
+#   execute 'extract-suite-generator' do
+#     command "unzip -o -q #{suite_generator_local_path} -d #{ver}"
+#     cwd work_dir
+#     user node['apache']['user']
+#     group node['apache']['group']
+#     action :nothing
+#   end
   
   # Link suite generator directory to 'current'
   # (skipped by default, run only when notified)
