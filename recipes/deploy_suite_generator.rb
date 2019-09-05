@@ -52,6 +52,7 @@ package 'unzip' do
   remote_file suite_generator_local_path do
     # TODO change this to github asset after release new version
     source 'file:///vagrant/suite-generator.zip'
+    # source suite_generator_download_url
     owner node['apache']['user']
     group node['apache']['group']
   end
