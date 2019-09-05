@@ -36,7 +36,7 @@ package 'unzip' do
   work_dir = "#{base_dir}/aet_reports"
   suite_generator_local_path = "#{work_dir}/suite-generator-#{ver}.zip"
   suite_generator_download_url = "#{node['aet']['base_link']}/#{ver}/suite-generator.zip"
-  suite_generator_deploy_dir = "#{work_dir}/current/suite-generator"
+  suite_generator_deploy_dir = "#{work_dir}/current/generator"
   
   # Create AET config directory
   directory work_dir do
@@ -49,43 +49,44 @@ package 'unzip' do
   end
   
   # Download suite generator zip
-#   remote_file suite_generator_local_path do
-#     source suite_generator_download_url
-#     owner node['apache']['user']
-#     group node['apache']['group']
-#   end
+  remote_file suite_generator_local_path do
+    # TODO change this to github asset after release new version
+    source 'file:///vagrant/suite-generator.zip'
+    owner node['apache']['user']
+    group node['apache']['group']
+  end
   
-#   # Check if new version of suite-generator
-#   log 'suite-generator-version-changed' do
-#     message 'version of suite generator web application has changed.'\
-#             'notifying dependant resources...'
+  # Check if new version of suite-generator
+  log 'suite-generator-version-changed' do
+    message 'version of suite generator web application has changed.'\
+            'notifying dependant resources...'
   
-#     not_if do
-#       ::File.exist?("#{work_dir}/#{ver}") &&
-#         ::File.identical?(
-#           suite_generator_deploy_dir,
-#           "#{work_dir}/#{ver}"
-#         )
-#     end
+    not_if do
+      ::File.exist?("#{work_dir}/#{ver}") &&
+        ::File.identical?(
+          suite_generator_deploy_dir,
+          "#{work_dir}/#{ver}"
+        )
+    end
   
-#     notifies :run, 'execute[extract-suite-generator]', :immediately
-#     notifies :create, "link[#{suite_generator_deploy_dir}]", :immediately
-#     notifies :restart, 'service[apache2]', :delayed
-#   end
+    notifies :run, 'execute[extract-suite-generator]', :immediately
+    notifies :create, "link[#{suite_generator_deploy_dir}]", :immediately
+    notifies :restart, 'service[apache2]', :delayed
+  end
   
-#   # Extract suite generator zip (skipped by default, run only when notified)
-#   execute 'extract-suite-generator' do
-#     command "unzip -o -q #{suite_generator_local_path} -d #{ver}"
-#     cwd work_dir
-#     user node['apache']['user']
-#     group node['apache']['group']
-#     action :nothing
-#   end
+  # Extract suite generator zip (skipped by default, run only when notified)
+  execute 'extract-suite-generator' do
+    command "unzip -o -q #{suite_generator_local_path} -d #{ver}/generator"
+    cwd work_dir
+    user node['apache']['user']
+    group node['apache']['group']
+    action :nothing
+  end
   
   # Link suite generator directory to 'current'
   # (skipped by default, run only when notified)
   link suite_generator_deploy_dir do
-    to "#{work_dir}/#{ver}"
+    to "#{work_dir}/#{ver}/generator"
     action :nothing
   end
   
