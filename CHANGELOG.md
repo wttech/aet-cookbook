@@ -1,3 +1,6 @@
+# 5.1.3 
+* Bumping apache cookbook version from 3.3.1 to 5.0.1
+
 # unreleased
 * [PR-44](https://github.com/Cognifide/aet-cookbook/pull/44) Added mode rewrite module to apache - required for [AET #152](https://github.com/Cognifide/aet/issues/152)
 
