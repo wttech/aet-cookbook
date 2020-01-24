@@ -58,6 +58,9 @@ include_recipe 'aet::deploy_aet_for_karaf'
 # Deploying current version of AET reports to Apache
 include_recipe 'aet::deploy_reports'
 
+# Deploying current version of AET suite generator to Apache
+include_recipe 'aet::deploy_suite_generator'
+
 # Deploying current version of AET sample site to Tomcat
 include_recipe 'aet::deploy_sample_site'
 
