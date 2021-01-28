@@ -326,7 +326,7 @@ Deployment of new versions of this cookbook is managed with [Stove][stove].
 For Ruby on windows you can use [Ruby Installer].
 Chef Supermarket login and [key][chef-keys] is required for new version deployment.
 
-New version needs to be numeric in form of [X.Y or X.Y.Z](https://github.com/Cognifide/aet-cookbook/issues/12).
+New version needs to be numeric in form of [X.Y or X.Y.Z](https://github.com/wttech/aet-cookbook/issues/12).
 
 ### Prepare Stove
 
@@ -378,7 +378,7 @@ License: [Apache License, Version 2.0][apache-license]
 [aet-github]: https://github.com/Cognifide/AET
 [aet-wiki]: https://github.com/Cognifide/AET/wiki
 [aet-releases]: https://github.com/Cognifide/AET/releases
-[aet-cookbook-github-attributes]: https://github.com/Cognifide/aet-cookbook/tree/master/attributes
+[aet-cookbook-github-attributes]: https://github.com/wttech/aet-cookbook/tree/master/attributes
 
 [active-mq]: http://activemq.apache.org/
 [active-mq-5.15.2]: https://archive.apache.org/dist/activemq/5.15.2/apache-activemq-5.15.2-bin.tar.gz

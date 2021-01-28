@@ -16,5 +16,5 @@ depends           'sc-mongodb', '~> 1.2.0'
   supports os
 end
 
-source_url        'https://github.com/Cognifide/aet-cookbook'
-issues_url        'https://github.com/Cognifide/aet-cookbook/issues'
+source_url        'https://github.com/wttech/aet-cookbook'
+issues_url        'https://github.com/wttech/aet-cookbook/issues'
